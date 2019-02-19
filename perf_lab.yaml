@@ -1,0 +1,4 @@
+﻿- name: Create database
+  influxdb_database:
+      hostname: "{{influxdb_ip_address}}"
+      database_name: "{{influxdb_database_name}}"
