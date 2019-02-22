@@ -1,7 +1,0 @@
----
-# These tasks are responsible for configuring LXD host
-
-- name: LXD Host - Check default storage pool
-  command: [ `lxc storage list | grep default_pool | wc -l` == 0 ] && lxc storage create default_pool dir  || echo "Default storage is configured"
-  register: command_result
-  chaged_when: "command_result.stdout != 'Default storage is configured'"
