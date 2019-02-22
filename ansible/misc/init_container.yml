@@ -1,0 +1,34 @@
+﻿- hosts: localhost
+  connection: local
+  tasks:
+    - name: Create a started container
+      lxd_container:
+        name: mycontainer
+        state: started
+        source:
+          type: image
+          mode: pull
+          protocol: lxd
+          alias: ubuntu/xenial/amd64
+        profiles: ["default"]
+        wait_for_ipv4_addresses: true
+        timeout: 600
+
+    - name: add container to inventory
+      add_host:
+        name: mycontainer
+        ansible_connection: lxd
+      changed_when: false
+
+    - name: check python is installed in container
+      delegate_to: mycontainer
+      raw: dpkg -s python
+      register: python_install_check
+      failed_when: python_install_check.rc not in [0, 1]
+      changed_when: false
+
+    - name: install python in conatiner
+      delegate_to: mycontainer
+      connection: lxc
+      raw: apt-get install -y python
+      when: python_install_check.rc == 1
