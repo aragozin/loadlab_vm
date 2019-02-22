@@ -1,0 +1,78 @@
+---
+
+    - name: Node "{{container_name}}" - create a started container
+      lxd_container:
+        name: "{{container_name}}"
+        state: started
+        source:
+          type: image
+          mode: pull
+          protocol: lxd
+          server: https://images.linuxcontainers.org
+          alias: centos/7/amd64
+        devices:
+          eth0:
+            name: eth0
+            nictype: bridged
+            parent: lxdbr0
+            type: nic
+          eth1:
+            name: eth1
+            nictype: bridged
+            parent: hlan
+            type: nic
+          rootfs:
+            path: /
+            pool: default_pool
+            type: disk
+        profiles: ["labnode"]
+
+    - name: Node "{{container_name}}" - add container to inventory
+      add_host:
+        name: "{{container_name}}"
+        ansible_connection: lxd
+      changed_when: false
+
+    - name: Node "{{container_name}}" - verify IP config
+      delegate_to: "{{container_name}}"
+      shell: "hostname -I | grep {{lab_ip}} | wc -l"
+      register: match_hostname
+      changed_when: false        
+
+    - name: Node "{{container_name}}" - create ifcfg
+      delegate_to: "{{container_name}}"
+      copy:
+        dest: /etc/sysconfig/network-scripts/ifcfg-eth1
+        content: |
+          DEVICE=eth1
+          BOOTPROTO=static
+          IPADDR={{lab_ip}}
+          NETMASK=255.255.255.0
+          ONBOOT=yes
+          HOSTNAME={{container_name}}
+          NM_CONTROLLED=no
+          TYPE=Ethernet
+      when: match_hostname.stdout == "0"
+
+    - name: Node "{{container_name}}" - restart interface
+      delegate_to: "{{container_name}}"
+      shell: ifdown eth1 && ifup eth1
+      when: match_hostname.stdout == "0"
+
+    - name: Node "{{container_name}}" - generate hosts file
+      delegate_to: "{{container_name}}"
+      lineinfile: dest=/etc/hosts regexp='.*{{ item.name }}$' line="{{item.lab_ip}} {{item.name}}" state=present
+      unsafe_writes: yes
+      with_items:
+        - name: loadbalancer
+          lab_ip: 192.168.100.140
+        - name: web1
+          lab_ip: 192.168.100.141
+        - name: web2
+          lab_ip: 192.168.100.142
+        - name: database
+          lab_ip: 192.168.100.143
+        - name: metrics
+          lab_ip: 192.168.100.144
+        - name: labhost
+          lab_ip: 192.168.100.240

@@ -1,0 +1,2 @@
+﻿- network bridge configuration
+- lxd profile configuration
