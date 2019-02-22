@@ -1,0 +1,25 @@
+---
+
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: Kill "loadbalancer"
+      lxd_container:
+        name: loadbalancer
+        state: absent
+    - name: Kill "web1"
+      lxd_container:
+        name: web1
+        state: absent
+    - name: Kill "web2"
+      lxd_container:
+        name: web2
+        state: absent
+    - name: Kill "database"
+      lxd_container:
+        name: database
+        state: absent
+    - name: Kill "metrics"
+      lxd_container:
+        name: metrics
+        state: absent
