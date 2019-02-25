@@ -76,3 +76,17 @@
           lab_ip: 192.168.100.144
         - name: labhost
           lab_ip: 192.168.100.240
+
+    - name: Node "{{container_name}}" - enable sshd
+      delegate_to: "{{container_name}}"
+      yum: name=openssh-server state=present
+
+    - name: Node "{{container_name}}" - start sshd
+      delegate_to: "{{container_name}}"
+      service: name=sshd state=started
+
+    - name: Node "{{container_name}}" - set password for root account
+      delegate_to: "{{container_name}}"
+      user:
+        name: root
+        password: $1$SomeSalt$eksaNbrSbNIhrQgBef8pz1

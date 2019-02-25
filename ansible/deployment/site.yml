@@ -1,0 +1,26 @@
+---
+
+- name: Install MariaDB
+  hosts: database
+  connection: lxd 
+
+  roles:
+    - common
+    - mariadb
+
+- name: Install Wordpress
+  hosts: web
+  connection: lxd
+
+  roles:
+    - common
+    - php-fpm
+    - nginx
+    - wordpress
+
+#- name: Install NginX
+#  hosts: loadbalancer
+#
+#  roles:
+#    - common
+#    - nginx
