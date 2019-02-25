@@ -1,0 +1,19 @@
+---
+
+  - name: Add Grafana repository
+    copy:
+      dest: /etc/yum.repos.d/grafana.repo
+      content: |
+        [grafana]
+        name=grafana
+        baseurl=https://packages.grafana.com/oss/rpm
+        enabled=1
+        gpgcheck=1
+        gpgkey=https://packages.grafana.com/gpg.key
+
+  - name: Install Grafana
+    yum: name=grafana state=present
+
+
+  - name: Start Grafana
+    service: name=grafana-server state=started

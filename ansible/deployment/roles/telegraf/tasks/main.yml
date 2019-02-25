@@ -1,0 +1,19 @@
+---
+# Playbook for ubuntu host
+
+  - name: Add telegraf repo
+    become: true
+    copy:
+      dest: /etc/apt/sources.list.d/influxdata.list
+      content: |
+        deb https://repos.influxdata.com/debian stretch stable
+
+  - name: Add repository key
+    become: true
+    shell: curl -sL https://repos.influxdata.com/influxdb.key | apt-key add -
+
+  - name: Install Telegraf
+    apt: name=telegraf update_cache=yes
+
+  - name: Start Telegraf
+    service: name=telegraf state=started

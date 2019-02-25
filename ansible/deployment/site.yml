@@ -18,6 +18,21 @@
     - nginx
     - wordpress
 
+- name: Install InfluxDB
+  hosts: metrics
+  connection: lxd
+
+  roles:
+    - common
+    - influxdb
+    - grafana
+
+- name: Install telegraf
+  hosts: masterhost
+  
+  roles:
+    - telegraf
+
 #- name: Install NginX
 #  hosts: loadbalancer
 #
