@@ -16,4 +16,4 @@
 
 
   - name: Start Influxdb
-    service: name=influxdb state=started
+    service: name=influxdb state=started enabled=yes

@@ -3,7 +3,7 @@ loadbalancer ansible_connection=lxd
 
 [web]
 web1 ansible_connection=lxd
-#web2 ansible_connection=lxd
+web2 ansible_connection=lxd
 
 [database]
 database ansible_connection=lxd

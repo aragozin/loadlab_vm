@@ -16,4 +16,4 @@
     apt: name=telegraf update_cache=yes
 
   - name: Start Telegraf
-    service: name=telegraf state=started
+    service: name=telegraf state=started enabled=yes

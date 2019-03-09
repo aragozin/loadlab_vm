@@ -16,4 +16,4 @@
 
 
   - name: Start Grafana
-    service: name=grafana-server state=started
+    service: name=grafana-server state=started enabled=yes

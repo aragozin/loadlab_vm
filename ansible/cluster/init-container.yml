@@ -74,8 +74,10 @@
           lab_ip: 192.168.100.143
         - name: metrics
           lab_ip: 192.168.100.144
+        - name: auth
+          lab_ip: 192.168.100.145
         - name: labhost
-          lab_ip: 192.168.100.240
+          lab_ip: 192.168.100.240 #LXD host node
 
     - name: Node "{{container_name}}" - enable sshd
       delegate_to: "{{container_name}}"
