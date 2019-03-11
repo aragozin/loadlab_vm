@@ -22,23 +22,23 @@
   register: "wp_salt"
   become: no
 
-- name: Create WordPress database
-  delegate_to: database
-  mysql_db: name={{ wp_db_name }} state=present
-  when: mysql_host != "localhost"
+#- name: Create WordPress database
+#  delegate_to: database
+#  mysql_db: name={{ wp_db_name }} state=present
+#  when: mysql_host != "localhost"
 
-- name: Create WordPress database (local)
-  mysql_db: name={{ wp_db_name }} state=present
-  when: mysql_host == "localhost"
+#- name: Create WordPress database (local)
+#  mysql_db: name={{ wp_db_name }} state=present
+#  when: mysql_host == "localhost"
 
-- name: Create WordPress database user
-  delegate_to: database
-  mysql_user: name={{ wp_db_user }} password={{ wp_db_password }} priv={{ wp_db_name }}.*:ALL host='192.168.100.%' state=present
-  when: mysql_host != "localhost"
+#- name: Create WordPress database user
+#  delegate_to: database
+#  mysql_user: name={{ wp_db_user }} password={{ wp_db_password }} priv={{ wp_db_name }}.*:ALL host='192.168.100.%' state=present
+#  when: mysql_host != "localhost"
 
-- name: Create WordPress database user (local)
-  mysql_user: name={{ wp_db_user }} password={{ wp_db_password }} priv={{ wp_db_name }}.*:ALL host='localhost' state=present
-  when: mysql_host == "localhost"
+#- name: Create WordPress database user (local)
+#  mysql_user: name={{ wp_db_user }} password={{ wp_db_password }} priv={{ wp_db_name }}.*:ALL host='localhost' state=present
+#  when: mysql_host == "localhost"
 
 - name: Copy WordPress config file
   template: src=wp-config.php dest=/srv/wordpress/

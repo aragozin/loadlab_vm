@@ -18,6 +18,13 @@
     - nginx
     - wordpress
 
+- name: Install HAProxy
+  hosts: loadbalancer
+
+  roles:
+    - common
+    - haproxy
+
 - name: Install InfluxDB
   hosts: metrics
   connection: lxd
@@ -33,9 +40,3 @@
   roles:
     - telegraf
 
-#- name: Install NginX
-#  hosts: loadbalancer
-#
-#  roles:
-#    - common
-#    - nginx

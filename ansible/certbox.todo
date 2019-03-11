@@ -1,0 +1,1 @@
+﻿certbot --config-dir ~/lab_data/certbot/cfg --work-dir ~/lab_data/certbot --logs-dir ~/lab_data/certbot/log certonly --manual --preferred-challenges dns --register-unsafely-without-email

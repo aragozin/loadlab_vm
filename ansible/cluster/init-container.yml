@@ -79,7 +79,38 @@
         - name: labhost
           lab_ip: 192.168.100.240 #LXD host node
 
-    - name: Node "{{container_name}}" - enable sshd
+    - name: Node "{{container_name}}" - mkdir ~\.ssh
+      delegate_to: "{{container_name}}"
+      file: 
+        dest: "~/.ssh"
+        mode: 0700 
+        owner: root 
+        state: directory
+
+    - name: Node "{{container_name}}" - deploy private SSH key
+      delegate_to: "{{container_name}}"
+      copy:
+        dest: "~/.ssh/id_rsa"
+        mode: 0600
+        owner: root
+        content: "{{ lookup('file', '/home/boss/lab_data/ssh') }}"
+
+    - name: Node "{{container_name}}" - configure authorized_keys
+      delegate_to: "{{container_name}}"
+      authorized_key:
+        user: root
+        state: present
+        key: "{{ lookup('file', '/home/boss/lab_data/ssh.pub') }}"
+
+    - name: Node "{{container_name}}" - configure known_host check
+      delegate_to: "{{container_name}}"
+      copy:
+        dest: "~/.ssh/config"
+        content: |
+          Host *
+            StrictHostKeyChecking no
+
+    - name: Node "{{container_name}}" - install sshd
       delegate_to: "{{container_name}}"
       yum: name=openssh-server state=present
 

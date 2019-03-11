@@ -1,0 +1,22 @@
+---
+- name: Install HAProxy
+  package: name=haproxy state=present
+
+- name: Copy TLS certificate
+  copy:
+    dest: "/etc/haproxy/lab-wp.ragozin.info.pem"
+    mode: 0644
+    owner: root
+    content: "{{ lookup('file', '/home/boss/lab_data/certbot/cfg/live/lab-wp.ragozin.info/fullchain.pem') }}\n{{ lookup('file', '/home/boss/lab_data/certbot/cfg/live/lab-wp.ragozin.info/privkey.pem') }}"
+
+
+- name: Copy HAProxy configuration in place.
+  template:
+    src: haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+    mode: 0644
+    validate: haproxy -f %s -c -q
+  notify: restart haproxy
+
+- name: Ensure HAProxy is started and enabled on boot.
+  service: name=haproxy state=started enabled=yes

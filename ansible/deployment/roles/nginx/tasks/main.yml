@@ -13,4 +13,3 @@
 
 - name: http service state
   service: name=nginx state=started enabled=yes
-  when: enabled_selinux
