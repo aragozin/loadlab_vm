@@ -5,6 +5,14 @@
         dest: /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg
         content: |
           network: {config: disabled}
+
+    - name: Enabled IPv4 forwarding (/etc/sysctl.conf)
+      lineinfile:
+        path: /etc/sysctl.conf
+        line: net.ipv4.ip_forward = 1
+
+    - name: Enabled IPv4 forwarding
+      shell: sysctl net.ipv4.ip_forward=1 
     
     - name: Configure bridge for host only network
       copy:
