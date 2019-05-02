@@ -2,10 +2,9 @@
 
     - name: Disable cloud init
       copy:
-        dest: /etc/netplan/99-cloud-init.yaml
+        dest: /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg
         content: |
-          network: 
-              config: disabled
+          network: {config: disabled}
     
     - name: Configure bridge for host only network
       copy:
