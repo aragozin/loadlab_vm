@@ -1,6 +1,11 @@
 ---
 # These tasks are responsible for configuring LXD host
 
+- name: LXD profile - 'labnode'
+  lxd_profile:
+    name: labnode
+    state: present
+
 - name: LXD Host - Check default storage pool
   shell: lxc storage create default_pool dir || exit 0
   register: command_result
