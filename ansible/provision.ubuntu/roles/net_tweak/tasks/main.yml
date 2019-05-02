@@ -1,0 +1,31 @@
+---
+
+    - name: Disable cloud init
+      copy:
+        dest: /etc/netplan/99-cloud-init.yaml
+        content: |
+          network: 
+              config: disabled
+    
+    - name: Configure bridge for host only network
+      copy:
+        dest: /etc/netplan/50-cloud-init.yaml
+        content: |
+          network:
+              ethernets:
+                  enp0s3:
+                      dhcp4: true
+                      dhcp6: false
+                  enp0s8:
+                      dhcp4: false
+                      dhcp6: false
+              bridges:
+                  hlan:
+                      interfaces: [enp0s8]
+                      addresses:
+                      - 192.168.100.145/24
+                      nameservers: {}
+              version: 2
+
+    - name: Apply netplan config changes
+      shell: netplan apply
