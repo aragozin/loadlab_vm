@@ -16,7 +16,7 @@
 #  become: yes
 
 - name: Copy nginx configuration for wordpress
-  template: src=default.conf dest=/etc/nginx/conf.d/default.conf
+  template: src=default.site dest=/etc/nginx/sites-enabled/default
   notify: restart nginx
   become: yes
 
