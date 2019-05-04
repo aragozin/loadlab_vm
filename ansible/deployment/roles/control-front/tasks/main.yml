@@ -6,11 +6,13 @@
     owner: boss
   become: yes
 
-- name: Initialize static content root
-  file:
-    path: /srv/control-front/www
-    state: directory
 
+- name: Copy static content
+  copy:
+    src: www
+    dest: /srv/control-front
+
+# disable IPv6 is messing things up 
 #- name: Install nginx
 #  package: name=nginx state=present
 #  become: yes
