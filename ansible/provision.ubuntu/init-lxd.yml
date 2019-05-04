@@ -1,0 +1,38 @@
+- hosts: 127.0.0.1
+  connection: local
+  tasks:
+    - name: LXD init
+      shell: lxd init --preseed
+      stdin: |      
+        config:
+          images.auto_update_interval: "0"
+        networks:
+        - config:
+            ipv4.address: auto
+            ipv6.address: none
+          description: ""
+          managed: false
+          name: lxdbr0
+          type: ""
+        storage_pools: []
+        profiles:
+        - config: {}
+          description: ""
+          devices:
+            eth0:
+              name: eth0
+              nictype: bridged
+              parent: lxdbr0
+              type: nic
+          name: default
+        cluster: null
+  
+    - name: LXD profile - 'labnode'
+      lxd_profile:
+      name: labnode
+      state: present
+
+    - name: LXD Host - Check default storage pool
+      shell: lxc storage create default_pool dir || exit 0
+      register: command_result
+      changed_when: "command_result.stdout == 'Storage pool default_pool created'"

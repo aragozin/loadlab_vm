@@ -1,5 +1,5 @@
-﻿#!/bin/bash
+﻿sudo apt-get -y install ansible
 
-apt-get -y install ansible
+ansible-playbook /home/boss/setup/ansible/provision.ubuntu/init-bridge-adapter.yml
 
-sudo ansible-playbook -i /home/boss/setup/ansible/provision.ubuntu/hosts /home/boss/setup/ansible/provision.ubuntu/site.yaml
+ansible-playbook /home/boss/setup/ansible/provision.ubuntu/init-lxd.yml
