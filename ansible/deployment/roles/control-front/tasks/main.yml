@@ -22,3 +22,4 @@
 
 - name: http service state
   service: name=nginx state=started enabled=yes
+  become: yes
