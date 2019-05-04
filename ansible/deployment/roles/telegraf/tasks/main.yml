@@ -13,7 +13,9 @@
     shell: curl -sL https://repos.influxdata.com/influxdb.key | apt-key add -
 
   - name: Install Telegraf
+    become: true
     apt: name=telegraf update_cache=yes
 
   - name: Start Telegraf
+    become: true
     service: name=telegraf state=started enabled=yes
