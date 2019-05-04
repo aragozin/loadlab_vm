@@ -62,7 +62,7 @@ defaults
 #---------------------------------------------------------------------
 frontend  main
     bind *:80
-    bind *:443 ssl crt /etc/haproxy/lab-wp.ragozin.info.pem
+    bind *:443 ssl crt /etc/haproxy/loadlab.ragozin.info.pem
     mode http
     reqadd X-Forwarded-Proto:\ https
     default_backend wp

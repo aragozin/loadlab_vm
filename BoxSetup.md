@@ -21,6 +21,7 @@ Disable IPV6 : `sudo vi /etc/default/grub` | `ipv6.disable=1` | `sudo update-gru
     
     sudo ansible-playbook /home/boss/setup/ansible/provision.ubuntu/init-bridge-adapter.yml
 
+    ansible-playbook /home/boss/setup/ansible/cluster/init-cluster.yml
 
 Virtual Cluster topology
 ------------------------

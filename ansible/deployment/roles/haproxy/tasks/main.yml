@@ -4,10 +4,10 @@
 
 - name: Copy TLS certificate
   copy:
-    dest: "/etc/haproxy/lab-wp.ragozin.info.pem"
+    dest: "/etc/haproxy/loadlab.ragozin.info.pem"
     mode: 0644
     owner: root
-    content: "{{ lookup('file', '/home/boss/lab_data/certbot/cfg/live/lab-wp.ragozin.info/fullchain.pem') }}\n{{ lookup('file', '/home/boss/lab_data/certbot/cfg/live/lab-wp.ragozin.info/privkey.pem') }}"
+    content: "{{ lookup('file', '/home/boss/lab_data/certbot/cfg/live/loadlab.ragozin.info/fullchain.pem') }}\n{{ lookup('file', '/home/boss/lab_data/certbot/cfg/live/loadlab.ragozin.info/privkey.pem') }}"
 
 
 - name: Copy HAProxy configuration in place.
