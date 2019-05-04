@@ -1,0 +1,11 @@
+---
+- name: Copy JSON Basic Auth plugin
+  copy:
+    src: Basic-Auth
+    dest: /srv/wordpress/wp-content/plugins
+
+- name: Copy WP Super Cache
+  copy:
+    src: wp-super-cache
+    dest: /srv/wordpress/wp-content/plugins
+    

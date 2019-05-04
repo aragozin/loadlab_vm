@@ -18,6 +18,7 @@
     - php-fpm
     - nginx
     - wordpress
+    - wordpress-plugins
 
 - name: Install HAProxy
   hosts: loadbalancer
