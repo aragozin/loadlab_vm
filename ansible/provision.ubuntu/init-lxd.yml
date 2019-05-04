@@ -3,30 +3,30 @@
   tasks:
     - name: LXD init
       command: lxd init --preseed
-        args:
-          stdin: |      
-            config:
-              images.auto_update_interval: "0"
-            networks:
-            - config:
-                ipv4.address: auto
-                ipv6.address: none
-              description: ""
-              managed: false
-              name: lxdbr0
-              type: ""
-            storage_pools: []
-            profiles:
-            - config: {}
-              description: ""
-              devices:
-                eth0:
-                  name: eth0
-                  nictype: bridged
-                  parent: lxdbr0
-                  type: nic
-              name: default
-            cluster: null
+      args:
+        stdin: |      
+          config:
+            images.auto_update_interval: "0"
+          networks:
+          - config:
+              ipv4.address: auto
+              ipv6.address: none
+            description: ""
+            managed: false
+            name: lxdbr0
+            type: ""
+          storage_pools: []
+          profiles:
+          - config: {}
+            description: ""
+            devices:
+              eth0:
+                name: eth0
+                nictype: bridged
+                parent: lxdbr0
+                type: nic
+            name: default
+          cluster: null
   
     - name: LXD profile - 'labnode'
       lxd_profile:
