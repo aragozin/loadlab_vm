@@ -2,8 +2,6 @@
 
 - name: Create WordPress database
   mysql_db: name={{ wp_db_name }} state=present
-  when: mysql_host != "localhost"
 
 - name: Create WordPress database user
   mysql_user: name={{ wp_db_user }} password={{ wp_db_password }} priv={{ wp_db_name }}.*:ALL host='192.168.100.%' state=present
-  when: mysql_host != "localhost"

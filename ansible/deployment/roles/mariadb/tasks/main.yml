@@ -24,6 +24,9 @@
 - name: Start MariaDB Service
   service: name=mariadb state=started enabled=yes
 
+- name: Create DB super user
+  mysql_user: name=root password=root priv=*.*:ALL host='192.168.100.%' state=present
+
 - name: insert firewalld rule
   firewalld: port={{ mysql_port }}/tcp permanent=true state=enabled immediate=yes
   ignore_errors: yes

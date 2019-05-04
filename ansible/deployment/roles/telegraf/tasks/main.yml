@@ -10,7 +10,7 @@
 
   - name: Add repository key
     become: true
-    shell: curl -sL https://repos.influxdata.com/influxdb.key | apt-key add -
+    shell: curl -sL https://repos.influxdata.com/influxdb.key | apt-key add -    
 
   - name: Install Telegraf
     become: true
