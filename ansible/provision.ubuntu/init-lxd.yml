@@ -45,5 +45,5 @@
 
     - name: Create SSH key      
       command: ssh-keygen -q -t rsa -f /home/boss/lab_data/ssh -C "" -N ""
-        args:
-          creates: /home/boss/lab_data/ssh
+      args:
+        creates: /home/boss/lab_data/ssh
