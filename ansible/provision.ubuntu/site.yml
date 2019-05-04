@@ -1,9 +1,0 @@
----
-# This playbook deploys the whole application stack in this site.
-
-- name: Configure LXD host
-  hosts: lxd_host
-
-  roles:
-    - net_tweak
-    - lxd_host

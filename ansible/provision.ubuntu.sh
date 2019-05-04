@@ -2,5 +2,5 @@
 
 ansible-playbook /home/boss/setup/ansible/provision.ubuntu/init-lxd.yml
 
-ansible-playbook /home/boss/setup/ansible/provision.ubuntu/init-bridge-adapter.yml
+sudo ansible-playbook /home/boss/setup/ansible/provision.ubuntu/init-bridge-adapter.yml
 

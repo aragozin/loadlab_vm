@@ -37,3 +37,13 @@
       shell: lxc storage create default_pool dir || exit 0
       register: command_result
       changed_when: "command_result.stdout == 'Storage pool default_pool created'"
+
+    - name: Create SSH key (mkdir)
+      file: 
+        path: /home/boss/lab_data  
+        state: directory
+
+    - name: Create SSH key      
+      command: ssh-keygen -q -t rsa -f /home/boss/lab_data/ssh -C "" -N ""
+        args:
+          creates: /home/boss/lab_data/ssh
