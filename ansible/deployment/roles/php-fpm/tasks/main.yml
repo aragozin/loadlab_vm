@@ -1,10 +1,7 @@
 ---
-- name: Install epel-release & yum-utils
+- name: Install epel-release, remi & yum-utils
   yum: name={{ item }} state=present    
-  with_items: [epel-release, yum-utils]
-
-- name: Install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
-  command: yum -y install http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+  with_items: [epel-release, yum-utils, "http://rpms.remirepo.net/enterprise/remi-release-7.rpm"]
 
 - name: Enable PHP7.3
   command: yum-config-manager --enable remi-php73
