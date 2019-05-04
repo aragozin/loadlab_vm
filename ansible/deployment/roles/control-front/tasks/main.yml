@@ -1,11 +1,19 @@
 ---
 - name: Initialize static content root
   file:
+    path: /srv/control-front
+    state: directory
+    owner: boss
+  become: yes
+
+- name: Initialize static content root
+  file:
     path: /srv/control-front/www
     state: directory
 
 - name: Install nginx
   package: name=nginx state=present
+  become: yes
 
 - name: Copy nginx configuration for wordpress
   template: src=default.conf dest=/etc/nginx/conf.d/default.conf
