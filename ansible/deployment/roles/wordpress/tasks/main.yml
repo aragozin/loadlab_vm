@@ -21,6 +21,7 @@
   local_action: command curl https://api.wordpress.org/secret-key/1.1/salt/
   register: "wp_salt"
   become: no
+  warn: false
 
 #- name: Create WordPress database
 #  delegate_to: database
