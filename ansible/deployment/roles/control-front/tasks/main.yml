@@ -2,7 +2,7 @@
 - name: Initialize static content root
   file:
     path: /srv/control-front/www
-    status: directory
+    state: directory
 
 - name: Install nginx
   package: name=nginx state=present
