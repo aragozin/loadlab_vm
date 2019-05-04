@@ -13,3 +13,11 @@ metrics ansible_connection=lxd
 
 [masterhost]
 local ansible_connection=local
+
+[containers]
+loadbalancer ansible_connection=lxd
+web1 ansible_connection=lxd
+web2 ansible_connection=lxd
+database ansible_connection=lxd
+metrics ansible_connection=lxd
+tools ansible_connection=lxd
