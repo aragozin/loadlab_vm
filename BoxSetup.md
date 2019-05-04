@@ -7,17 +7,19 @@ VirtualBox VM configuration
  - NIC 1 - NAT
  - NIC 2 - Host only adapter. Promiscous mode: Allow All!
 
-Provison conf files
+Setup box
 
-    #ubuntu
-    apt-get -y install ansible
+Disable IPV6 : `sudo vi /etc/default/grub` | `ipv6.disable=1` | `sudo update-grub`
 
-    #disable IPV6 : sudo vi /etc/default/grub | ipv6.disable=1 | sudo update-grub
 
     git clone git://192.168.100.1/ setup
     cd setup
 
-    sudo bash ./ansible/provision.ubuntu.sh
+    sudo apt-get -y install ansible
+
+    ansible-playbook /home/boss/setup/ansible/provision.ubuntu/init-lxd.yml
+    
+    sudo ansible-playbook /home/boss/setup/ansible/provision.ubuntu/init-bridge-adapter.yml
 
 
 Virtual Cluster topology

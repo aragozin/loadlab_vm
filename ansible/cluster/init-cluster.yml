@@ -18,5 +18,5 @@
     - name: Initialize node - metrics @ 192.168.100.144
       include: init-container.yml container_name=metrics      lab_ip=192.168.100.144
 
-#    - name: Initialize node - auth @ 192.168.100.145
-#      include: init-container.yml container_name=auth         lab_ip=192.168.100.145
+    - name: Initialize node - tools @ 192.168.100.146
+      include: init-container.yml container_name=tools        lab_ip=192.168.100.146

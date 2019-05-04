@@ -76,6 +76,8 @@
           lab_ip: 192.168.100.144
         - name: labhost
           lab_ip: 192.168.100.145 #LXD host node
+        - name: tools
+          lab_ip: 192.168.100.146
 
     - name: Node "{{container_name}}" - mkdir ~\.ssh
       delegate_to: "{{container_name}}"

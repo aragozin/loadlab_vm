@@ -23,3 +23,7 @@
       lxd_container:
         name: metrics
         state: absent
+    - name: Kill "tools"
+      lxd_container:
+        name: tools
+        state: absent
