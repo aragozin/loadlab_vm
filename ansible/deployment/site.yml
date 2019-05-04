@@ -1,24 +1,12 @@
 ---
 
-- name: Configure CentOS
-  hosts: containers
-  connection: lxd
-
-  roles:
-    - common
-
 - name: Install MariaDB
   hosts: database
   connection: lxd 
 
   roles:
+    - common
     - mariadb
-
-- name: Setup WP in database
-  hosts: database
-  connection: lxd
-
-  roles:
     - wp-db-setup
 
 - name: Install Wordpress
@@ -26,6 +14,7 @@
   connection: lxd
 
   roles:
+    - common
     - php-fpm
     - nginx
     - wordpress
@@ -34,6 +23,7 @@
   hosts: loadbalancer
 
   roles:
+    - common
     - haproxy
 
 - name: Install InfluxDB
@@ -41,6 +31,7 @@
   connection: lxd
 
   roles:
+    - common
     - influxdb
     - grafana
 
