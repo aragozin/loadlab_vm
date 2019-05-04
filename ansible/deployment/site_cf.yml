@@ -4,4 +4,4 @@
   hosts: masterhost
   
   roles:
-    - control front
+    - control-front
