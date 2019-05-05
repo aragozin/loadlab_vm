@@ -43,7 +43,15 @@ define('DB_COLLATE', '');
  * @since 2.6.0
  */
 
-{{ wp_salt.stdout }}
+/* Salt is hardcoded to avoid cluster member desync */
+define('AUTH_KEY',         'iYpSUXc80j<#/j&[6I42{DC-rK;3{`>|0Wo=2FX<sUkh[[Iw}-[.,@p|GAhgYPFk');
+define('SECURE_AUTH_KEY',  '_s2So}[Ls=Y`XM1PW#N_o< ^x#|U-v;]_=XJn+kHHyMZSj=S.u>]dD<#A$SK $B?');
+define('LOGGED_IN_KEY',    '|l$ec-GG+;nRT@0v~jE[9)#*LOYZ(`Sko-#biYSWdd)1R/Ey|I-j)?[e|Zfrhs8/');
+define('NONCE_KEY',        'LM&P-<si.+XbH)F[(+NWY]&lji@2=#|XfS}:n-EW[Rx-:jM,q3rq4q>7yD5RsIRp');
+define('AUTH_SALT',        'GSAMuyp%x:%n!ra[CTy_VShk~n:x%7u6qYk;aKGb+7<m5YIo}YxWNzb~]$;A~B$s');
+define('SECURE_AUTH_SALT', '@XGwHxRP3t2e>B7[W>@U_(_.4V2)jg:l~?XsMR0];MrNtMJdLq8p1*TzGK>cA@!$');
+define('LOGGED_IN_SALT',   '6d4gh7,dcGy~vYJ9Ks1-dl;Z@>=w/[th/6D./@E$KQ(-9H-|Az{Jo-.yl)>CAN]y');
+define('NONCE_SALT',       'dk)lWgO!^1jXabb^`= 4[.D|0yi}dcptK9#&GZw+V^1:M.|#IaWS1vS`:c-vvZYO');
 
 /**#@-*/
 
