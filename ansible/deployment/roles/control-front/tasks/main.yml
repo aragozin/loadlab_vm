@@ -75,7 +75,7 @@
   become: yes
 
 - name: http service stop
-  service: name=nginx state=stop
+  service: name=nginx state=stopped
   become: yes
 
 - name: http service state
