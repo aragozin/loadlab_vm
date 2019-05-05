@@ -22,6 +22,37 @@
     src: /tmp/gotty_linux_amd64.tar.gz
     dest: /srv/control-front
 
+- name: Create gotty term trampoline
+  copy:
+    dest: /srv/control-front/gotty/start
+    content: |
+      bash $1
+
+- name: Create gotty service entry
+  copy:
+    dest: /etc/systemd/system/gotty.service
+    content: |
+      [Unit]
+      Description=GoTTY service
+      After=network.target
+
+      [Service]
+      Type=simple
+      User=boss
+      ExecStart=/srv/control-front/gotty -w --permit-arguments bash /srv/control-front/gotty/start
+      Restart=on-abort
+
+      [Install]
+      WantedBy=multi-user.target
+  become: yes
+
+- name: Daemon reload
+  command: systemctl daemon-reload
+  become: true
+
+- name: Enable gotty service
+  service: name=gotty state=started enabled=yes
+  become: yes  
 
 # disable IPv6 is messing things up 
 #- name: Install nginx
