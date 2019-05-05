@@ -74,6 +74,10 @@
   notify: restart nginx
   become: yes
 
+- name: http service stop
+  service: name=nginx state=stop
+  become: yes
+
 - name: http service state
-  service: name=nginx state=restarted enabled=yes
+  service: name=nginx state=start enabled=yes
   become: yes
