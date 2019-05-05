@@ -65,9 +65,9 @@
   become: yes  
 
 # disable IPv6 is messing things up 
-#- name: Install nginx
-#  package: name=nginx state=present
-#  become: yes
+- name: Install nginx
+  package: name=nginx state=present
+  become: yes
 
 - name: Configure nginx for static site
   template: src=default.site dest=/etc/nginx/sites-enabled/default
