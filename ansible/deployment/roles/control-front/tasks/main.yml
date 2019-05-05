@@ -66,7 +66,7 @@
 
 # disable IPv6 is messing things up 
 - name: Install nginx
-  package: name=nginx state=present
+  shell: apt -y install nginx | echo Ignore misconfiguration
   become: yes
 
 - name: Configure nginx for static site
@@ -75,5 +75,5 @@
   become: yes
 
 - name: http service state
-  service: name=nginx state=started enabled=yes
+  service: name=nginx state=restarted enabled=yes
   become: yes
