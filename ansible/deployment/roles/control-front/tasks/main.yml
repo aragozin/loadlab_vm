@@ -24,7 +24,7 @@
 
 - name: Create gotty term trampoline
   copy:
-    dest: /srv/control-front/gotty/start
+    dest: /srv/control-front/start
     content: |
       bash $1
 
@@ -39,7 +39,7 @@
       [Service]
       Type=simple
       User=boss
-      ExecStart=/srv/control-front/gotty -w --permit-arguments bash /srv/control-front/gotty/start
+      ExecStart=/srv/control-front/gotty -w --permit-arguments bash /srv/control-front/start
       Restart=on-abort
 
       [Install]
