@@ -12,12 +12,23 @@
     src: www
     dest: /srv/control-front
 
+- name: Download gotty
+  get_url:
+    url: https://github.com/yudai/gotty/releases/download/v1.0.1/gotty_linux_amd64.tar.gz
+    dest: /tmp/gotty_linux_amd64.tar.gz
+
+- name: Uncompress gotty
+  unarchive:
+    src: /tmp/gotty_linux_amd64.tar.gz
+    dest: /srv/control-front
+
+
 # disable IPv6 is messing things up 
 #- name: Install nginx
 #  package: name=nginx state=present
 #  become: yes
 
-- name: Copy nginx configuration for wordpress
+- name: Configure nginx for static site
   template: src=default.site dest=/etc/nginx/sites-enabled/default
   notify: restart nginx
   become: yes
