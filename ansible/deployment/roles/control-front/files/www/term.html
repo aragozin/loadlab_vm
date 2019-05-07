@@ -114,7 +114,7 @@
 <div id="content_root">
     <div class="head-band">
         <p>Нагрузочное тестирование с нуля</p>
-        <p>Алексей Рагозин, Вечяслав Смирнов</p>
+        <p>Алексей Рагозин, Вячеслав Смирнов</p>
     </div>
     <div class="main">
         <p>Управление стендом</p>
@@ -146,12 +146,12 @@
     <script>
         
         function ssh_exec(cmd) {
-            console.log("ssh_exec", cmd);
+            console.log("SSH:", cmd);
             document.querySelector("#term_cmd").innerText = cmd;
             document.querySelector("#term").style.visibility = "visible";
             var ts = Math.random();
             var ecmd = encodeURI(cmd);
-            var uri = "http://192.168.100.145:8080/?arg=" + ecmd + "&arg=" + ts;
+            var uri = "http://192.168.100.145:8080/?arg=" + ecmd + "&arg=" + ts + "#";
             document.getElementById("term").src = uri;
         }
         

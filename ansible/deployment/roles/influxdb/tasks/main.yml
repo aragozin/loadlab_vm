@@ -14,6 +14,10 @@
   - name: Install Influxdb
     yum: name=influxdb state=present
 
+  - name: Influxdb configuration
+    copy:
+      dest: /etc/influxdb/influxdb.conf
+      src: influxdb.conf
 
   - name: Start Influxdb
     service: name=influxdb state=started enabled=yes
