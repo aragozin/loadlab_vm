@@ -16,6 +16,12 @@
     become: true
     apt: name=telegraf update_cache=yes
 
+  - name: Configure telegraf
+    become: true
+    copy:
+      dest: /etc/telegraf/telegraf.conf
+      src: telegraf.conf
+
   - name: Start Telegraf
     become: true
-    service: name=telegraf state=started enabled=yes
+    service: name=telegraf state=restarted enabled=yes
