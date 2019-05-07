@@ -22,4 +22,5 @@
 #      include: init-container.yml container_name=tools        lab_ip=192.168.100.146
 
     - name: Patch hosts files
+      become: yes
       include: patch-hosts.yml

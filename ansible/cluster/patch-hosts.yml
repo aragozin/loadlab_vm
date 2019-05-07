@@ -2,8 +2,6 @@
 
   - name: Node "{{container_name}}" - generate hosts file
     lineinfile: dest=/etc/hosts regexp='.*{{ item.name }}$' line="{{item.lab_ip}} {{item.name}}" state=present
-    unsafe_writes: yes
-    become: yes
     with_items:
       - name: loadbalancer
         lab_ip: 192.168.100.140
