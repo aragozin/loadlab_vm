@@ -3,8 +3,8 @@
 - hosts: 127.0.0.1
   connection: local
   tasks:
-#    - name: Initialize node - loadbalancer @ 192.168.100.140
-#      include: init-container.yml container_name=loadbalancer lab_ip=192.168.100.140      
+    - name: Initialize node - loadbalancer @ 192.168.100.140
+      include: init-container.yml container_name=loadbalancer lab_ip=192.168.100.140      
 #
 #    - name: Initialize node - web1 @ 192.168.100.141
 #      include: init-container.yml container_name=web1         lab_ip=192.168.100.141
