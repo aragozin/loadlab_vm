@@ -20,4 +20,4 @@
       src: influxdb.conf
 
   - name: Start Influxdb
-    service: name=influxdb state=started enabled=yes
+    service: name=influxdb state=restarted enabled=yes
