@@ -14,6 +14,15 @@
   - name: Install Grafana
     yum: name=grafana state=present
 
+  - name: Configure Grafanan
+    copy:
+      dest: /etc/grafana/grafana.ini
+      src: grafana.ini
+
+  - name: Provision Grafana (data sources & dashboards)
+    copy:
+      dest: /etc/grafana/provisioning/
+      src: provisioning/
 
   - name: Start Grafana
     service: name=grafana-server state=started enabled=yes
