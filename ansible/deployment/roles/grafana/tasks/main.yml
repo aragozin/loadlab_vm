@@ -23,6 +23,7 @@
     copy:
       dest: /etc/grafana/provisioning/
       src: provisioning/
+    when: false
 
   - name: Start Grafana
     service: name=grafana-server state=restarted enabled=yes
