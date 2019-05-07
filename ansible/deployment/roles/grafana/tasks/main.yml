@@ -23,6 +23,7 @@
     copy:
       dest: /var/lib/grafana/grafana.db
       src: grafana.db
+      owner: grafana
 
   - name: Provision Grafana (data sources & dashboards)
     copy:
