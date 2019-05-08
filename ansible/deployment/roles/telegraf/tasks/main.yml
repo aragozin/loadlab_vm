@@ -16,6 +16,12 @@
     become: true
     apt: name=telegraf update_cache=yes
 
+  - name: Add telegraf user to sudo
+    become: true
+    copy:
+      dest: /etc/sudoers.d/telegraf
+      src: sudoers.d/telegraf
+
   - name: Configure telegraf
     become: true
     copy:
