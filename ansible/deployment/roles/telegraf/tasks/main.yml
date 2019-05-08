@@ -26,7 +26,7 @@
     become: true
     copy:
       dest: /usr/local/sbin/lxd-telegraf-stats.py
-      src: lxd-telegraf-stats.py
+      src: usr/local/sbin/lxd-telegraf-stats.py
       owner: telegraf
       chmod: +x
 
