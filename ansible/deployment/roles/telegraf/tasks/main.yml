@@ -21,6 +21,7 @@
     copy:
       dest: /etc/sudoers.d/telegraf
       src: sudoers.d/telegraf
+      mode: 0440
 
   - name: Configure telegraf
     become: true
