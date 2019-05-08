@@ -37,6 +37,9 @@
       owner: telegraf
       mode: +x
 
+#  - name: Add python modules for LXD
+#    command: pip install pylxd request
+
   - name: Add telegraf config for LXD
     become: true
     copy:
