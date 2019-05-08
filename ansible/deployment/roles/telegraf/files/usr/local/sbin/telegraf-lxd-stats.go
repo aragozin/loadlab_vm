@@ -124,8 +124,6 @@ func getLxdInterfaceCounters(lxd string, channel chan<- HttpTaskResult) {
 	stats := make(map[string]map[string]uint64)
 	body := sendHttpReq(fmt.Sprintf("/1.0/containers/%s/state", lxd))
 
-        //fmt.Printf("%s\n", body);
-
 	var containerStateResponse ContainerStateResponse
 	err := json.Unmarshal(body, &containerStateResponse)
 	if err != nil {
@@ -154,8 +152,6 @@ func getLxdInterfaceCounters(lxd string, channel chan<- HttpTaskResult) {
 		stats[iface]["tx"] = uint64(value.(map[string]interface{})["counters"].(map[string]interface{})["bytes_sent"].(float64))
 		stats[iface]["prx"] = uint64(value.(map[string]interface{})["counters"].(map[string]interface{})["packets_received"].(float64))
 		stats[iface]["ptx"] = uint64(value.(map[string]interface{})["counters"].(map[string]interface{})["packets_sent"].(float64))
-
-		fmt.Printf("%s %s\n", lxd, value.(map[string]interface{})["host_name"].(string));
 	}
 
 	output := make(map[string]uint64)
