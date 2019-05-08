@@ -1,23 +1,28 @@
 [loadbalancer]
-loadbalancer ansible_connection=lxd
+loadbalancer
 
 [web]
-web1 ansible_connection=lxd
-web2 ansible_connection=lxd
+web1
+web2
 
 [database]
-database ansible_connection=lxd
+database
 
 [metrics]
-metrics ansible_connection=lxd
+metrics
 
 [masterhost]
 local ansible_connection=local
 
 [containers]
-loadbalancer ansible_connection=lxd
-web1 ansible_connection=lxd
-web2 ansible_connection=lxd
-database ansible_connection=lxd
-metrics ansible_connection=lxd
-tools ansible_connection=lxd
+loadbalancer
+web1
+web2
+database
+metrics
+tools
+
+[containers:vars]
+ansible_connection=ssh
+ansible_user=root
+ansible_ssh_pass=toor
