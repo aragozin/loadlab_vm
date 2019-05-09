@@ -1,0 +1,23 @@
+---
+
+  - name: Add influx repository
+    copy:
+      dest: /etc/yum.repos.d/influxdb.repo
+      content: |
+        [influxdb]
+        name = InfluxDB Repository - RHEL \$releasever
+        baseurl = https://repos.influxdata.com/rhel/\$releasever/\$basearch/stable
+        enabled = 1
+        gpgcheck = 1
+        gpgkey = https://repos.influxdata.com/influxdb.key 
+
+  - name: Install Telegraf
+    yum: name=telegraf state=present
+
+  - name: Telegraf configuration
+    copy:
+      dest: /etc/telegraf/telegraf.conf
+      src: telegraf.conf
+
+  - name: Start Telegraf
+    service: name=telegraf state=restarted enabled=yes
