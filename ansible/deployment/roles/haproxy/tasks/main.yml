@@ -19,8 +19,8 @@
 
 - name: Configure telegraf pluding for haproxy
   file:
-    src: telegraf.d
-    dest: /etc/telegraf/
+    src: telegraf.d/haproxy.conf
+    dest: /etc/telegraf/telegraf.d/haproxy.conf
 
 - name: Ensure HAProxy is started and enabled on boot.
   service: name=haproxy state=started enabled=yes
