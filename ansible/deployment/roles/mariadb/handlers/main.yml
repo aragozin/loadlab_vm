@@ -4,6 +4,5 @@
 - name: restart mariadb
   service: name=mariadb state=restarted
 
----
 - name: restart telegraf
   service: name=telegraf state=restarted
