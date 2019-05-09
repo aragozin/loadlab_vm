@@ -21,6 +21,7 @@
   copy:
     src: telegraf.d
     dest: /etc/telegraf/
+  notify: restart telegraf
 
 - name: Ensure HAProxy is started and enabled on boot.
   service: name=haproxy state=started enabled=yes
