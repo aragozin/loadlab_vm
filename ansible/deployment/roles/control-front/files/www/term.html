@@ -120,19 +120,38 @@
         <p>Управление стендом</p>
         <div>
             <div class="control-panel">
-                <p>Хост</p>
-                <li><span class="cmd" data-script="bash">bash</span></li>
-                <li><span class="cmd" data-script="lxc list">lxc list</span></li>
-                <p>loadbalancer<span class="stop-start" data-target="loadbalancer"/></p>
-                <li><span class="cmd" data-script="lxc exec loadbalancer bash">bash</span></li>
-                <p>web1<span class="stop-start" data-target="web1"/></p>
-                <li><span class="cmd" data-script="lxc exec web1 bash">bash</span></li>
-                <p>web2<span class="stop-start" data-target="web2"/></p>
-                <li><span class="cmd" data-script="lxc exec web2 bash">bash</span></li>
-                <p>database<span class="stop-start" data-target="database"/></p>
-                <li><span class="cmd" data-script="lxc exec database bash">bash</span></li>
-                <p>metrics<span class="stop-start" data-target="metrics"/></p>
-                <li><span class="cmd" data-script="lxc exec metrics bash">bash</span></li>
+                <div>
+                    <p>Хост</p>
+                    <li><span class="cmd" data-script="bash">bash</span></li>
+                    <li><span class="cmd" data-script="lxc list">lxc list</span></li>
+                </div>
+                <div>
+                    <p>loadbalancer<span class="stop-start" data-target="loadbalancer"/></p>
+                    <li><span class="cmd" data-script="lxc exec loadbalancer bash">bash</span></li>
+                </div>
+                <div>
+                    <p>web1<span class="stop-start" data-target="web1"/></p>
+                    <li><span class="cmd" data-script="lxc exec web1 bash">bash</span></li>
+                </div>
+                <div>
+                    <p>web2<span class="stop-start" data-target="web2"/></p>
+                    <li><span class="cmd" data-script="lxc exec web2 bash">bash</span></li>
+                </div>
+                <div>
+                    <p>database<span class="stop-start" data-target="database"/></p>
+                    <li><span class="cmd" data-script="lxc exec database bash">bash</span></li>
+                    <li><span class="cmd" data-script="lxc exec database mysql" data-script-btn="SQL">mysql</span></li>
+                    <!--
+                    <li>
+                        <code>show full processlist</code>
+                        <span class="cmd" data-script="echo &quot;lxc exec database -- mysql -e show databases&quot; > sh" data-script-btn="SQL"></span>                        
+                    </li>
+                    -->
+                </div>
+                <div>
+                    <p>metrics<span class="stop-start" data-target="metrics"/></p>
+                    <li><span class="cmd" data-script="lxc exec metrics bash">bash</span></li>
+                </div>
             </div>
             <div class="term-view">
                 <p id="term_cmd" style="padding: 0; margin: 0"></p>
@@ -157,9 +176,10 @@
         
         document.querySelectorAll("span.cmd").forEach(function(e) {
             var cmd=e.dataset["script"];
+            var lbl=e.dataset["scriptBtn"];
             var btn = document.createElement("button");
-            btn.classList.add("ssh-btn");
-            btn.innerText="SSH";
+            btn.classList.add("ssh-btn");            
+            btn.innerText=lbl ? lbl : "SSH";
             btn.onclick = function() {
                 ssh_exec(cmd);
             }
@@ -186,6 +206,18 @@
             e.append(bstop);
         })
 
+        function process_commmand() {
+            var href = window.location.href;
+            if (href.indexOf("?") >= 0) {
+                var cmd = href.substr(href.indexOf("=") + 1);
+                var uri = href.substr(0, href.indexOf("?"));
+                history.replaceState('', '', uri);
+                ssh_exec(cmd);
+            }
+        };
+        
+        process_commmand();
+        
     </script>
 </div>
 </body>
