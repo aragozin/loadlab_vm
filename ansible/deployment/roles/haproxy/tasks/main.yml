@@ -9,7 +9,6 @@
     owner: root
     content: "{{ lookup('file', '/home/boss/lab_data/certbot/cfg/live/loadlab.ragozin.info/fullchain.pem') }}\n{{ lookup('file', '/home/boss/lab_data/certbot/cfg/live/loadlab.ragozin.info/privkey.pem') }}"
 
-
 - name: Copy HAProxy configuration in place.
   template:
     src: haproxy.cfg.j2
@@ -17,6 +16,11 @@
     mode: 0644
     validate: haproxy -f %s -c -q
   notify: restart haproxy
+
+- name: Configure telegraf pluding for haproxy
+  file:
+    src: telegraf.d
+    dest: /etc/telegraf/
 
 - name: Ensure HAProxy is started and enabled on boot.
   service: name=haproxy state=started enabled=yes
