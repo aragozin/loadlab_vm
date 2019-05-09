@@ -209,7 +209,7 @@
         function process_commmand() {
             var href = window.location.href;
             if (href.indexOf("?") >= 0) {
-                var cmd = href.substr(href.indexOf("=") + 1);
+                var cmd = decodeURI(href.substr(href.indexOf("=") + 1));
                 var uri = href.substr(0, href.indexOf("?"));
                 history.replaceState('', '', uri);
                 ssh_exec(cmd);
