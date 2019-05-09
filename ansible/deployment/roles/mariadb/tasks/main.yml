@@ -30,7 +30,10 @@
   service: name=mariadb state=started enabled=yes
 
 - name: Create DB super user
-  mysql_user: name=root password=root priv=*.*:ALL host='192.168.100.%' state=present
+  mysql_user: name=root password=root priv=*.*:ALL host={{ item }} state=present
+  with_items:
+   - '192.168.100.%'
+   - '127.0.0.1'
 
 - name: insert firewalld rule
   firewalld: port={{ mysql_port }}/tcp permanent=true state=enabled immediate=yes
