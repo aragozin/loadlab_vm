@@ -18,10 +18,10 @@
   notify: restart haproxy
 
 - name: Configure telegraf pluding for haproxy
-  become: true
   file:
     src: telegraf.d/haproxy.conf
     dest: /etc/telegraf/telegraf.d/haproxy.conf
+    mode: 0644
 
 - name: Ensure HAProxy is started and enabled on boot.
   service: name=haproxy state=started enabled=yes
