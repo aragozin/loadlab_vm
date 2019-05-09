@@ -183,6 +183,16 @@
                         <span class="cmd" 
                               data-script="lxc exec database -- mysql -e 'SET GLOBAL query_cache_size=10240000'" data-script-btn="SQL"></span>                        
                     </li>
+                    <li>
+                        <code>SHOW STATUS LIKE &quot;Qcache%&quot;</code>
+                        <span class="cmd" 
+                              data-script="lxc exec database -- mysql -e 'SHOW STATUS LIKE &quot;Qcache%&quot;'" data-script-btn="SQL"></span>                        
+                    </li>
+                    <li>
+                        <code>tail -f /var/log/mysqld.log</code>
+                        <span class="cmd" 
+                              data-script="lxc exec database -- tail -f /var/log/mysqld.log"></span>                        
+                    </li>
                 </div>
                 <div>
                     <p>metrics<span class="stop-start" data-target="metrics"/></p>

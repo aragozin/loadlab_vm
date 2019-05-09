@@ -15,8 +15,13 @@
 
 - name: Create Mysql configuration file
   template: src=my.cnf.j2 dest=/etc/my.cnf
-  notify:
-  - restart mariadb
+  notify: restart mariadb
+
+- name: Configure telegraf pluding for MySQL
+  copy:
+    src: telegraf.d
+    dest: /etc/telegraf/
+  notify: restart telegraf
 
 - name: Create MariaDB log file
   file: path=/var/log/mysqld.log state=touch owner=mysql group=mysql mode=0775
