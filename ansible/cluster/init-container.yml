@@ -3,7 +3,7 @@
     - name: Node "{{container_name}}" - create a started container
       lxd_container:
         name: "{{container_name}}"
-        url: unix:/var/snap/lxd/common/lxd/unix.socket
+        # url: unix:/var/snap/lxd/common/lxd/unix.socket
         state: started
         source:
           type: image
