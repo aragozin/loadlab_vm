@@ -75,7 +75,7 @@
         display: inline-block;
         font-size: 0.6em;        
         margin-left: 0.5em;
-        padding: 0.2em 0.3em 0.2em 0.3em;
+        padding: 0.2em 0.3em 0.2em 0.22em;
         color: white;
         background-color: black;
         border: 1px solid black;
@@ -105,9 +105,20 @@
     .control-panel li {
         list-style-type: none;
         margin-left: 0.3em;
+        font-size: 0.8em;
     }
     .control-panel p {
-        margin: 0.8em 0 0 0;
+        margin: 1em 0 0 0;
+    }
+    .control-panel code {
+        display: inline-block;
+        font-size: 0.8em;
+        background-color: azure;
+        border: solid 0.5px darkblue;
+        padding: 0.15em;
+        border-radius: 0.2em;
+        margin-right: -0.5em;    
+        vertical-align: text-bottom;
     }
     
 </style>
@@ -141,16 +152,26 @@
                     <p>database<span class="stop-start" data-target="database"/></p>
                     <li><span class="cmd" data-script="lxc exec database bash">bash</span></li>
                     <li><span class="cmd" data-script="lxc exec database mysql" data-script-btn="SQL">mysql</span></li>
-                    <!--
                     <li>
-                        <code>show full processlist</code>
-                        <span class="cmd" data-script="echo &quot;lxc exec database -- mysql -e show databases&quot; > sh" data-script-btn="SQL"></span>                        
+                        <code>SHOW FULL PROCESSLIST</code>
+                        <span class="cmd" 
+                              data-script="lxc exec database -- mysql -e 'SHOW FULL PROCESSLIST'" data-script-btn="SQL"></span>                        
                     </li>
-                    -->
+                    <li>
+                        <code>SHOW VARIABLES LIKE &quot;%query_cache%&quot;</code>
+                        <span class="cmd" 
+                              data-script="lxc exec database -- mysql -e 'SHOW VARIABLES LIKE &quot;%query_cache%&quot;'" data-script-btn="SQL"></span>                        
+                    </li>
+                    <li>
+                        <code>SET GLOBAL query_cache_size=10240000</code>
+                        <span class="cmd" 
+                              data-script="lxc exec database -- mysql -e 'SET GLOBAL query_cache_size=10240000'" data-script-btn="SQL"></span>                        
+                    </li>
                 </div>
                 <div>
                     <p>metrics<span class="stop-start" data-target="metrics"/></p>
-                    <li><span class="cmd" data-script="lxc exec metrics bash">bash</span></li>
+                    <li><span class="cmd" data-script="lxc exec metrics bash">bash</span></li>         
+                    <li><span class="cmd" data-script="lxc exec metrics influx">influx</span></li>
                 </div>
             </div>
             <div class="term-view">
@@ -179,7 +200,7 @@
             var lbl=e.dataset["scriptBtn"];
             var btn = document.createElement("button");
             btn.classList.add("ssh-btn");            
-            btn.innerText=lbl ? lbl : "SSH";
+            btn.innerText=lbl ? lbl : "TERM";
             btn.onclick = function() {
                 ssh_exec(cmd);
             }
