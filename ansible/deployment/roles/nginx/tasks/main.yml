@@ -3,8 +3,9 @@
   yum: name=nginx state=present
 
 - name: Create dir for access.log
-  mkdir:
+  file:
     path: /var/log/wordpress
+    state: directory
 
 - name: Copy nginx configuration for wordpress
   template: src=default.conf dest=/etc/nginx/conf.d/default.conf
