@@ -40,8 +40,8 @@
   - name: Add telegraf config for LXD
     become: true
     copy:
-      dest: /etc/telegraf/telegraf.d/lxd.conf
-      src: telegraf.d/lxd.conf
+      dest: /etc/telegraf/telegraf.d/
+      src: telegraf.d/
 
   - name: Start Telegraf
     become: true
