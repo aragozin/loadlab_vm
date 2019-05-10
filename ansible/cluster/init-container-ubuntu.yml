@@ -35,7 +35,7 @@
       changed_when: false
 
     - name: Node "{{container_name}}" - ensure Python
-      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+      raw: bash -c "test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)"
 
     - name: Node "{{container_name}}" - verify IP config
       delegate_to: "{{container_name}}"
