@@ -1,0 +1,6 @@
+lxcstats,lxc_host=web1 cpu_limit=0.4
+lxcstats,lxc_host=web2 cpu_limit=0.4
+lxcstats,lxc_host=database cpu_limit=0.5
+lxcstats,lxc_host=metrics cpu_limit=0.3
+lxcstats,lxc_host=workbench cpu_limit=1
+lxcstats,lxc_host=loadbalancer cpu_limit=0.2
