@@ -1,0 +1,90 @@
+---
+
+    - name: Node "{{container_name}}" - create a started container
+      lxd_container:
+        name: "{{container_name}}"
+        # url: unix:/var/snap/lxd/common/lxd/unix.socket
+        state: started
+        source:
+          type: image
+          mode: pull
+          protocol: lxd
+          server: https://images.linuxcontainers.org
+          alias: ubuntu/bionic/amd64
+        devices:
+          eth0:
+            name: eth0
+            nictype: bridged
+            parent: lxdbr0
+            type: nic
+          eth1:
+            name: eth1
+            nictype: bridged
+            parent: hlan
+            type: nic
+            config:
+              ipv4.address: 192.168.100.{{lab_ip}}/24
+              ipv6.address: none
+          rootfs:
+            path: /
+            pool: default_pool
+            type: disk
+        profiles: ["labnode"]
+
+    - name: Node "{{container_name}}" - add container to inventory
+      add_host:
+        name: "{{container_name}}"
+        ansible_connection: lxd
+      changed_when: false
+
+    - name: Node "{{container_name}}" - generate hosts file
+      delegate_to: "{{container_name}}"
+      include: patch-hosts.yml
+
+    - name: Node "{{container_name}}" - mkdir ~\.ssh
+      delegate_to: "{{container_name}}"
+      file: 
+        dest: "~/.ssh"
+        mode: 0700 
+        owner: root 
+        state: directory
+
+    - name: Node "{{container_name}}" - deploy private SSH key
+      delegate_to: "{{container_name}}"
+      copy:
+        dest: "~/.ssh/id_rsa"
+        mode: 0600
+        owner: root
+        content: "{{ lookup('file', '/home/boss/lab_data/ssh') }}"
+
+    - name: Node "{{container_name}}" - configure authorized_keys
+      delegate_to: "{{container_name}}"
+      authorized_key:
+        user: root
+        state: present
+        key: "{{ lookup('file', '/home/boss/lab_data/ssh.pub') }}"
+
+    - name: Node "{{container_name}}" - configure known_host check
+      delegate_to: "{{container_name}}"
+      copy:
+        dest: "~/.ssh/config"
+        content: |
+          Host *
+            StrictHostKeyChecking no
+
+#    - name: Node "{{container_name}}" - install sshd
+#      delegate_to: "{{container_name}}"
+#      yum: name=openssh-server state=present
+
+#    - name: Node "{{container_name}}" - start sshd
+#      delegate_to: "{{container_name}}"
+#      service: name=sshd state=started
+
+    - name: Node "{{container_name}}" - set password for root account
+      delegate_to: "{{container_name}}"
+      user: name={{ item.user }} password={{ item.password }}
+      with_items:
+        - name: root
+          password: $1$SomeSalt$eksaNbrSbNIhrQgBef8pz1
+        - name: boss
+          password: $1$SomeSalt$WbmnPHFZDCikPH2i0cCHj0
