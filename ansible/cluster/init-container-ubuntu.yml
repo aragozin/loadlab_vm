@@ -106,7 +106,7 @@
 
     - name: Node "{{container_name}}" - set password for root account
       delegate_to: "{{container_name}}"
-      user: name="{{ item.user }}" password="{{ item.password }}"
+      user: name="{{ item.name }}" password="{{ item.password }}"
       with_items:
         - name: root
           password: $1$SomeSalt$eksaNbrSbNIhrQgBef8pz1
