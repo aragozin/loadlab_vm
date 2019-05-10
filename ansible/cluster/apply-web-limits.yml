@@ -4,5 +4,5 @@
       lxd_container:
         # url: unix:/var/snap/lxd/common/lxd/unix.socket
         name: "{{container_name}}"
-	config:
-           limits.cpu.allowance 40ms/100ms
+        config:
+           limits.cpu.allowance: 40ms/100ms
