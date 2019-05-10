@@ -33,7 +33,7 @@ global
     daemon
 
     # turn on stats unix socket
-    stats socket /var/lib/haproxy/stats mode 666 level admin
+    stats socket /var/lib/haproxy/stats level admin mode 666
 
 #---------------------------------------------------------------------
 # common defaults that all the 'listen' and 'backend' sections will
@@ -81,12 +81,9 @@ frontend  main
 backend wp
     balance     roundrobin
     server  web1 192.168.100.141:80 check
-#    server  web2 192.168.100.142:80 check
+    server  web2 192.168.100.142:80 check disabled
 
 listen stats :1936
     mode http
     stats enable
-#    stats hide-version
-#    stats realm Haproxy\ Statistics
     stats uri /
-#    stats auth Username:Password
