@@ -2,6 +2,9 @@
 - name: Install HAProxy
   package: name=haproxy state=present
 
+- name: Install socat
+  package: name=socat state=present
+
 - name: Copy TLS certificate
   copy:
     dest: "/etc/haproxy/loadlab.ragozin.info.pem"
