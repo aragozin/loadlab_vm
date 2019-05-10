@@ -60,6 +60,11 @@
                   nameservers: {}
       when: match_hostname.stdout == "0"
 
+    - name: Node "{{container_name}}" - apply netplan config
+      delegate_to: "{{container_name}}"
+      shell: netplan apply
+      when: match_hostname.stdout == "0"
+
     - name: Node "{{container_name}}" - generate hosts file
       delegate_to: "{{container_name}}"
       become: yes
