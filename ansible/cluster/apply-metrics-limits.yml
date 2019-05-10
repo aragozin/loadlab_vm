@@ -1,0 +1,8 @@
+---
+
+    - name: Node "{{container_name}}" - apply metrics limits
+      lxd_container:
+        # url: unix:/var/snap/lxd/common/lxd/unix.socket
+        name: "{{container_name}}"
+        config:
+           limits.cpu.allowance: 30ms/100ms

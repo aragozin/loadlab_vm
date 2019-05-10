@@ -1,0 +1,8 @@
+---
+
+    - name: Node "{{container_name}}" - apply database limits
+      lxd_container:
+        # url: unix:/var/snap/lxd/common/lxd/unix.socket
+        name: "{{container_name}}"
+        config:
+           limits.cpu.allowance: 50ms/100ms
