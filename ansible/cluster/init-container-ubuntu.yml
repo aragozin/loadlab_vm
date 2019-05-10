@@ -22,9 +22,6 @@
             nictype: bridged
             parent: hlan
             type: nic
-            config:
-              ipv4.address: 192.168.100.{{lab_ip}}/24
-              ipv6.address: none
           rootfs:
             path: /
             pool: default_pool
