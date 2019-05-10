@@ -49,15 +49,16 @@
     - name: Node "{{container_name}}" - create netplan config
       delegate_to: "{{container_name}}"
       copy:
-        dest: /etc/netplan/20-static.yml
+        dest: /etc/netplan/20-static.yaml
         content: |
           network:
             version: 2
-              ethernets:
-                eth1:
-                  dhcp4: false
-                  addresses: [{{lab_ip}}/24]
-                  nameservers: {}
+            ethernets:
+              eth1:
+                dhcp4: false
+                dhcp6: false
+                addresses: [{{lab_ip}}/24]
+                nameservers: {}
       when: match_hostname.stdout == "0"
 
     - name: Node "{{container_name}}" - apply netplan config
@@ -101,13 +102,13 @@
           Host *
             StrictHostKeyChecking no
 
-#    - name: Node "{{container_name}}" - install sshd
-#      delegate_to: "{{container_name}}"
-#      yum: name=openssh-server state=present
+    - name: Node "{{container_name}}" - install sshd
+      delegate_to: "{{container_name}}"
+      package: name=openssh-server state=present
 
-#    - name: Node "{{container_name}}" - start sshd
-#      delegate_to: "{{container_name}}"
-#      service: name=sshd state=started
+    - name: Node "{{container_name}}" - start sshd
+      delegate_to: "{{container_name}}"
+      service: name=sshd state=started
 
     - name: Node "{{container_name}}" - set password for root account
       delegate_to: "{{container_name}}"
