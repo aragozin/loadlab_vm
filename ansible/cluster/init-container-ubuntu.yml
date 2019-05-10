@@ -34,8 +34,29 @@
         ansible_connection: lxd
       changed_when: false
 
+    - name: Node "{{container_name}}" - verify IP config
+      delegate_to: "{{container_name}}"
+      shell: "hostname -I | grep {{lab_ip}} | wc -l"
+      register: match_hostname
+      changed_when: false        
+
+    - name: Node "{{container_name}}" - create netplan config
+      delegate_to: "{{container_name}}"
+      copy:
+        dest: /etc/netplan/20-static.yml
+        content: |
+          network:
+            version: 2
+              ethernets:
+                eth1:
+                  dhcp4: false
+                  addresses: [{{lab_ip}}/24]
+                  nameservers: {}
+      when: match_hostname.stdout == "0"
+
     - name: Node "{{container_name}}" - generate hosts file
       delegate_to: "{{container_name}}"
+      become: yes
       include: patch-hosts.yml
 
     - name: Node "{{container_name}}" - mkdir ~\.ssh
