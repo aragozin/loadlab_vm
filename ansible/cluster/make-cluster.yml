@@ -18,8 +18,8 @@
     - name: Initialize node - metrics @ 192.168.100.144
       include: init-container.yml container_name=metrics           lab_ip=192.168.100.144
 
-    - name: Initialize node - workbench @ 192.168.100.146
-      include: init-container-ubuntu.yml container_name=workbench  lab_ip=192.168.100.146
+#    - name: Initialize node - workbench @ 192.168.100.146
+#      include: init-container-ubuntu.yml container_name=workbench  lab_ip=192.168.100.146
 
     - name: Patch hosts files
       become: yes
