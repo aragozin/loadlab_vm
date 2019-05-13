@@ -17,7 +17,7 @@
   "gnetId": 4031,
   "graphTooltip": 0,
   "id": 6,
-  "iteration": 1557444639776,
+  "iteration": 1557743830963,
   "links": [],
   "panels": [
     {
@@ -2859,7 +2859,6 @@
       {
         "allValue": null,
         "current": {
-          "tags": [],
           "text": "localhost:3306",
           "value": "localhost:3306"
         },
@@ -2916,5 +2915,5 @@
   "timezone": "",
   "title": "MySQL",
   "uid": "l4Ae4bmZz",
-  "version": 4
+  "version": 6
 }

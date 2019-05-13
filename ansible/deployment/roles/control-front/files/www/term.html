@@ -52,11 +52,13 @@
         border: 1px solid #000;
         padding: 0.5em;
         background-color: black;
-        height: 36em;        
+        height: 44em;        
     }
     .term-view p {
         color: aquamarine;
         font-size: 1.2em;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
     .term-view div {
         transform: scale(0.75);
@@ -142,6 +144,42 @@
                     <p>loadbalancer<span class="stop-start" data-target="loadbalancer"/></p>
                     <li><span class="cmd" data-script="lxc exec loadbalancer bash">bash</span></li>
                     <li><span class="cmd" data-script="lxc exec loadbalancer top">top</span></li>
+                    <li>
+                        <code>show stat</code>
+                        <span class="cmd" 
+                              data-script="lxc exec loadbalancer /usr/local/sbin/hacmd 'show stat' | cut -d ',' -f 1,2,5,6,8,9,10,18 | column -s, -t"
+                              data-script-btn="HAProxy"></span>                        
+                    </li>
+                    <li>
+                        <code>show info</code>
+                        <span class="cmd" 
+                              data-script="lxc exec loadbalancer /usr/local/sbin/hacmd 'show info'"
+                              data-script-btn="HAProxy"></span>                        
+                    </li>
+                    <li>
+                        <code>enable server wp/web1</code>
+                        <span class="cmd" 
+                              data-script="lxc exec loadbalancer /usr/local/sbin/hacmd 'enable server wp/web1'"
+                              data-script-btn="HAProxy"></span>                        
+                    </li>
+                    <li>
+                        <code>disable server wp/web1</code>
+                        <span class="cmd" 
+                              data-script="lxc exec loadbalancer /usr/local/sbin/hacmd 'disable server wp/web1'"
+                              data-script-btn="HAProxy"></span>                        
+                    </li>
+                    <li>
+                        <code>enable server wp/web2</code>
+                        <span class="cmd" 
+                              data-script="lxc exec loadbalancer /usr/local/sbin/hacmd 'enable server wp/web2'"
+                              data-script-btn="HAProxy"></span>                        
+                    </li>
+                    <li>
+                        <code>disable server wp/web2</code>
+                        <span class="cmd" 
+                              data-script="lxc exec loadbalancer /usr/local/sbin/hacmd 'disable server wp/web2'"
+                              data-script-btn="HAProxy"></span>                        
+                    </li>
                 </div>
                 <div>
                     <p>web1<span class="stop-start" data-target="web1"/></p>

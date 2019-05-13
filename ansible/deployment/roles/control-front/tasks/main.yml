@@ -36,7 +36,9 @@
           touch "/tmp/command-mark-$2"
         fi
       fi
-      export TERM=xterm && $1
+      CMD=/tmp/start-$RANDOM.lxc
+      echo $1 > $CMD
+      export TERM=xterm && bash $CMD
 
 - name: Create gotty service entry
   copy:

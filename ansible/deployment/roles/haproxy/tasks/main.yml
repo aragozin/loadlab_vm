@@ -2,8 +2,8 @@
 - name: Install HAProxy
   package: name=haproxy state=present
 
-- name: Install socat
-  package: name=socat state=present
+- name: Install ncat
+  package: name=nmap-ncat state=present
 
 - name: Copy TLS certificate
   copy:
@@ -25,6 +25,12 @@
     src: telegraf.d
     dest: /etc/telegraf/
   notify: restart telegraf
+
+- name: Copy hacmd script
+  copy:
+    src: hacmd
+    dest: /usr/local/sbin/hacmd
+    mode: +x
 
 - name: Ensure HAProxy is started and enabled on boot.
   service: name=haproxy state=started enabled=yes

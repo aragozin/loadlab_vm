@@ -17,7 +17,7 @@
   "gnetId": 2263,
   "graphTooltip": 0,
   "id": 4,
-  "iteration": 1557435571230,
+  "iteration": 1557743785471,
   "links": [],
   "panels": [
     {
@@ -345,155 +345,6 @@
         "x": 0,
         "y": 8
       },
-      "id": 3,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "connected",
-      "percentage": false,
-      "pointradius": 5,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "application": {
-            "filter": ""
-          },
-          "dsType": "influxdb",
-          "functions": [],
-          "group": {
-            "filter": ""
-          },
-          "groupBy": [
-            {
-              "params": [
-                "$interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "host": {
-            "filter": ""
-          },
-          "item": {
-            "filter": ""
-          },
-          "measurement": "haproxy",
-          "mode": 0,
-          "options": {
-            "showDisabledItems": false
-          },
-          "policy": "default",
-          "refId": "A",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "rate"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "last"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "host",
-              "operator": "=~",
-              "value": "/^$host$/"
-            },
-            {
-              "condition": "AND",
-              "key": "proxy",
-              "operator": "=~",
-              "value": "/^$proxy$/"
-            },
-            {
-              "condition": "AND",
-              "key": "sv",
-              "operator": "=~",
-              "value": "/^$sv$/"
-            }
-          ]
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "session usage",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "influxdb-telegraf",
-      "fill": 1,
-      "gridPos": {
-        "h": 7,
-        "w": 12,
-        "x": 12,
-        "y": 8
-      },
       "id": 4,
       "legend": {
         "avg": false,
@@ -600,6 +451,155 @@
       "timeRegions": [],
       "timeShift": null,
       "title": "request error number",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "influxdb-telegraf",
+      "fill": 1,
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "id": 3,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "connected",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "application": {
+            "filter": ""
+          },
+          "dsType": "influxdb",
+          "functions": [],
+          "group": {
+            "filter": ""
+          },
+          "groupBy": [
+            {
+              "params": [
+                "$interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "host": {
+            "filter": ""
+          },
+          "item": {
+            "filter": ""
+          },
+          "measurement": "haproxy",
+          "mode": 0,
+          "options": {
+            "showDisabledItems": false
+          },
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "rate"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "last"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "host",
+              "operator": "=~",
+              "value": "/^$host$/"
+            },
+            {
+              "condition": "AND",
+              "key": "proxy",
+              "operator": "=~",
+              "value": "/^$proxy$/"
+            },
+            {
+              "condition": "AND",
+              "key": "sv",
+              "operator": "=~",
+              "value": "/^$sv$/"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "session usage",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1363,6 +1363,7 @@
           "options": {
             "showDisabledItems": false
           },
+          "orderByTime": "ASC",
           "policy": "default",
           "refId": "A",
           "resultFormat": "time_series",
@@ -1435,6 +1436,7 @@
           "options": {
             "showDisabledItems": false
           },
+          "orderByTime": "ASC",
           "policy": "default",
           "refId": "B",
           "resultFormat": "time_series",
@@ -1507,6 +1509,7 @@
           "options": {
             "showDisabledItems": false
           },
+          "orderByTime": "ASC",
           "policy": "default",
           "refId": "C",
           "resultFormat": "time_series",
@@ -1579,6 +1582,7 @@
           "options": {
             "showDisabledItems": false
           },
+          "orderByTime": "ASC",
           "policy": "default",
           "refId": "D",
           "resultFormat": "time_series",
@@ -1651,6 +1655,7 @@
           "options": {
             "showDisabledItems": false
           },
+          "orderByTime": "ASC",
           "policy": "default",
           "refId": "E",
           "resultFormat": "time_series",
@@ -2991,6 +2996,7 @@
       }
     }
   ],
+  "refresh": "10s",
   "schemaVersion": 18,
   "style": "dark",
   "tags": [
@@ -3028,7 +3034,6 @@
       {
         "allValue": null,
         "current": {
-          "tags": [],
           "text": "wp",
           "value": [
             "wp"
@@ -3081,7 +3086,7 @@
     ]
   },
   "time": {
-    "from": "now-12h",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {
@@ -3112,5 +3117,5 @@
   "timezone": "browser",
   "title": "HAproxy stats",
   "uid": "4oCJ31mZz",
-  "version": 1
+  "version": 6
 }

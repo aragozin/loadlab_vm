@@ -22,7 +22,7 @@
   "gnetId": 9935,
   "graphTooltip": 0,
   "id": 1,
-  "iteration": 1557259607409,
+  "iteration": 1557743719802,
   "links": [],
   "panels": [
     {
@@ -4479,7 +4479,7 @@
       "type": "row"
     }
   ],
-  "refresh": false,
+  "refresh": "10s",
   "schemaVersion": 18,
   "style": "dark",
   "tags": [],
@@ -4488,8 +4488,11 @@
       {
         "allValue": null,
         "current": {
-          "text": "Add_user_form",
-          "value": "Add_user_form"
+          "text": "Add_user_form + Front_page",
+          "value": [
+            "Add_user_form",
+            "Front_page"
+          ]
         },
         "datasource": "influxdb-gatlingdb",
         "definition": "",
@@ -4514,8 +4517,9 @@
         "allValue": null,
         "current": {
           "selected": true,
-          "text": "5",
-          "value": "5"
+          "tags": [],
+          "text": "10",
+          "value": "10"
         },
         "hide": 0,
         "includeAll": false,
@@ -4529,12 +4533,12 @@
             "value": "1"
           },
           {
-            "selected": true,
+            "selected": false,
             "text": "5",
             "value": "5"
           },
           {
-            "selected": false,
+            "selected": true,
             "text": "10",
             "value": "10"
           },
@@ -4558,8 +4562,8 @@
         "auto_count": 10,
         "auto_min": "5s",
         "current": {
-          "text": "5s",
-          "value": "5s"
+          "text": "30s",
+          "value": "30s"
         },
         "hide": 0,
         "label": "granularity",
@@ -4571,7 +4575,7 @@
             "value": "$__auto_interval_g"
           },
           {
-            "selected": true,
+            "selected": false,
             "text": "5s",
             "value": "5s"
           },
@@ -4581,7 +4585,7 @@
             "value": "10s"
           },
           {
-            "selected": false,
+            "selected": true,
             "text": "30s",
             "value": "30s"
           },
@@ -4676,5 +4680,5 @@
   "timezone": "browser",
   "title": "Gatling Report",
   "uid": "ydV3WAhmk",
-  "version": 2
+  "version": 1
 }

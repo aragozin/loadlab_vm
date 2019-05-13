@@ -20,4 +20,4 @@
       src: telegraf.conf
 
   - name: Start Telegraf
-    service: name=telegraf state=restarted enabled=yes
+    service: name=telegraf state=started enabled=yes

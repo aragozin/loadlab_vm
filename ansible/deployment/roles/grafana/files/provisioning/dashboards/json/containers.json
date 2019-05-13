@@ -16,7 +16,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 3,
-  "iteration": 1557401051294,
+  "iteration": 1557743482569,
   "links": [],
   "panels": [
     {
@@ -33,8 +33,8 @@
       "scopedVars": {
         "lxc_host": {
           "selected": true,
-          "text": "metrics",
-          "value": "metrics"
+          "text": "database",
+          "value": "database"
         }
       },
       "title": "$lxc_host",
@@ -75,11 +75,21 @@
       "scopedVars": {
         "lxc_host": {
           "selected": true,
-          "text": "metrics",
-          "value": "metrics"
+          "text": "database",
+          "value": "database"
         }
       },
-      "seriesOverrides": [],
+      "seriesOverrides": [
+        {
+          "alias": "limit",
+          "color": "#1F60C4",
+          "dashLength": 5,
+          "dashes": true,
+          "fill": 0,
+          "legend": false,
+          "spaceLength": 2
+        }
+      ],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
@@ -124,6 +134,55 @@
                   "1m"
                 ],
                 "type": "non_negative_derivative"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "host",
+              "operator": "=~",
+              "value": "/^$server$/"
+            },
+            {
+              "condition": "AND",
+              "key": "lxc_host",
+              "operator": "=~",
+              "value": "/^$lxc_host$/"
+            }
+          ]
+        },
+        {
+          "alias": "limit",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "lxcstats",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "cpu_limit"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
               }
             ]
           ],
@@ -219,8 +278,8 @@
       "scopedVars": {
         "lxc_host": {
           "selected": true,
-          "text": "metrics",
-          "value": "metrics"
+          "text": "database",
+          "value": "database"
         }
       },
       "seriesOverrides": [
@@ -375,7 +434,7 @@
     },
     {
       "aliasColors": {},
-      "bars": false,
+      "bars": true,
       "dashLength": 10,
       "dashes": false,
       "datasource": "$datasource",
@@ -397,7 +456,7 @@
         "total": false,
         "values": false
       },
-      "lines": true,
+      "lines": false,
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
@@ -408,8 +467,8 @@
       "scopedVars": {
         "lxc_host": {
           "selected": true,
-          "text": "metrics",
-          "value": "metrics"
+          "text": "database",
+          "value": "database"
         }
       },
       "seriesOverrides": [
@@ -574,7 +633,7 @@
     },
     {
       "aliasColors": {},
-      "bars": false,
+      "bars": true,
       "dashLength": 10,
       "dashes": false,
       "datasource": "$datasource",
@@ -596,7 +655,7 @@
         "total": false,
         "values": false
       },
-      "lines": true,
+      "lines": false,
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
@@ -607,8 +666,8 @@
       "scopedVars": {
         "lxc_host": {
           "selected": true,
-          "text": "metrics",
-          "value": "metrics"
+          "text": "database",
+          "value": "database"
         }
       },
       "seriesOverrides": [
@@ -774,6 +833,7 @@
       }
     }
   ],
+  "refresh": "10s",
   "schemaVersion": 18,
   "style": "dark",
   "tags": [
@@ -802,8 +862,8 @@
       {
         "allValue": null,
         "current": {
-          "text": "default",
-          "value": "default"
+          "text": "loadlab",
+          "value": "loadlab"
         },
         "datasource": "$datasource",
         "definition": "",
@@ -827,10 +887,9 @@
       {
         "allValue": null,
         "current": {
-          "selected": false,
           "tags": [],
           "text": "default",
-          "value": []
+          "value": "default"
         },
         "datasource": "$datasource",
         "definition": "",
@@ -856,8 +915,8 @@
         "auto_count": 300,
         "auto_min": "10s",
         "current": {
-          "text": "10s",
-          "value": "10s"
+          "text": "30s",
+          "value": "30s"
         },
         "hide": 0,
         "label": null,
@@ -869,12 +928,12 @@
             "value": "$__auto_interval_interval"
           },
           {
-            "selected": true,
+            "selected": false,
             "text": "10s",
             "value": "10s"
           },
           {
-            "selected": false,
+            "selected": true,
             "text": "30s",
             "value": "30s"
           },
@@ -890,7 +949,7 @@
           }
         ],
         "query": "10s,30s,1m,5m",
-        "refresh": 1,
+        "refresh": 2,
         "skipUrlSync": false,
         "type": "interval"
       }
@@ -911,16 +970,15 @@
       "10s",
       "30s",
       "1m",
-	  "5m",
+      "5m",
       "30m",
       "1h",
       "2h",
-	  "6h"
-     ]
+      "6h"
+    ]
   },
-  "refresh": "10s",
   "timezone": "",
   "title": "LXC containers",
-  "uid": "",
-  "version": 4
+  "uid": "aA96g1iWk",
+  "version": 2
 }

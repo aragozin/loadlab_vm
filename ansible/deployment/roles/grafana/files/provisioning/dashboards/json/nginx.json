@@ -17,7 +17,7 @@
   "gnetId": 5063,
   "graphTooltip": 0,
   "id": 5,
-  "iteration": 1557440524687,
+  "iteration": 1557743875423,
   "links": [],
   "panels": [
     {
@@ -953,7 +953,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 22
+        "y": 11
       },
       "id": 13,
       "panels": [],
@@ -979,9 +979,10 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 23
+        "y": 12
       },
       "id": 31,
+      "interval": "10s",
       "legend": {
         "alignAsTable": true,
         "avg": true,
@@ -1298,9 +1299,10 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 32
+        "y": 21
       },
       "id": 32,
+      "interval": "10s",
       "legend": {
         "alignAsTable": true,
         "avg": true,
@@ -1361,7 +1363,7 @@
             [
               {
                 "params": [
-                  "request"
+                  "client_ip"
                 ],
                 "type": "field"
               },
@@ -1436,7 +1438,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 41
+        "y": 30
       },
       "id": 8,
       "isNew": true,
@@ -1720,7 +1722,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 98
+        "y": 38
       },
       "id": 15,
       "panels": [],
@@ -1746,7 +1748,7 @@
         "h": 5,
         "w": 12,
         "x": 0,
-        "y": 99
+        "y": 39
       },
       "id": 17,
       "legend": {
@@ -1925,7 +1927,7 @@
         "h": 5,
         "w": 12,
         "x": 12,
-        "y": 99
+        "y": 39
       },
       "id": 29,
       "legend": {
@@ -2106,7 +2108,6 @@
     "list": [
       {
         "current": {
-          "tags": [],
           "text": "influxdb-telegraf",
           "value": "influxdb-telegraf"
         },
@@ -2182,5 +2183,5 @@
   "timezone": "browser",
   "title": "Nginx",
   "uid": "GqFjuAgmk",
-  "version": 1
+  "version": 5
 }
