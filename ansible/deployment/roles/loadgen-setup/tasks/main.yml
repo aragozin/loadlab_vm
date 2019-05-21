@@ -1,0 +1,21 @@
+---
+
+- name: Create SSH key      
+  command: ssh-keygen -q -t rsa -f /home/boss/.ssh/id_rsa -C "" -N ""
+  args:
+    creates: /home/boss/.ssh/id_rsa
+
+- name: Configure known_host check
+  copy:
+    dest: "~/.ssh/config"
+    content: |
+      Host *
+        StrictHostKeyChecking no
+
+- name: Install sshpass
+  become: yes
+  package: name=sshpass state=present
+
+- name: Push ssh key - loadbalancer @ 192.168.100.140
+  include: push_ssh_key.yml.yml container_name=loadbalancer      lab_ip=192.168.100.140      
+
