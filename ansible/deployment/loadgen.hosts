@@ -1,0 +1,2 @@
+[loadgen]
+local ansible_connection=local

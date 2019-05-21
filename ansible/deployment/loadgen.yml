@@ -1,0 +1,8 @@
+---
+
+- name: Setup loadgen
+  hosts: loadgen
+  
+  roles:
+    - masterhost-setup
+
