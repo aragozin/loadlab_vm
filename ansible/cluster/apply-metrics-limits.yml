@@ -6,4 +6,4 @@
         name: "{{container_name}}"
         config:
            limits.cpu.allowance: 10ms/100ms
-           limits.cpu.priority: 8
+           limits.cpu.priority: "8"
