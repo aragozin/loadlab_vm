@@ -2,7 +2,7 @@
 
 - name: Install MariaDB
   hosts: database
-  connection: lxd 
+  gather_facts: false
 
   roles:
     - common
@@ -12,7 +12,7 @@
 
 - name: Install Wordpress
   hosts: web
-  connection: lxd
+  gather_facts: false
 
   roles:
     - common
@@ -24,6 +24,7 @@
 
 - name: Install HAProxy
   hosts: loadbalancer
+  gather_facts: false
 
   roles:
     - common
@@ -32,7 +33,7 @@
 
 - name: Install InfluxDB
   hosts: metrics
-  connection: lxd
+  gather_facts: false
 
   roles:
     - common
@@ -41,9 +42,9 @@
 
 - name: Install telegraf
   hosts: masterhost
+  gather_facts: false
   
   roles:
     - telegraf-host
     - control-front
     - masterhost-setup
-
