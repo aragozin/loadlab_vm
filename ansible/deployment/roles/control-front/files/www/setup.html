@@ -56,9 +56,8 @@
     }
     .term-view p {
         color: aquamarine;
-        font-size: 1.2em;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        font-size: 1em;
+        text-overflow: hide;        
     }
     .term-view div {
         transform: scale(0.75);
@@ -154,6 +153,16 @@
                     <span class="cmd" 
                           data-script="cd /home/boss/setup/ansible/cluster && git pull && ansible-playbook unconstrain-cluster.yml"></span>                        
                 </li>
+                <li><span class="cmd" data-script="lxc config show loadbalancer | grep limits
+">show limits loadbalancer</span></li>
+                <li><span class="cmd" data-script="lxc config show web1 | grep limits
+">show limits web1</span></li>
+                <li><span class="cmd" data-script="lxc config show web2 | grep limits
+">show limits web2</span></li>
+                <li><span class="cmd" data-script="lxc config show database | grep limits
+">show limits database</span></li>
+                <li><span class="cmd" data-script="lxc config show metrics | grep limits
+">show limits metrics</span></li>
                 <p>rebuild</p>
                 <li>
                     rebuild matserhost
@@ -179,6 +188,37 @@
                     rebuild metrics
                     <span class="cmd" 
                           data-script="cd /home/boss/setup/ansible/deployment && git pull && ansible-playbook -i loadlab.hosts -l metrics loadlab.yml"></span>                        
+                </li>
+                <p>provision</p>
+                <li>
+                    provision all
+                    <span class="cmd" 
+                          data-script="cd /home/boss/setup/ansible/cluster && git pull && ansible-playbook -K make-cluster.yml"></span>                        
+                </li>
+                <li>
+                    provision loadbalancer
+                    <span class="cmd" 
+                          data-script="cd /home/boss/setup/ansible/cluster && git pull && ansible-playbook make-loadbalancer.yml"></span>                        
+                </li>
+                <li>
+                    provision web1
+                    <span class="cmd" 
+                          data-script="cd /home/boss/setup/ansible/cluster && git pull && ansible-playbook make-web1.yml"></span>                        
+                </li>
+                <li>
+                    provision web2
+                    <span class="cmd" 
+                          data-script="cd /home/boss/setup/ansible/cluster && git pull && ansible-playbook make-web2.yml"></span>                        
+                </li>
+                <li>
+                    provision database
+                    <span class="cmd" 
+                          data-script="cd /home/boss/setup/ansible/cluster && git pull && ansible-playbook make-database.yml"></span>                        
+                </li>
+                <li>
+                    provision metrics
+                    <span class="cmd" 
+                          data-script="cd /home/boss/setup/ansible/cluster && git pull && ansible-playbook make-metrics.yml"></span>                        
                 </li>
             </div>
             <div class="term-view">
