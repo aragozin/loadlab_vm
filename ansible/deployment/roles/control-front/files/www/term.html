@@ -217,6 +217,11 @@
                               data-script="lxc exec database -- mysql -e 'SHOW VARIABLES LIKE &quot;%query_cache%&quot;'" data-script-btn="SQL"></span>                        
                     </li>
                     <li>
+                        <code>SET GLOBAL query_cache_size=0</code>
+                        <span class="cmd" 
+                              data-script="lxc exec database -- mysql -e 'SET GLOBAL query_cache_size=0'" data-script-btn="SQL"></span>                        
+                    </li>
+                    <li>
                         <code>SET GLOBAL query_cache_size=10240000</code>
                         <span class="cmd" 
                               data-script="lxc exec database -- mysql -e 'SET GLOBAL query_cache_size=10240000'" data-script-btn="SQL"></span>                        
@@ -237,7 +242,10 @@
                     <li><span class="cmd" data-script="lxc exec metrics bash">bash</span></li>
                     <li><span class="cmd" data-script="lxc exec metrics top">top</span></li>
                     <li><span class="cmd" data-script="lxc exec metrics influx">influx</span></li>
-                    <li><span class="cmd" data-script="lxc exec metrics -- influx -execute 'drop database telegraf; drop database gatlingdb; drop database jmeterdb'">drop influx databases</span></li>
+                    <li><span class="cmd" data-script="lxc exec metrics -- influx -execute 'show databases'">show databases</span></li>
+                    <li><span class="cmd" data-script="lxc exec metrics -- influx -execute 'drop database telegraf">drop database telegraf</span></li>
+                    <li><span class="cmd" data-script="lxc exec metrics -- influx -execute 'drop database gatlingdb'">drop database gatlingdb</span></li>
+                    <li><span class="cmd" data-script="lxc exec metrics -- influx -execute 'drop database jmeterdb'">drop database jmeterdb</span></li>
                 </div>
             </div>
             <div class="term-view">

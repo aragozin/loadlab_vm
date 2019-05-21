@@ -6,4 +6,10 @@
         name: "{{container_name}}"
         config:
            limits.cpu.allowance: 10ms/100ms
+
+    - name: Node "{{container_name}}" - apply metrics limits
+      lxd_container:
+        # url: unix:/var/snap/lxd/common/lxd/unix.socket
+        name: "{{container_name}}"
+        config:
            limits.cpu.priority: "8"

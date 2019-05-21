@@ -15,6 +15,8 @@ Install Ubuntu 18 server
 
 Configure static IP - 192.168.100.145 for second adapter
 
+Account: boss/boss
+
 
 Setup software on the box
 -------------------------
