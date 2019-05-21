@@ -1,0 +1,19 @@
+---
+
+    - name: Node "{{remote_name}}" - add container to inventory
+      add_host:
+        name: "{{remote_name}}"
+        ansible_connection: ssh
+        ansible_user: boss
+        ansible_ssh_host: "{{remote_addr}}"
+        ansible_ssh_pass: boss
+        ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
+      changed_when: false
+
+    - name: Node "{{remote_name}}" - configure authorized_keys
+      delegate_to: "{{remote_name}}"
+      authorized_key:
+        user: boss
+        state: present
+        key: "{{ lookup('file', '/home/boss/.ssh/id_rsa.pub') }}"
+
