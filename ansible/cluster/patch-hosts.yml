@@ -15,5 +15,3 @@
         lab_ip: 192.168.100.144
       - name: labhost
         lab_ip: 192.168.100.145 #LXD host node
-      - name: workbench
-        lab_ip: 192.168.100.146
