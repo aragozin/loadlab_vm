@@ -1,0 +1,13 @@
+---
+
+    - name: Node "{{container_name}}" - relax limits (allowance)
+      lxd_container:
+        name: "{{container_name}}"
+        config:
+           limits.cpu.allowance: 100ms/100ms
+
+    - name: Node "{{container_name}}" - relax limits (priority)
+      lxd_container:
+        name: "{{container_name}}"
+        config:
+           limits.cpu.priority: "5"

@@ -1,0 +1,19 @@
+﻿---
+
+- hosts: 127.0.0.1
+  connection: local
+  tasks:
+    - name: Constrain node - loadbalancer @ 192.168.100.140
+      include: relax-limits.yml container_name=loadbalancer
+
+    - name: Constrain node - web1 @ 192.168.100.141
+      include: relax-limits.yml container_name=web1
+
+    - name: Constrain node - web2 @ 192.168.100.142
+      include: relax-limits.yml container_name=web2
+
+    - name: Constrain node - database @ 192.168.100.143
+      include: relax-limits.yml container_name=database
+
+    - name: Constrain node - metrics @ 192.168.100.144
+      include: relax-limits.yml container_name=metrics
