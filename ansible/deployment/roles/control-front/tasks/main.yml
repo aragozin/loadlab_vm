@@ -37,7 +37,7 @@
         fi
       fi
       CMD=/tmp/start-$RANDOM.lxc
-      echo $1 > $CMD
+      echo $1 | base64 -d > $CMD
       cat $CMD
       export TERM=xterm && bash $CMD
 
