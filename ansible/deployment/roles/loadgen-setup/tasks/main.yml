@@ -19,3 +19,14 @@
 - name: Push ssh key - loadbalancer @ 192.168.100.140
   include: push_ssh_key.yml remote_name=loadbalancer      remote_addr=192.168.100.140      
 
+- name: Push ssh key - web1 @ 192.168.100.141
+  include: push_ssh_key.yml remote_name=web1              remote_addr=192.168.100.141      
+
+- name: Push ssh key - web2 @ 192.168.100.142
+  include: push_ssh_key.yml remote_name=web2              remote_addr=192.168.100.142      
+
+- name: Push ssh key - database @ 192.168.100.143
+  include: push_ssh_key.yml remote_name=database          remote_addr=192.168.100.143      
+
+- name: Push ssh key - metrics @ 192.168.100.144
+  include: push_ssh_key.yml remote_name=metrics           remote_addr=192.168.100.144      
