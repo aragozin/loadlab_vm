@@ -13,7 +13,7 @@
 
 - name: Install ab
   become: yes
-  package: name=apache2-tools state=present
+  package: name=apache2-utils state=present
 
 - name: Install jq
   become: yes
