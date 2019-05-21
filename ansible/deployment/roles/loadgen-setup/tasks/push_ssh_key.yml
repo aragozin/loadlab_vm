@@ -7,6 +7,7 @@
         ansible_user: root
         ansible_ssh_host: "{{remote_addr}}"
         ansible_ssh_pass: toor
+        ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
       changed_when: false
 
     - name: Node "{{remote_name}}" - configure authorized_keys
