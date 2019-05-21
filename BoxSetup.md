@@ -23,6 +23,7 @@ Setup software on the box
 
     git clone git://192.168.100.1/ setup
     cd setup
+    git remote add github https://github.com/aragozin/loadlab_vm.git
 
     sudo apt-get -y install ansible
 
