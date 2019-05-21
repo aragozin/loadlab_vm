@@ -17,5 +17,5 @@
   package: name=sshpass state=present
 
 - name: Push ssh key - loadbalancer @ 192.168.100.140
-  include: roles/loadgen-setup/tasks/push_ssh_key.yml.yml container_name=loadbalancer      lab_ip=192.168.100.140      
+  include: push_ssh_key.yml container_name=loadbalancer      lab_ip=192.168.100.140      
 
