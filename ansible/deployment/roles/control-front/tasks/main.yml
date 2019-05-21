@@ -38,7 +38,7 @@
       fi
       CMD=/tmp/start-$RANDOM.lxc
       echo '$1' > $CMD
-      cat /tmp/start-$RANDOM.lxc
+      cat $CMD
       export TERM=xterm && bash $CMD
 
 - name: Create gotty service entry
