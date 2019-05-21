@@ -3,9 +3,9 @@
     - name: Node "{{remote_name}}" - add container to inventory
       add_host:
         name: "{{remote_name}}"
-        hostname: "{{remote_addr}}"
         ansible_connection: ssh
         ansible_user: root
+        ansible_ssh_host: "{{remote_addr}}"
         ansible_ssh_pass: toor
       changed_when: false
 
