@@ -45,4 +45,5 @@
   roles:
     - telegraf-host
     - control-front
+    - masterhost-setup
 
