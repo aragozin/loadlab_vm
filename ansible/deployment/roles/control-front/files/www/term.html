@@ -237,6 +237,7 @@
                     <li><span class="cmd" data-script="lxc exec metrics bash">bash</span></li>
                     <li><span class="cmd" data-script="lxc exec metrics top">top</span></li>
                     <li><span class="cmd" data-script="lxc exec metrics influx">influx</span></li>
+                    <li><span class="cmd" data-script="lxc exec metrics -- influx -execute 'drop database telegraf; drop database gatlingdb; drop database jmeterdb'">drop influx databases</span></li>
                 </div>
             </div>
             <div class="term-view">
@@ -255,7 +256,7 @@
             document.querySelector("#term_cmd").innerText = cmd;
             document.querySelector("#term").style.visibility = "visible";
             var ts = Math.random();
-            var ecmd = encodeURI(cmd);
+            var ecmd = encodeURI(btoa(cmd));
             var uri = "http://192.168.100.145:8080/?arg=" + ecmd + "&arg=" + ts + "#";
             document.getElementById("term").src = uri;
         }
