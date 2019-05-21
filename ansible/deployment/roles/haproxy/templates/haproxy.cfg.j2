@@ -49,13 +49,13 @@ defaults
     option                  redispatch
     retries                 3
     timeout http-request    10s
-    timeout queue           1m
+    timeout queue           30s
     timeout connect         10s
     timeout client          1m
-    timeout server          1m
+    timeout server          30s
     timeout http-keep-alive 10s
-    timeout check           10s
-    maxconn                 3000
+    timeout check           30s
+    maxconn                 100
 
 #---------------------------------------------------------------------
 # main frontend which proxys to the backends
