@@ -37,3 +37,4 @@ core_update_level: false
 
 enabled_selinux: false
 enabled_firewalld: false
+config_only: false

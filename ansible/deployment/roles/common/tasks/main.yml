@@ -1,26 +1,32 @@
 ---
 - name: Copy the NGINX repository definition
   copy: src=nginx.repo dest=/etc/yum.repos.d/
+  when: !config_only
 
 - name: Copy the EPEL repository definition
   copy: src=epel.repo dest=/etc/yum.repos.d/
+  when: !config_only
 
 - name: Copy the REMI repository definition
   copy: src=remi.repo dest=/etc/yum.repos.d/
+  when: !config_only
 
 - name: Create the GPG key for NGINX
   copy: src=RPM-GPG-KEY-NGINX dest=/etc/pki/rpm-gpg
+  when: !config_only
 
 - name: Create the GPG key for EPEL
   copy: src=RPM-GPG-KEY-EPEL-7 dest=/etc/pki/rpm-gpg
+  when: !config_only
 
 - name: Create the GPG key for REMI
   copy: src=RPM-GPG-KEY-remi dest=/etc/pki/rpm-gpg
+  when: !config_only
   
 - name: Install Firewalld
   yum: name=firewalld state=present
-  when: enabled_firewalld
+  when: enabled_firewalld && !config_only
 
 - name: Firewalld service state
   service: name=firewalld state=started enabled=yes
-  when: enabled_firewalld
+  when: enabled_firewalld && !config_only
