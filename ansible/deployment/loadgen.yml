@@ -1,8 +1,10 @@
 ---
 
-- name: Setup loadgen
-  hosts: loadgen
-  
+- hosts: 127.0.0.1
+  connection: local
+  gather_facts: false
+  vars:
+    control_front_root: www-bench
   roles:
     - masterhost-setup
     - loadgen-setup

@@ -2,7 +2,7 @@ server {
         
         listen       80 default_server;
         server_name  _;
-        root         /srv/control-front/www ;
+        root         /srv/control-front/{{control_front_root}} ;
  
 	index index.html index.htm;
 

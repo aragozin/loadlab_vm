@@ -34,6 +34,8 @@ auto_up_disable: true
 # minor = Minor updates are enabled, development, and major updates are disabled
 core_update_level: false
 
+# Web root folder name on master host
+control_front_root: www
 
 enabled_selinux: false
 enabled_firewalld: false
