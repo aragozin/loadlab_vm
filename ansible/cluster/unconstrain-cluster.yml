@@ -2,6 +2,7 @@
 
 - hosts: 127.0.0.1
   connection: local
+  gather_facts: false
   tasks:
     - name: Constrain node - loadbalancer @ 192.168.100.140
       include: relax-limits.yml container_name=loadbalancer
