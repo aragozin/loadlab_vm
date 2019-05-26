@@ -833,7 +833,7 @@
       }
     }
   ],
-  "refresh": "10s",
+  "refresh": "off",
   "schemaVersion": 18,
   "style": "dark",
   "tags": [
