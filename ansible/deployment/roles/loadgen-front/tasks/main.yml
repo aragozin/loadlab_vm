@@ -2,5 +2,5 @@
 
 - name: Copy static content
   copy:
-    src: www
+    src: www-bench
     dest: /srv/control-front
