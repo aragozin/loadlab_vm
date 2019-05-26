@@ -38,10 +38,10 @@
         display: flex;
     }
     .main>div>div:nth-child(1) {
-        flex-basis: 25em;        
+        flex-basis: 30%;        
     }
     .main>div>div:nth-child(2) {
-        flex-basis: 100%;        
+        flex-basis: 70%;        
     }
     .control-panel {
         padding: 1em;
@@ -56,8 +56,9 @@
     }
     .term-view p {
         color: aquamarine;
-        font-size: 1em;
-        text-overflow: hide;        
+        font-size: 1.2em;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
     .term-view div {
         transform: scale(0.75);
@@ -130,28 +131,35 @@
         <p>Алексей Рагозин, Вячеслав Смирнов</p>
     </div>
     <div class="main">
-        <p>Консоль развёртывания (<a href="http://bench.loadlab.ragozin.info">bench.loadlab.ragozin.info</a>)</p>
+        <p>Работа с <a href="https://locust.io/">Locust</a></p>
         <div>
             <div class="control-panel">
-                <p>shell</p>
-                <li><span class="cmd" data-script="bash">bash</span></li>
-                <li><span class="cmd" data-script="top">top</span></li>
-                <p>git</p>
-                <li><span class="cmd" data-script="cd /home/boss/setup && git status">git status</span></li>
-                <li><span class="cmd" data-script="cd /home/boss/setup && git pull">git pull</span></li>
-                <li><span class="cmd" data-script="cd /home/boss/setup && git checkout master">git checkout master</span></li>
-                <li><span class="cmd" data-script="cd /home/boss/setup && git checkout autoupdate">git checkout autoupdate</span></li>
-                <p>reconfigutration</p>
-                <li>
-                    config only update
-                    <span class="cmd" 
-                          data-script="cd /home/boss/setup/ansible/deployment && git pull && ansible-playbook -K --extra-vars &quot;config_only=true&quot; loadgen.yml"></span>
-                </li>
-                <li>
-                    full config update
-                    <span class="cmd" 
-                          data-script="cd /home/boss/setup/ansible/deployment && git pull && ansible-playbook -K loadgen.yml"></span>   
-                </li>
+                <div>
+                    <p>Хост</p>
+                    <li><span class="cmd" data-script="bash">bash</span></li>
+                    <li><span class="cmd" data-script="top">top</span></li>
+                </div>
+                <div>
+                    <p>Исходники</p>
+                    <li><span class="cmd" data-script="mkdir ~/workbench ; rm -rf ~/workbench/locust && cd ~/workbench && git clone -b locust/master https://github.com/aragozin/loadlab_demo.git locust">
+                        git clone
+                    </span></li>
+                    <li><span class="cmd" data-script="cd ~/workbench/locust && git pull">
+                        git pull
+                    </span></li>
+                </div>
+                <div>
+                    <p>Запуск</p>
+                    <li><span class="cmd" data-script="cd ~/workbench/locust && locust">
+                        locust
+                    </span></li>
+                    <li><span class="cmd" data-script="cd ~/workbench/locust && locust -c 1 --no-web">
+                        locust -c 1 --no-web
+                    </span></li>
+
+                    <li><a href="http://bench.loadlab.ragozin.info:8089" target="_blank">Locust UI</a></li>
+                    
+                </div>
             </div>
             <div class="term-view">
                 <p id="term_cmd" style="padding: 0; margin: 0"></p>
