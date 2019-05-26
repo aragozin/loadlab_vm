@@ -23,3 +23,8 @@
   become: yes
   package: name=jq state=present
   when: config_only == false
+
+- name: Install httpperf
+  become: yes
+  package: name=httperf state=present
+  when: config_only == false

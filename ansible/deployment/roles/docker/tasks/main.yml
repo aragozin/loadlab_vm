@@ -1,0 +1,20 @@
+---
+
+# TODO docker installation steps
+- name: Install pip
+  become: yes
+  package: name=python3-pip state=present
+  when: config_only == false
+
+- name: Install locust
+  become: yes
+  shell: "python3 -m pip install {{item.module}}"
+  when: config_only == false
+  with_items:
+    - module: locustio
+    - module: pquery
+
+
+#TODO add boss to docker group
+
+  
