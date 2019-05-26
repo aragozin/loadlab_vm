@@ -10,11 +10,11 @@
         enabled = 1
         gpgcheck = 1
         gpgkey = https://repos.influxdata.com/influxdb.key 
-    when: !config_only
+    when: config_only == false
 
   - name: Install Telegraf
     yum: name=telegraf state=present
-    when: !config_only
+    when: config_only == false
 
   - name: Telegraf configuration
     copy:

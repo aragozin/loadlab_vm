@@ -1,11 +1,11 @@
 ---
 - name: Install HAProxy
   package: name=haproxy state=present
-  when: !config_only
+  when: config_only == false
 
 - name: Install ncat
   package: name=nmap-ncat state=present
-  when: !config_only
+  when: config_only == false
 
 - name: Copy TLS certificate
   copy:
