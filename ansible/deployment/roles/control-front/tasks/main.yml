@@ -4,8 +4,7 @@
     path: /srv/control-front
     state: directory
     owner: boss
-  become: yes
-
+  become: yes  
 
 - name: Copy static content
   copy:
@@ -16,11 +15,13 @@
   get_url:
     url: https://github.com/yudai/gotty/releases/download/v1.0.1/gotty_linux_amd64.tar.gz
     dest: /tmp/gotty_linux_amd64.tar.gz
+  when: config_only == false
 
 - name: Uncompress gotty
   unarchive:
     src: /tmp/gotty_linux_amd64.tar.gz
     dest: /srv/control-front
+  when: config_only == false
 
 - name: Create gotty term trampoline
   copy:
@@ -57,19 +58,23 @@
       [Install]
       WantedBy=multi-user.target
   become: yes
+  when: config_only == false
 
 - name: Daemon reload
   command: systemctl daemon-reload
   become: true
+  when: config_only == false
 
 - name: Enable gotty service
   service: name=gotty state=started enabled=yes
-  become: yes  
+  become: yes
+  when: config_only == false  
 
 # disable IPv6 is messing things up 
 - name: Install nginx
   shell: apt -y install nginx | echo Ignore misconfiguration
   become: yes
+  when: config_only == false
 
 - name: Configure nginx for static site
   template: src=default.site dest=/etc/nginx/sites-enabled/default

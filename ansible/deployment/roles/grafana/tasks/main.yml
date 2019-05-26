@@ -10,9 +10,11 @@
         enabled=1
         gpgcheck=1
         gpgkey=https://packages.grafana.com/gpg.key
+    when: config_only == false
 
   - name: Install Grafana
     yum: name=grafana state=present
+    when: config_only == false
 
   - name: Configure Grafana
     copy:

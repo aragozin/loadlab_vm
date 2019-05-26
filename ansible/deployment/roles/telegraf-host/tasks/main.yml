@@ -7,14 +7,17 @@
       dest: /etc/apt/sources.list.d/influxdata.list
       content: |
         deb https://repos.influxdata.com/debian stretch stable
+    when: config_only == false
 
   - name: Add repository key
     become: true
     shell: curl -sL https://repos.influxdata.com/influxdb.key | apt-key add -    
+    when: config_only == false
 
   - name: Install Telegraf
     become: true
     apt: name=telegraf update_cache=yes
+    when: config_only == false
 
   - name: Add telegraf user to sudo
     become: true
@@ -22,6 +25,7 @@
       dest: /etc/sudoers.d/telegraf
       src: sudoers.d/telegraf
       mode: 0440
+    when: config_only == false
 
   - name: Configure telegraf
     become: true

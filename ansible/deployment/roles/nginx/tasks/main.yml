@@ -1,6 +1,7 @@
 ---
 - name: Install nginx
   yum: name=nginx state=present
+  when: config_only == false
 
 - name: Create dir for access.log
   file:
@@ -20,7 +21,7 @@
 - name: insert firewalld rule for nginx
   firewalld: port={{ nginx_port }}/tcp permanent=true state=enabled immediate=yes
   ignore_errors: yes
-  when: enabled_firewalld
+  when: enabled_firewalld and config_only == false
 
 - name: http service state
   service: name=nginx state=started enabled=yes

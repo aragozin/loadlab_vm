@@ -10,9 +10,11 @@
         enabled = 1
         gpgcheck = 1
         gpgkey = https://repos.influxdata.com/influxdb.key 
+    when: config_only == false
 
   - name: Install Influxdb
     yum: name=influxdb state=present
+    when: config_only == false
 
   - name: Influxdb configuration
     copy:

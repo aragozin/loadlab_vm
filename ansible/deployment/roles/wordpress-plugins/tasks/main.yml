@@ -3,13 +3,16 @@
   copy:
     src: Basic-Auth
     dest: /srv/wordpress/wp-content/plugins
+  when: config_only == false
 
 - name: Copy WP Super Cache
   copy:
     src: wp-super-cache
     dest: /srv/wordpress/wp-content/plugins
+  when: config_only == false
     
 - name: Copy Classic editor
   copy:
     src: classic-editor
     dest: /srv/wordpress/wp-content/plugins
+  when: config_only == false
