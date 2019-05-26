@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Нагрузочное тестирование / Стенд</title>
+</head>
+<body>
+<style>
+    body {
+        font-family: sans-serif;        
+    }
+    .head-band {
+        background-color: coral;
+        color: white;
+        text-align: center;
+        padding: 0.1em calc(50% - 10em) 0.1em calc(50% - 10em);
+        font-size: 2em;
+        margin: 0;
+    }
+    .head-band p:nth-child(1) {
+        padding: 0;       
+        font-weight: bold;
+    }
+    .head-band p:nth-child(2) {
+        margin-top: -0.8em;
+        margin-right: 3rem;
+        text-align: right;
+        font-size: 0.6em;
+    }
+    .main>p {
+        font-size: 1.5em;
+        margin: 1em 0 0 0;
+        padding: 0;
+        text-align: left;
+    }
+    .main>div {
+        display: flex;
+    }
+    .main>div>div:nth-child(1) {
+        flex-basis: 30%;        
+    }
+    .main>div>div:nth-child(2) {
+        flex-basis: 70%;        
+    }
+    .control-panel {
+        padding: 1em;
+        font-size: 1.2em;
+    }
+    .term-view {
+        margin-top: 2em;
+        border: 1px solid #000;
+        padding: 0.5em;
+        background-color: black;
+        height: 44em;        
+    }
+    .term-view p {
+        color: aquamarine;
+        font-size: 1.2em;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .term-view div {
+        transform: scale(0.75);
+        transform-origin: 0 0;
+        width: 133%;
+        height: 133%;
+    }
+    .term-view iframe {
+        border: none;        
+    }
+    span.cmd {
+ 
+        color: darkblue;
+    }
+    button.ssh-btn {
+        display: inline-block;
+        font-size: 0.6em;        
+        margin-left: 0.5em;
+        padding: 0.2em 0.3em 0.2em 0.22em;
+        color: white;
+        background-color: black;
+        border: 1px solid black;
+        border-radius: 0.2em;
+        vertical-align: text-bottom;
+    }
+    button.ssh-btn:hover {
+        color: aquamarine;
+        border: 1px solid aquamarine;
+    }
+    button.btn-start {
+        background-color: crimson;
+        border: 1px solid crimson;
+    }
+    button.btn-start:hover {
+        color: black;
+        border: 1px solid black;
+    }
+    button.btn-stop {
+        background-color: darkgreen;
+        border: 1px solid darkgreen;
+    }
+    button.btn-stop:hover {
+        color: black;
+        border: 1px solid black;
+    }
+    .control-panel li {
+        list-style-type: none;
+        margin-left: 0.6em;
+        font-size: 0.8em;
+    }
+    .control-panel p {
+        margin: 1em 0 0 0;
+        font-weight: bold;
+    }
+    .control-panel code {
+        display: inline-block;
+        font-size: 0.9em;
+        background-color: azure;
+        border: solid 0.5px darkblue;
+        padding: 0.15em;
+        border-radius: 0.2em;
+        margin-right: -0.5em;    
+        vertical-align: text-bottom;
+    }
+    
+</style>
+<div id="content_root">
+    <div class="head-band">
+        <p>Нагрузочное тестирование с нуля</p>
+        <p>Алексей Рагозин, Вячеслав Смирнов</p>
+    </div>
+    <div class="main">
+        <p>Консоль лабораторного стенда</p>
+        <div>
+            <div class="control-panel">
+                <div>
+                    <p>Хост</p>
+                    <li><span class="cmd" data-script="bash">bash</span></li>
+                    <li><span class="cmd" data-script="lxc list">lxc list</span></li>
+                    <li><span class="cmd" data-script="top">top</span></li>
+                </div>
+                <div>
+                    <p>loadbalancer<span class="stop-start" data-target="loadbalancer"/></p>
+                    <li><span class="cmd" data-script="lxc exec loadbalancer bash">bash</span></li>
+                    <li><span class="cmd" data-script="lxc exec loadbalancer top">top</span></li>
+                    <li>
+                        <code>show stat</code>
+                        <span class="cmd" 
+                              data-script="lxc exec loadbalancer /usr/local/sbin/hacmd 'show stat' | cut -d ',' -f 1,2,5,6,8,9,10,18 | column -s, -t"
+                              data-script-btn="HAProxy"></span>                        
+                    </li>
+                    <li>
+                        <code>show info</code>
+                        <span class="cmd" 
+                              data-script="lxc exec loadbalancer /usr/local/sbin/hacmd 'show info'"
+                              data-script-btn="HAProxy"></span>                        
+                    </li>
+                    <li>
+                        <code>enable server wp/web1</code>
+                        <span class="cmd" 
+                              data-script="lxc exec loadbalancer /usr/local/sbin/hacmd 'enable server wp/web1'"
+                              data-script-btn="HAProxy"></span>                        
+                    </li>
+                    <li>
+                        <code>disable server wp/web1</code>
+                        <span class="cmd" 
+                              data-script="lxc exec loadbalancer /usr/local/sbin/hacmd 'disable server wp/web1'"
+                              data-script-btn="HAProxy"></span>                        
+                    </li>
+                    <li>
+                        <code>enable server wp/web2</code>
+                        <span class="cmd" 
+                              data-script="lxc exec loadbalancer /usr/local/sbin/hacmd 'enable server wp/web2'"
+                              data-script-btn="HAProxy"></span>                        
+                    </li>
+                    <li>
+                        <code>disable server wp/web2</code>
+                        <span class="cmd" 
+                              data-script="lxc exec loadbalancer /usr/local/sbin/hacmd 'disable server wp/web2'"
+                              data-script-btn="HAProxy"></span>                        
+                    </li>
+                </div>
+                <div>
+                    <p>web1<span class="stop-start" data-target="web1"/></p>
+                    <li><span class="cmd" data-script="lxc exec web1 bash">bash</span></li>
+                    <li><span class="cmd" data-script="lxc exec web1 top">top</span></li>
+                    <li>
+                        <code>tail -f /var/log/wordpress/access.log</code>
+                        <span class="cmd" 
+                              data-script="lxc exec web1 -- tail -f /var/log/wordpress/access.log"></span>                        
+                    </li>
+                </div>
+                <div>
+                    <p>web2<span class="stop-start" data-target="web2"/></p>
+                    <li><span class="cmd" data-script="lxc exec web2 bash">bash</span></li>
+                    <li><span class="cmd" data-script="lxc exec web2 top">top</span></li>
+                    <li>
+                        <code>tail -f /var/log/wordpress/access.log</code>
+                        <span class="cmd" 
+                              data-script="lxc exec web2 -- tail -f /var/log/wordpress/access.log"></span>                        
+                    </li>
+                </div>
+                <div>
+                    <p>database<span class="stop-start" data-target="database"/></p>
+                    <li><span class="cmd" data-script="lxc exec database bash">bash</span></li>
+                    <li><span class="cmd" data-script="lxc exec database top">top</span></li>
+                    <li><span class="cmd" data-script="lxc exec database mysql" data-script-btn="SQL">mysql</span></li>
+                    <li>
+                        <code>SHOW FULL PROCESSLIST</code>
+                        <span class="cmd" 
+                              data-script="lxc exec database -- mysql -e 'SHOW FULL PROCESSLIST'" data-script-btn="SQL"></span>                        
+                    </li>
+                    <li>
+                        <code>SHOW VARIABLES LIKE &quot;%query_cache%&quot;</code>
+                        <span class="cmd" 
+                              data-script="lxc exec database -- mysql -e 'SHOW VARIABLES LIKE &quot;%query_cache%&quot;'" data-script-btn="SQL"></span>                        
+                    </li>
+                    <li>
+                        <code>SET GLOBAL query_cache_size=0</code>
+                        <span class="cmd" 
+                              data-script="lxc exec database -- mysql -e 'SET GLOBAL query_cache_size=0'" data-script-btn="SQL"></span>                        
+                    </li>
+                    <li>
+                        <code>SET GLOBAL query_cache_size=10240000</code>
+                        <span class="cmd" 
+                              data-script="lxc exec database -- mysql -e 'SET GLOBAL query_cache_size=10240000'" data-script-btn="SQL"></span>                        
+                    </li>
+                    <li>
+                        <code>SHOW STATUS LIKE &quot;Qcache%&quot;</code>
+                        <span class="cmd" 
+                              data-script="lxc exec database -- mysql -e 'SHOW STATUS LIKE &quot;Qcache%&quot;'" data-script-btn="SQL"></span>                        
+                    </li>
+                    <li>
+                        <code>tail -f /var/log/mysqld.log</code>
+                        <span class="cmd" 
+                              data-script="lxc exec database -- tail -f /var/log/mysqld.log"></span>                        
+                    </li>
+                </div>
+                <div>
+                    <p>metrics<span class="stop-start" data-target="metrics"/></p>
+                    <li><span class="cmd" data-script="lxc exec metrics bash">bash</span></li>
+                    <li><span class="cmd" data-script="lxc exec metrics top">top</span></li>
+                    <li><span class="cmd" data-script="lxc exec metrics influx">influx</span></li>
+                    <li><span class="cmd" data-script="lxc exec metrics -- influx -execute 'show databases'">show databases</span></li>
+                    <li><span class="cmd" data-script="lxc exec metrics -- influx -execute 'drop database telegraf">drop database telegraf</span></li>
+                    <li><span class="cmd" data-script="lxc exec metrics -- influx -execute 'drop database gatlingdb'">drop database gatlingdb</span></li>
+                    <li><span class="cmd" data-script="lxc exec metrics -- influx -execute 'drop database jmeterdb'">drop database jmeterdb</span></li>
+                </div>
+            </div>
+            <div class="term-view">
+                <p id="term_cmd" style="padding: 0; margin: 0"></p>
+                <div>
+                    <iframe id="term" width="100%" height="95%" style="visibility: hidden;" src="">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        
+        function ssh_exec(cmd) {
+            console.log("SSH:", cmd);
+            document.querySelector("#term_cmd").innerText = cmd;
+            document.querySelector("#term").style.visibility = "visible";
+            var ts = Math.random();
+            var ecmd = encodeURI(btoa(cmd));
+            var uri = "http://192.168.100.145:8080/?arg=" + ecmd + "&arg=" + ts + "#";
+            document.getElementById("term").src = uri;
+        }
+        
+        document.querySelectorAll("span.cmd").forEach(function(e) {
+            var cmd=e.dataset["script"];
+            var lbl=e.dataset["scriptBtn"];
+            var btn = document.createElement("button");
+            btn.classList.add("ssh-btn");            
+            btn.innerText=lbl ? lbl : "TERM";
+            btn.onclick = function() {
+                ssh_exec(cmd);
+            }
+            e.append(btn);
+        })
+
+        document.querySelectorAll("span.stop-start").forEach(function(e) {
+            var node=e.dataset["target"];
+            var bstop = document.createElement("button");
+            var bstart = document.createElement("button");
+            bstart.classList.add("ssh-btn");
+            bstart.classList.add("btn-start");
+            bstart.innerText="start";
+            bstart.onclick = function() {
+                ssh_exec("lxc start " + node);
+            }
+            bstop.classList.add("ssh-btn");
+            bstop.classList.add("btn-stop");
+            bstop.innerText="stop";
+            bstop.onclick = function() {
+                ssh_exec("lxc stop " + node);
+            }
+            e.append(bstart);
+            e.append(bstop);
+        })
+
+        function process_commmand() {
+            var href = window.location.href;
+            if (href.indexOf("?") >= 0) {
+                var cmd = decodeURI(href.substr(href.indexOf("=") + 1));
+                var uri = href.substr(0, href.indexOf("?"));
+                history.replaceState('', '', uri);
+                ssh_exec(cmd);
+            }
+        };
+        
+        process_commmand();
+        
+    </script>
+</div>
+</body>
+</html>

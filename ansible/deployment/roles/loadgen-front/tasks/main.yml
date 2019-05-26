@@ -1,0 +1,6 @@
+---
+
+- name: Copy static content
+  copy:
+    src: www
+    dest: /srv/control-front

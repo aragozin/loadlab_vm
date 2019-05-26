@@ -6,4 +6,6 @@
   roles:
     - masterhost-setup
     - loadgen-setup
+    - control-front
+    - loadgen-front
 

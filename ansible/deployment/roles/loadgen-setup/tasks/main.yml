@@ -4,6 +4,7 @@
   command: ssh-keygen -q -t rsa -f /home/boss/.ssh/id_rsa -C "" -N ""
   args:
     creates: /home/boss/.ssh/id_rsa
+  when: config_only == false
 
 - name: Configure known_host check
   copy:
@@ -11,31 +12,40 @@
     content: |
       Host *
         StrictHostKeyChecking no
+  when: config_only == false
 
 - name: Install sshpass
   become: yes
   package: name=sshpass state=present
+  when: config_only == false
 
 - name: Push ssh key - loadbalancer @ 192.168.100.140
-  include: push_ssh_key_root.yml remote_name=loadbalancer      remote_addr=192.168.100.140      
+  include: push_ssh_key_root.yml remote_name=loadbalancer      remote_addr=192.168.100.140
+  when: config_only == false
 
 - name: Push ssh key - web1 @ 192.168.100.141
   include: push_ssh_key_root.yml remote_name=web1              remote_addr=192.168.100.141      
+  when: config_only == false
 
 - name: Push ssh key - web2 @ 192.168.100.142
   include: push_ssh_key_root.yml remote_name=web2              remote_addr=192.168.100.142      
+  when: config_only == false
 
 - name: Push ssh key - database @ 192.168.100.143
   include: push_ssh_key_root.yml remote_name=database          remote_addr=192.168.100.143      
+  when: config_only == false
 
 - name: Push ssh key - metrics @ 192.168.100.144
   include: push_ssh_key_root.yml remote_name=metrics           remote_addr=192.168.100.144      
+  when: config_only == false
 
 - name: Push ssh key - loadlab @ 192.168.100.145
   include: push_ssh_key_boss.yml remote_name=loadlab           remote_addr=192.168.100.145
+  when: config_only == false
 
 - name: Create authorized_keys on host
   authorized_key:
     user: boss
     state: present
     key: "{{ lookup('file', '/home/boss/.ssh/id_rsa.pub') }}"
+  when: config_only == false

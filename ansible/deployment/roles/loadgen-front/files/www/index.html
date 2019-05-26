@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Нагрузочное тестирование / Стенд</title>
+</head>
+<body>
+<style>
+    body {
+        font-family: sans-serif;        
+    }
+    .head-band {
+        background-color: coral;
+        color: white;
+        text-align: center;
+        padding: 0.1em calc(50% - 10em) 0.1em calc(50% - 10em);
+        font-size: 2em;
+        margin: 0;
+    }
+    .head-band p:nth-child(1) {
+        padding: 0;       
+        font-weight: bold;
+    }
+    .head-band p:nth-child(2) {
+        margin-top: -0.8em;
+        margin-right: 3rem;
+        text-align: right;
+        font-size: 0.6em;
+    }
+    .main>div {
+        max-width: 750px;
+        margin: 0 auto 0 auto;
+    }
+    h3>b {
+        display: inline-block;
+        font-size: 0.8em;
+        color: #888;
+        font-weight: bolder;
+        padding-left: 1em;
+    }
+    h3 {
+        margin-top: 1.5em;
+        margin-bottom: 0;
+    }
+    h3>a {
+        display: inline-block;
+        color: coral;
+        font-weight: bolder;
+    }
+    p.ssh {
+        margin-top: 0.2em;
+        margin-bottom: -0.6em;
+        font-family: monospace;
+        color: gray;
+    }
+    
+</style>
+<div id="content_root">
+    <div class="head-band">
+        <p>Нагрузочное тестирование с нуля</p>
+        <p>Алексей Рагозин, Вячеслав Смирнов</p>
+    </div>
+    <div class="main">
+        <div>
+            <h1>Состав тестового стенда</h1>
+            <h3><a href="http://wp.loadlab.ragozin.info">wp.loadlab.ragozin.info</a> <b>[192.168.100.140]</b></h3>
+            <p class="ssh">SSH root/toor</p>
+            <p>HAProxy loadbalancer (<a href="http://wp.loadlab.ragozin.info:1936">stat page</a>)</p>
+            <h3><a href="http://web1.loadlab.ragozin.info">web1.loadlab.ragozin.info</a> <b>[192.168.100.141]</b></h3>
+            <p class="ssh">SSH root/toor</p>
+            <p>WordPress #1 (<a href="http://web1.loadlab.ragozin.info/nginx_status">nginx status</a>)</p>
+            <h3><a href="http://web2.loadlab.ragozin.info">web2.loadlab.ragozin.info</a> <b>[192.168.100.142]</b></h3>
+            <p class="ssh">SSH root/toor</p>
+            <p>WordPress #2 (<a href="http://web2.loadlab.ragozin.info/nginx_status">nginx status</a>)</p>
+            <h3><a href1="http://database.loadlab.ragozin.info">database.loadlab.ragozin.info</a> <b>[192.168.100.143]</b></h3>
+            <p class="ssh">SSH root/toor</p>
+            <p>Maria DB</p>
+            <h3><a href1="http://metrics.loadlab.ragozin.info">metrics.loadlab.ragozin.info</a> <b>[192.168.100.144]</b></h3>
+            <p class="ssh">SSH root/toor</p>
+            <p>InfluxDb<br/><a href="http://192.168.100.144:3000/">Grafana</a></p>
+            <h3><a href="http://loadlab.ragozin.info">loadlab.ragozin.info</a> <b>[192.168.100.145]</b></h3>
+            <p class="ssh">SSH boss/boss</p>
+            <p>VirtualBox VM - container host (<a href="term.html?cmd=top">show top</a>)</p>
+            <p><a href="term.html">Консоль управления</a></p>
+            <p><a href="setup.html">Консоль развёртывания</a></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
