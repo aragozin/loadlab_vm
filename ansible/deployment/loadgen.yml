@@ -8,4 +8,5 @@
     - loadgen-setup
     - control-front
     - loadgen-front
+    - locust
 
