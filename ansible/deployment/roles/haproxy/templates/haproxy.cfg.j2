@@ -80,8 +80,8 @@ frontend  main
 #---------------------------------------------------------------------
 backend wp
     balance     roundrobin
-    server  web1 192.168.100.141:80 check
-    server  web2 192.168.100.142:80 check disabled
+    server  web1 192.168.100.141:80 check maxconn 50
+    server  web2 192.168.100.142:80 check maxconn 50 disabled
 
 listen stats :1936
     mode http
