@@ -173,6 +173,11 @@
 ">show limits metrics</span></li>
                 <p>reconfigutration</p>
                 <li>
+                    reset config for all nodes
+                    <span class="cmd" 
+                          data-script="cd /home/boss/setup/ansible/deployment && git pull && ansible-playbook -K -i loadlab.hosts --extra-vars &quot;config_only=true&quot; loadlab.yml"></span>                        
+                </li>
+                <li>
                     reset config on matserhost
                     <span class="cmd" 
                           data-script="cd /home/boss/setup/ansible/deployment && git pull && ansible-playbook -K -i loadlab.hosts -l masterhost --extra-vars &quot;config_only=true&quot; loadlab.yml"></span>                        
@@ -196,7 +201,12 @@
                     reset config on metrics
                     <span class="cmd" 
                           data-script="cd /home/boss/setup/ansible/deployment && git pull && ansible-playbook -i loadlab.hosts -l metrics --extra-vars &quot;config_only=true&quot; loadlab.yml"></span>                        
-                </li>                
+                </li>             
+                <li>
+                    reset config on loadbalancer + web
+                    <span class="cmd" 
+                          data-script="cd /home/boss/setup/ansible/deployment && git pull && ansible-playbook -i loadlab.hosts -l loadbalancer,web --extra-vars &quot;config_only=true&quot; loadlab.yml"></span>                        
+                </li>
                 <p>rebuild</p>
                 <li>
                     rebuild matserhost

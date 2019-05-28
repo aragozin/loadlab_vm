@@ -55,7 +55,7 @@ defaults
     timeout server          30s
     timeout http-keep-alive 10s
     timeout check           30s
-    maxconn                 500
+    maxconn                 100
 
 #---------------------------------------------------------------------
 # main frontend which proxys to the backends
@@ -80,8 +80,8 @@ frontend  main
 #---------------------------------------------------------------------
 backend wp
     balance     roundrobin
-    server  web1 192.168.100.141:80 check maxconn 10
-    server  web2 192.168.100.142:80 check maxconn 10 disabled
+    server  web1 192.168.100.141:80 check maxconn 20
+    server  web2 192.168.100.142:80 check maxconn 20 disabled
 
 listen stats :1936
     mode http
