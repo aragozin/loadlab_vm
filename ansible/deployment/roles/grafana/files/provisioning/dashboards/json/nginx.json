@@ -96,6 +96,13 @@
         {
           "alias": "Median",
           "color": "#56A64B"
+        },
+        {
+          "alias": "Mean",
+          "bars": false,
+          "color": "#C4162A",
+          "lines": true,
+          "linewidth": 4
         }
       ],
       "spaceLength": 10,
@@ -309,6 +316,57 @@
               "value": "/^$host$/"
             }
           ]
+        },
+        {
+          "alias": "Mean",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "host"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "nginx_access_log",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT percentile(\"request_time\" * 1000, 95) FROM \"nginx_access_log\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
+          "rawQuery": false,
+          "refId": "E",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "request_time"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "host",
+              "operator": "=~",
+              "value": "/^$host$/"
+            }
+          ]
         }
       ],
       "thresholds": [],
@@ -405,7 +463,7 @@
           "groupBy": [
             {
               "params": [
-                "30s"
+                "$__interval"
               ],
               "type": "time"
             },
@@ -436,10 +494,14 @@
                 "type": "count"
               },
               {
+                "params": [],
+                "type": "cumulative_sum"
+              },
+              {
                 "params": [
-                  " / 30"
+                  "1s"
                 ],
-                "type": "math"
+                "type": "non_negative_derivative"
               }
             ]
           ],
@@ -473,7 +535,7 @@
       },
       "yaxes": [
         {
-          "format": "none",
+          "format": "ops",
           "label": null,
           "logBase": 1,
           "max": null,
