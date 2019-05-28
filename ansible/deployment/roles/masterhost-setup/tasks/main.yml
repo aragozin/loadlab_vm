@@ -29,7 +29,7 @@
   package: name=httperf state=present
   when: config_only == false
 
-- name: Install chronyd
+- name: Install chrony
   become: yes
-  package: name=chronyd state=present
+  package: name=chrony state=present
   when: config_only == false
