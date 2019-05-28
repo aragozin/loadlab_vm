@@ -16,9 +16,30 @@
   "editable": true,
   "gnetId": 5063,
   "graphTooltip": 0,
-  "iteration": 1558920604180,
+  "iteration": 1559035017901,
   "links": [],
   "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 13,
+      "panels": [],
+      "repeat": "host",
+      "scopedVars": {
+        "host": {
+          "selected": true,
+          "text": "web1",
+          "value": "web1"
+        }
+      },
+      "title": "Nginx $host",
+      "type": "row"
+    },
     {
       "aliasColors": {},
       "bars": true,
@@ -30,7 +51,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 0
+        "y": 1
       },
       "id": 41,
       "interval": "30s",
@@ -52,13 +73,37 @@
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [],
+      "scopedVars": {
+        "host": {
+          "selected": true,
+          "text": "web1",
+          "value": "web1"
+        }
+      },
+      "seriesOverrides": [
+        {
+          "alias": "Max",
+          "color": "#FF7383"
+        },
+        {
+          "alias": "P95",
+          "color": "#FFEE52"
+        },
+        {
+          "alias": "P75",
+          "color": "rgb(142, 219, 43)"
+        },
+        {
+          "alias": "Median",
+          "color": "#56A64B"
+        }
+      ],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
         {
-          "alias": "",
+          "alias": "Max",
           "groupBy": [
             {
               "params": [
@@ -96,11 +141,174 @@
               },
               {
                 "params": [],
-                "type": "last"
+                "type": "max"
               }
             ]
           ],
-          "tags": []
+          "tags": [
+            {
+              "key": "host",
+              "operator": "=~",
+              "value": "/^$host$/"
+            }
+          ]
+        },
+        {
+          "alias": "P95",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "host"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "nginx_access_log",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT percentile(\"request_time\" * 1000, 95) FROM \"nginx_access_log\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
+          "rawQuery": false,
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "request_time"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [
+                  "95"
+                ],
+                "type": "percentile"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "host",
+              "operator": "=~",
+              "value": "/^$host$/"
+            }
+          ]
+        },
+        {
+          "alias": "P75",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "host"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "nginx_access_log",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT percentile(\"request_time\" * 1000, 95) FROM \"nginx_access_log\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
+          "rawQuery": false,
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "request_time"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [
+                  "75"
+                ],
+                "type": "percentile"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "host",
+              "operator": "=~",
+              "value": "/^$host$/"
+            }
+          ]
+        },
+        {
+          "alias": "Median",
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "host"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "nginx_access_log",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT percentile(\"request_time\" * 1000, 95) FROM \"nginx_access_log\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
+          "rawQuery": false,
+          "refId": "D",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "request_time"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "median"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "host",
+              "operator": "=~",
+              "value": "/^$host$/"
+            }
+          ]
         }
       ],
       "thresholds": [],
@@ -145,27 +353,6 @@
       }
     },
     {
-      "collapsed": false,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 8
-      },
-      "id": 13,
-      "panels": [],
-      "repeat": "host",
-      "scopedVars": {
-        "host": {
-          "selected": true,
-          "text": "web1",
-          "value": "web1"
-        }
-      },
-      "title": "Nginx $host",
-      "type": "row"
-    },
-    {
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
@@ -188,7 +375,7 @@
         "hideZero": true,
         "max": false,
         "min": false,
-        "rightSide": true,
+        "rightSide": false,
         "show": true,
         "total": true,
         "values": true
@@ -218,7 +405,7 @@
           "groupBy": [
             {
               "params": [
-                "$__interval"
+                "30s"
               ],
               "type": "time"
             }
@@ -240,7 +427,13 @@
               },
               {
                 "params": [],
-                "type": "mean"
+                "type": "sum"
+              },
+              {
+                "params": [
+                  " / 30"
+                ],
+                "type": "math"
               }
             ]
           ],
@@ -264,7 +457,7 @@
           "groupBy": [
             {
               "params": [
-                "$__interval"
+                "30s"
               ],
               "type": "time"
             }
@@ -272,7 +465,7 @@
           "measurement": "nginx_access_log",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"resp_bytes\") FROM \"nginx_access_log\" WHERE (\"host\" =~ /^$host$/) AND $timeFilter GROUP BY time($__interval), \"host\", \"resp_code\" fill(null) SLIMIT 10",
+          "query": "SELECT sum(\"resp_bytes\")  * 1s / $__interval FROM \"nginx_access_log\" WHERE (\"host\" =~ /^$host$/ AND \"resp_code\" =~ /^2/) AND $timeFilter GROUP BY time($__interval)",
           "rawQuery": false,
           "refId": "B",
           "resultFormat": "time_series",
@@ -286,7 +479,13 @@
               },
               {
                 "params": [],
-                "type": "mean"
+                "type": "sum"
+              },
+              {
+                "params": [
+                  "/30"
+                ],
+                "type": "math"
               }
             ]
           ],
@@ -310,7 +509,7 @@
           "groupBy": [
             {
               "params": [
-                "$__interval"
+                "30s"
               ],
               "type": "time"
             }
@@ -332,7 +531,13 @@
               },
               {
                 "params": [],
-                "type": "mean"
+                "type": "sum"
+              },
+              {
+                "params": [
+                  " / 30"
+                ],
+                "type": "math"
               }
             ]
           ],
@@ -356,7 +561,7 @@
           "groupBy": [
             {
               "params": [
-                "$__interval"
+                "30s"
               ],
               "type": "time"
             }
@@ -378,7 +583,13 @@
               },
               {
                 "params": [],
-                "type": "mean"
+                "type": "sum"
+              },
+              {
+                "params": [
+                  " / 30"
+                ],
+                "type": "math"
               }
             ]
           ],
@@ -402,7 +613,7 @@
           "groupBy": [
             {
               "params": [
-                "$__interval"
+                "30s"
               ],
               "type": "time"
             }
@@ -424,7 +635,13 @@
               },
               {
                 "params": [],
-                "type": "mean"
+                "type": "sum"
+              },
+              {
+                "params": [
+                  " / 30"
+                ],
+                "type": "math"
               }
             ]
           ],
@@ -448,7 +665,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "HTTP",
+      "title": "HTTP Response Trafic",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -464,7 +681,7 @@
       },
       "yaxes": [
         {
-          "format": "decbytes",
+          "format": "Bps",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -501,16 +718,16 @@
       "id": 32,
       "interval": "30s",
       "legend": {
-        "alignAsTable": true,
-        "avg": true,
+        "alignAsTable": false,
+        "avg": false,
         "current": true,
         "hideEmpty": true,
         "hideZero": true,
         "max": false,
         "min": false,
-        "rightSide": true,
+        "rightSide": false,
         "show": true,
-        "total": true,
+        "total": false,
         "values": true
       },
       "lines": true,
@@ -538,7 +755,7 @@
           "groupBy": [
             {
               "params": [
-                "$__interval"
+                "30s"
               ],
               "type": "time"
             },
@@ -567,6 +784,12 @@
               {
                 "params": [],
                 "type": "count"
+              },
+              {
+                "params": [
+                  " / 30"
+                ],
+                "type": "math"
               }
             ]
           ],
@@ -922,10 +1145,10 @@
         "x": 0,
         "y": 35
       },
-      "id": 33,
+      "id": 42,
       "panels": [],
       "repeat": null,
-      "repeatIteration": 1558920604180,
+      "repeatIteration": 1559035017901,
       "repeatPanelId": 13,
       "scopedVars": {
         "host": {
@@ -939,42 +1162,39 @@
     },
     {
       "aliasColors": {},
-      "bars": false,
+      "bars": true,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "$datasource",
+      "datasource": "influxdb-telegraf",
       "fill": 1,
       "gridPos": {
-        "h": 9,
+        "h": 8,
         "w": 24,
         "x": 0,
         "y": 36
       },
-      "id": 34,
-      "interval": "10s",
+      "id": 43,
+      "interval": "30s",
       "legend": {
-        "alignAsTable": true,
-        "avg": true,
-        "current": true,
-        "hideEmpty": true,
-        "hideZero": true,
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
         "max": false,
         "min": false,
-        "rightSide": true,
         "show": true,
-        "total": true,
-        "values": true
+        "total": false,
+        "values": false
       },
-      "lines": true,
+      "lines": false,
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
       "percentage": false,
-      "pointradius": 5,
+      "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "repeatIteration": 1558920604180,
-      "repeatPanelId": 31,
+      "repeatIteration": 1559035017901,
+      "repeatPanelId": 41,
       "repeatedByRow": true,
       "scopedVars": {
         "host": {
@@ -983,25 +1203,54 @@
           "value": "web2"
         }
       },
-      "seriesOverrides": [],
+      "seriesOverrides": [
+        {
+          "alias": "Max",
+          "color": "#FF7383"
+        },
+        {
+          "alias": "P95",
+          "color": "#FFEE52"
+        },
+        {
+          "alias": "P75",
+          "color": "rgb(142, 219, 43)"
+        },
+        {
+          "alias": "Median",
+          "color": "#56A64B"
+        }
+      ],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
         {
-          "alias": "HTTP 1xx",
+          "alias": "Max",
           "groupBy": [
             {
               "params": [
                 "$__interval"
               ],
               "type": "time"
+            },
+            {
+              "params": [
+                "host"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
             }
           ],
           "measurement": "nginx_access_log",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"resp_bytes\") FROM \"nginx_access_log\" WHERE (\"host\" =~ /^$host$/) AND $timeFilter GROUP BY time($__interval), \"host\", \"resp_code\" fill(null) SLIMIT 10",
+          "query": "SELECT percentile(\"request_time\" * 1000, 95) FROM \"nginx_access_log\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
           "rawQuery": false,
           "refId": "A",
           "resultFormat": "time_series",
@@ -1009,45 +1258,50 @@
             [
               {
                 "params": [
-                  "resp_bytes"
+                  "request_time"
                 ],
                 "type": "field"
               },
               {
                 "params": [],
-                "type": "mean"
+                "type": "max"
               }
             ]
           ],
-          "slimit": "",
           "tags": [
             {
               "key": "host",
               "operator": "=~",
               "value": "/^$host$/"
-            },
-            {
-              "condition": "AND",
-              "key": "resp_code",
-              "operator": "=~",
-              "value": "/^1/"
             }
           ]
         },
         {
-          "alias": "HTTP  2xx",
+          "alias": "P95",
           "groupBy": [
             {
               "params": [
                 "$__interval"
               ],
               "type": "time"
+            },
+            {
+              "params": [
+                "host"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
             }
           ],
           "measurement": "nginx_access_log",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"resp_bytes\") FROM \"nginx_access_log\" WHERE (\"host\" =~ /^$host$/) AND $timeFilter GROUP BY time($__interval), \"host\", \"resp_code\" fill(null) SLIMIT 10",
+          "query": "SELECT percentile(\"request_time\" * 1000, 95) FROM \"nginx_access_log\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
           "rawQuery": false,
           "refId": "B",
           "resultFormat": "time_series",
@@ -1055,45 +1309,52 @@
             [
               {
                 "params": [
-                  "resp_bytes"
+                  "request_time"
                 ],
                 "type": "field"
               },
               {
-                "params": [],
-                "type": "mean"
+                "params": [
+                  "95"
+                ],
+                "type": "percentile"
               }
             ]
           ],
-          "slimit": "",
           "tags": [
             {
               "key": "host",
               "operator": "=~",
               "value": "/^$host$/"
-            },
-            {
-              "condition": "AND",
-              "key": "resp_code",
-              "operator": "=~",
-              "value": "/^2/"
             }
           ]
         },
         {
-          "alias": "HTTP  3xx",
+          "alias": "P75",
           "groupBy": [
             {
               "params": [
                 "$__interval"
               ],
               "type": "time"
+            },
+            {
+              "params": [
+                "host"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
             }
           ],
           "measurement": "nginx_access_log",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"resp_bytes\") FROM \"nginx_access_log\" WHERE (\"host\" =~ /^$host$/) AND $timeFilter GROUP BY time($__interval), \"host\", \"resp_code\" fill(null) SLIMIT 10",
+          "query": "SELECT percentile(\"request_time\" * 1000, 95) FROM \"nginx_access_log\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
           "rawQuery": false,
           "refId": "C",
           "resultFormat": "time_series",
@@ -1101,45 +1362,52 @@
             [
               {
                 "params": [
-                  "resp_bytes"
+                  "request_time"
                 ],
                 "type": "field"
               },
               {
-                "params": [],
-                "type": "mean"
+                "params": [
+                  "75"
+                ],
+                "type": "percentile"
               }
             ]
           ],
-          "slimit": "",
           "tags": [
             {
               "key": "host",
               "operator": "=~",
               "value": "/^$host$/"
-            },
-            {
-              "condition": "AND",
-              "key": "resp_code",
-              "operator": "=~",
-              "value": "/^3/"
             }
           ]
         },
         {
-          "alias": "HTTP  4xx",
+          "alias": "Median",
           "groupBy": [
             {
               "params": [
                 "$__interval"
               ],
               "type": "time"
+            },
+            {
+              "params": [
+                "host"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
             }
           ],
           "measurement": "nginx_access_log",
           "orderByTime": "ASC",
           "policy": "default",
-          "query": "SELECT mean(\"resp_bytes\") FROM \"nginx_access_log\" WHERE (\"host\" =~ /^$host$/) AND $timeFilter GROUP BY time($__interval), \"host\", \"resp_code\" fill(null) SLIMIT 10",
+          "query": "SELECT percentile(\"request_time\" * 1000, 95) FROM \"nginx_access_log\" WHERE $timeFilter GROUP BY time($__interval) fill(null)",
           "rawQuery": false,
           "refId": "D",
           "resultFormat": "time_series",
@@ -1147,74 +1415,21 @@
             [
               {
                 "params": [
-                  "resp_bytes"
+                  "request_time"
                 ],
                 "type": "field"
               },
               {
                 "params": [],
-                "type": "mean"
+                "type": "median"
               }
             ]
           ],
-          "slimit": "",
           "tags": [
             {
               "key": "host",
               "operator": "=~",
               "value": "/^$host$/"
-            },
-            {
-              "condition": "AND",
-              "key": "resp_code",
-              "operator": "=~",
-              "value": "/^4/"
-            }
-          ]
-        },
-        {
-          "alias": "HTTP  5xx",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            }
-          ],
-          "measurement": "nginx_access_log",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT mean(\"resp_bytes\") FROM \"nginx_access_log\" WHERE (\"host\" =~ /^$host$/) AND $timeFilter GROUP BY time($__interval), \"host\", \"resp_code\" fill(null) SLIMIT 10",
-          "rawQuery": false,
-          "refId": "E",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "resp_bytes"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              }
-            ]
-          ],
-          "slimit": "",
-          "tags": [
-            {
-              "key": "host",
-              "operator": "=~",
-              "value": "/^$host$/"
-            },
-            {
-              "condition": "AND",
-              "key": "resp_code",
-              "operator": "=~",
-              "value": "/^5/"
             }
           ]
         }
@@ -1223,7 +1438,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "HTTP",
+      "title": "Response time",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1239,7 +1454,7 @@
       },
       "yaxes": [
         {
-          "format": "decbytes",
+          "format": "s",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -1271,10 +1486,10 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 45
+        "y": 44
       },
-      "id": 35,
-      "interval": "10s",
+      "id": 44,
+      "interval": "30s",
       "legend": {
         "alignAsTable": true,
         "avg": true,
@@ -1283,7 +1498,7 @@
         "hideZero": true,
         "max": false,
         "min": false,
-        "rightSide": true,
+        "rightSide": false,
         "show": true,
         "total": true,
         "values": true
@@ -1296,7 +1511,360 @@
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "repeatIteration": 1558920604180,
+      "repeatIteration": 1559035017901,
+      "repeatPanelId": 31,
+      "repeatedByRow": true,
+      "scopedVars": {
+        "host": {
+          "selected": true,
+          "text": "web2",
+          "value": "web2"
+        }
+      },
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "HTTP 1xx",
+          "groupBy": [
+            {
+              "params": [
+                "30s"
+              ],
+              "type": "time"
+            }
+          ],
+          "measurement": "nginx_access_log",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT mean(\"resp_bytes\") FROM \"nginx_access_log\" WHERE (\"host\" =~ /^$host$/) AND $timeFilter GROUP BY time($__interval), \"host\", \"resp_code\" fill(null) SLIMIT 10",
+          "rawQuery": false,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "resp_bytes"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "sum"
+              },
+              {
+                "params": [
+                  " / 30"
+                ],
+                "type": "math"
+              }
+            ]
+          ],
+          "slimit": "",
+          "tags": [
+            {
+              "key": "host",
+              "operator": "=~",
+              "value": "/^$host$/"
+            },
+            {
+              "condition": "AND",
+              "key": "resp_code",
+              "operator": "=~",
+              "value": "/^1/"
+            }
+          ]
+        },
+        {
+          "alias": "HTTP  2xx",
+          "groupBy": [
+            {
+              "params": [
+                "30s"
+              ],
+              "type": "time"
+            }
+          ],
+          "measurement": "nginx_access_log",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT sum(\"resp_bytes\")  * 1s / $__interval FROM \"nginx_access_log\" WHERE (\"host\" =~ /^$host$/ AND \"resp_code\" =~ /^2/) AND $timeFilter GROUP BY time($__interval)",
+          "rawQuery": false,
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "resp_bytes"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "sum"
+              },
+              {
+                "params": [
+                  "/30"
+                ],
+                "type": "math"
+              }
+            ]
+          ],
+          "slimit": "",
+          "tags": [
+            {
+              "key": "host",
+              "operator": "=~",
+              "value": "/^$host$/"
+            },
+            {
+              "condition": "AND",
+              "key": "resp_code",
+              "operator": "=~",
+              "value": "/^2/"
+            }
+          ]
+        },
+        {
+          "alias": "HTTP  3xx",
+          "groupBy": [
+            {
+              "params": [
+                "30s"
+              ],
+              "type": "time"
+            }
+          ],
+          "measurement": "nginx_access_log",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT mean(\"resp_bytes\") FROM \"nginx_access_log\" WHERE (\"host\" =~ /^$host$/) AND $timeFilter GROUP BY time($__interval), \"host\", \"resp_code\" fill(null) SLIMIT 10",
+          "rawQuery": false,
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "resp_bytes"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "sum"
+              },
+              {
+                "params": [
+                  " / 30"
+                ],
+                "type": "math"
+              }
+            ]
+          ],
+          "slimit": "",
+          "tags": [
+            {
+              "key": "host",
+              "operator": "=~",
+              "value": "/^$host$/"
+            },
+            {
+              "condition": "AND",
+              "key": "resp_code",
+              "operator": "=~",
+              "value": "/^3/"
+            }
+          ]
+        },
+        {
+          "alias": "HTTP  4xx",
+          "groupBy": [
+            {
+              "params": [
+                "30s"
+              ],
+              "type": "time"
+            }
+          ],
+          "measurement": "nginx_access_log",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT mean(\"resp_bytes\") FROM \"nginx_access_log\" WHERE (\"host\" =~ /^$host$/) AND $timeFilter GROUP BY time($__interval), \"host\", \"resp_code\" fill(null) SLIMIT 10",
+          "rawQuery": false,
+          "refId": "D",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "resp_bytes"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "sum"
+              },
+              {
+                "params": [
+                  " / 30"
+                ],
+                "type": "math"
+              }
+            ]
+          ],
+          "slimit": "",
+          "tags": [
+            {
+              "key": "host",
+              "operator": "=~",
+              "value": "/^$host$/"
+            },
+            {
+              "condition": "AND",
+              "key": "resp_code",
+              "operator": "=~",
+              "value": "/^4/"
+            }
+          ]
+        },
+        {
+          "alias": "HTTP  5xx",
+          "groupBy": [
+            {
+              "params": [
+                "30s"
+              ],
+              "type": "time"
+            }
+          ],
+          "measurement": "nginx_access_log",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT mean(\"resp_bytes\") FROM \"nginx_access_log\" WHERE (\"host\" =~ /^$host$/) AND $timeFilter GROUP BY time($__interval), \"host\", \"resp_code\" fill(null) SLIMIT 10",
+          "rawQuery": false,
+          "refId": "E",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "resp_bytes"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "sum"
+              },
+              {
+                "params": [
+                  " / 30"
+                ],
+                "type": "math"
+              }
+            ]
+          ],
+          "slimit": "",
+          "tags": [
+            {
+              "key": "host",
+              "operator": "=~",
+              "value": "/^$host$/"
+            },
+            {
+              "condition": "AND",
+              "key": "resp_code",
+              "operator": "=~",
+              "value": "/^5/"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "HTTP Response Trafic",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "Bps",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "$datasource",
+      "fill": 1,
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 53
+      },
+      "id": 45,
+      "interval": "30s",
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": true,
+        "hideEmpty": true,
+        "hideZero": true,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "repeatIteration": 1559035017901,
       "repeatPanelId": 32,
       "repeatedByRow": true,
       "scopedVars": {
@@ -1316,7 +1884,7 @@
           "groupBy": [
             {
               "params": [
-                "$__interval"
+                "30s"
               ],
               "type": "time"
             },
@@ -1345,6 +1913,12 @@
               {
                 "params": [],
                 "type": "count"
+              },
+              {
+                "params": [
+                  " / 30"
+                ],
+                "type": "math"
               }
             ]
           ],
@@ -1413,9 +1987,10 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 54
+        "y": 62
       },
-      "id": 36,
+      "id": 46,
+      "interval": "30s",
       "isNew": true,
       "legend": {
         "alignAsTable": true,
@@ -1436,7 +2011,7 @@
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "repeatIteration": 1558920604180,
+      "repeatIteration": 1559035017901,
       "repeatPanelId": 8,
       "repeatedByRow": true,
       "scopedVars": {
@@ -1700,7 +2275,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 62
+        "y": 70
       },
       "id": 15,
       "panels": [],
@@ -1726,7 +2301,7 @@
         "h": 5,
         "w": 12,
         "x": 0,
-        "y": 63
+        "y": 71
       },
       "id": 17,
       "legend": {
@@ -1905,7 +2480,7 @@
         "h": 5,
         "w": 12,
         "x": 12,
-        "y": 63
+        "y": 71
       },
       "id": 29,
       "legend": {
@@ -2079,12 +2654,12 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 68
+        "y": 76
       },
-      "id": 37,
+      "id": 47,
       "panels": [],
       "repeat": null,
-      "repeatIteration": 1558920604180,
+      "repeatIteration": 1559035017901,
       "repeatPanelId": 15,
       "scopedVars": {
         "host": {
@@ -2107,9 +2682,9 @@
         "h": 5,
         "w": 12,
         "x": 0,
-        "y": 69
+        "y": 77
       },
-      "id": 38,
+      "id": 48,
       "legend": {
         "avg": true,
         "current": true,
@@ -2127,7 +2702,7 @@
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "repeatIteration": 1558920604180,
+      "repeatIteration": 1559035017901,
       "repeatPanelId": 17,
       "repeatedByRow": true,
       "scopedVars": {
@@ -2289,9 +2864,9 @@
         "h": 5,
         "w": 12,
         "x": 12,
-        "y": 69
+        "y": 77
       },
-      "id": 39,
+      "id": 49,
       "legend": {
         "avg": true,
         "current": true,
@@ -2309,7 +2884,7 @@
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "repeatIteration": 1558920604180,
+      "repeatIteration": 1559035017901,
       "repeatPanelId": 29,
       "repeatedByRow": true,
       "scopedVars": {
