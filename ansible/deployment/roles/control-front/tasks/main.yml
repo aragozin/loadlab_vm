@@ -19,6 +19,7 @@
 - name: Uncompress gotty
   unarchive:
     src: /tmp/gotty_linux_amd64.tar.gz
+    remote_src: yes
     dest: /srv/control-front
   when: config_only == false
 
