@@ -4,8 +4,9 @@ set -e
 
 base_path=$( cd "$(dirname "${BASH_SOURCE[0]}")/.." ; pwd -P )
 
-cd $base_path
+echo $base_path
 
+cd $base_path
 
 if [ $# -eq 0 ]
   then
