@@ -41,7 +41,7 @@
       #echo $1 | base64 -d > $CMD
       #export TERM=xterm && bash $CMD
       # SSH mode
-      ssh 192.168.100.61 "export TERM=xterm && echo $1 | base64 -d > $CMD && sh $CMD"
+      ssh -t 192.168.100.61 "export TERM=xterm && echo $1 | base64 -d > $CMD && sh $CMD"
 
 - name: Create gotty service entry
   copy:
