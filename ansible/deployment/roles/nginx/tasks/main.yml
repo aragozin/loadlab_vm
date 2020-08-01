@@ -1,6 +1,6 @@
 ---
 - name: Install nginx
-  yum: name=nginx state=present
+  package: name=nginx state=present
   when: config_only == false
 
 - name: Create dir for access.log

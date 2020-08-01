@@ -76,14 +76,13 @@
 #  become: yes
 #  when: config_only == false
 
-- name: Configure nginx for static site (mkdir)
+- name: Create dir for access.log
   file:
-    path: /etc/nginx/sites-enabled
+    path: /var/log/nginx
     state: directory
-  become: yes  
 
 - name: Configure nginx for static site
-  template: src=default.site dest=/etc/nginx/sites-enabled/default
+  template: src=default.site dest=/etc/nginx/conf.d/default.conf
   notify: restart nginx
   become: yes
 
