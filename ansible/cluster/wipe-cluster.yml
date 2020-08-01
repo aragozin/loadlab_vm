@@ -14,3 +14,4 @@
         - name: database
         - name: metrics
         - name: tools
+        - name: front
