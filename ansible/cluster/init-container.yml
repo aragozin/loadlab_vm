@@ -24,7 +24,7 @@
             type: nic
           rootfs:
             path: /
-            pool: default
+            pool: default_pool
             type: disk
         profiles: ["labnode"]
 
