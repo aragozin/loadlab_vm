@@ -13,7 +13,7 @@
               ipv6.address: none
             description: ""
             managed: false
-            name: br0
+            name: lxdbr0
             type: ""
           storage_pools: []
           profiles:
@@ -23,7 +23,7 @@
               eth0:
                 name: eth0
                 nictype: bridged
-                parent: br0
+                parent: lxdbr0
                 type: nic
             name: default
           cluster: null
