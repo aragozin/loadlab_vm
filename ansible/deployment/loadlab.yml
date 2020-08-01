@@ -45,5 +45,6 @@
   gather_facts: false
   
   roles:
+    - nginx
     - telegraf-node
     - control-front

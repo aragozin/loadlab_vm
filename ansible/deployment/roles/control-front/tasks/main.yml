@@ -3,7 +3,6 @@
   file:
     path: /srv/control-front
     state: directory
-    owner: boss
   become: yes  
 
 - name: Copy static content
@@ -51,7 +50,7 @@
 
       [Service]
       Type=simple
-      User=boss
+      User=root
       ExecStart=/srv/control-front/gotty -w --permit-arguments bash /srv/control-front/start
       Restart=on-abort
 
@@ -71,10 +70,10 @@
   when: config_only == false  
 
 # disable IPv6 is messing things up 
-- name: Install nginx
-  shell: apt -y install nginx | echo Ignore misconfiguration
-  become: yes
-  when: config_only == false
+#- name: Install nginx
+#  shell: apt -y install nginx | echo Ignore misconfiguration
+#  become: yes
+#  when: config_only == false
 
 - name: Configure nginx for static site
   template: src=default.site dest=/etc/nginx/sites-enabled/default
