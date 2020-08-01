@@ -1,2 +1,4 @@
 ﻿mkdir -p ~/.ssh && echo "Host *" > ~/.ssh/config && echo " StrictHostKeyChecking no" >> ~/.ssh/config && chmod 400 ~/.ssh/config
 sudo apt install sshpass
+
+# script assumes root on masterhost
