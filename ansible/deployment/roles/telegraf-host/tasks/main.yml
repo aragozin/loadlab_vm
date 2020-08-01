@@ -22,7 +22,7 @@
 
   - name: Install Telegraf
     become: true
-    package: name=telegraf status=installed
+    package: name=telegraf state=installed
     when: config_only == false
 
 #  - name: Add telegraf user to sudo
