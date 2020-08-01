@@ -10,7 +10,7 @@
           mode: pull
           protocol: lxd
           server: https://images.linuxcontainers.org
-          alias: centos/8/amd64
+          alias: centos/7/amd64
         devices:
           eth0:
             name: eth0
