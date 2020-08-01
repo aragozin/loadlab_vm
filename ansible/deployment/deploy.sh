@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+﻿#!/bin/sh
 
 set -e
 
@@ -9,7 +9,7 @@ cd $base_path
 
 if [ $# -eq 0 ]
   then
-    ansible-playbook -i loadlab.hosts loadlab.yml
+    ansible-playbook -i ${base_path}/loadlab.hosts ${base_path}/loadlab.yml
   else
-    ansible-playbook -i loadlab.hosts loadlab.yml -l $1
+    ansible-playbook -i ${base_path}/loadlab.hosts ${base_path}/loadlab.yml -l $1
 fi
