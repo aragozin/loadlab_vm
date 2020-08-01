@@ -5,7 +5,7 @@
   tasks:
     - name: Force kill "{{item.name}}"
       lxd_container:
-        name: {{item.name}}
+        name: "{{item.name}}"
         force_stop: yes
         state: absent
       with_items:
