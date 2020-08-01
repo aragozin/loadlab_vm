@@ -36,7 +36,7 @@
   - name: Configure telegraf
     become: true
     copy:
-      dest: /etc/telegraf/telegraf.conf
+      dest: /etc/telegraf.conf
       src: telegraf.conf
 
   - name: Deploy LXD monitoring script
