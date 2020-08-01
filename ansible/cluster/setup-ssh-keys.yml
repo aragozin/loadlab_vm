@@ -15,6 +15,7 @@
   - name: Node "{{container_name}}" - configure authorized_keys
     authorized_key:
       state: present
+      user: root
       key: "{{ lookup('file', '/home/boss/lab_data/ssh.pub') }}"
   
   - name: Node "{{container_name}}" - configure known_host check
