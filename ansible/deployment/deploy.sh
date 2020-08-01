@@ -2,7 +2,7 @@
 
 set -e
 
-base_path=$( cd "$(dirname "$0")/.." >/dev/null 2>&1 ; pwd -P )
+base_path=$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )
 
 echo $base_path
 
