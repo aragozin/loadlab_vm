@@ -39,6 +39,9 @@
       register: command_result
       changed_when: "command_result.stdout == 'Storage pool default_pool created'"
 
+    - name: Make systemd mount point (Alpine workaround)
+      shell: mkdir -p /sys/fs/cgroup/systemd; mount -t cgroup -o none,name=systemd systemd /sys/fs/cgroup/systemd
+
     - name: Create SSH key (mkdir)
       file: 
         path: /home/boss/lab_data  
