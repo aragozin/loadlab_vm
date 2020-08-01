@@ -1,0 +1,3 @@
+﻿
+https://superuser.com/questions/641933/how-to-get-virtualbox-vms-to-use-hosts-dns
+https://lunar.computer/posts/lxd-alpine/
