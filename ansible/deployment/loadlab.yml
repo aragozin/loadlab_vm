@@ -49,3 +49,9 @@
     - nginx
     - telegraf-node
     - control-front
+
+- name: Setup master host
+  hosts: masterhost
+  
+  roles:
+    - telegraf-host

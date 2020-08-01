@@ -28,6 +28,3 @@ tools
 
 [containers:vars]
 ansible_connection=lxd
-#ansible_connection=ssh
-#ansible_user=root
-#ansible_ssh_pass=toor
