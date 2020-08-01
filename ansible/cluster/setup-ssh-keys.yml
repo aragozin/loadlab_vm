@@ -1,7 +1,6 @@
 ---
 
   - name: Node "{{container_name}}" - mkdir ~\.ssh
-    delegate_to: "{{container_name}}"
     file: 
       dest: "~/.ssh"
       mode: 0700 
@@ -9,7 +8,6 @@
       state: directory
   
   - name: Node "{{container_name}}" - deploy private SSH key
-    delegate_to: "{{container_name}}"
     copy:
       dest: "~/.ssh/id_rsa"
       mode: 0600
@@ -17,14 +15,12 @@
       content: "{{ lookup('file', '/home/boss/lab_data/ssh') }}"
   
   - name: Node "{{container_name}}" - configure authorized_keys
-    delegate_to: "{{container_name}}"
     authorized_key:
       user: root
       state: present
       key: "{{ lookup('file', '/home/boss/lab_data/ssh.pub') }}"
   
   - name: Node "{{container_name}}" - configure known_host check
-    delegate_to: "{{container_name}}"
     copy:
       dest: "~/.ssh/config"
       content: |
