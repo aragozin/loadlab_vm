@@ -76,6 +76,12 @@
 #  become: yes
 #  when: config_only == false
 
+- name: Configure nginx for static site (mkdir)
+  file:
+    path: /etc/nginx/sites-enabled
+    state: directory
+  become: yes  
+
 - name: Configure nginx for static site
   template: src=default.site dest=/etc/nginx/sites-enabled/default
   notify: restart nginx
