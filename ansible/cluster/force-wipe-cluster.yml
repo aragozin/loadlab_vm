@@ -3,9 +3,10 @@
 - hosts: localhost
   connection: local
   tasks:
-    - name: Kill "{{item.name}}"
+    - name: Force kill "{{item.name}}"
       lxd_container:
         name: {{item.name}}
+        force_stop: yes
         state: absent
       with_items:
         - name: loadbalancer

@@ -1,7 +1,7 @@
 ﻿VirtualBox VM configuration
 ---------------------------
 
-Use Alpine seed image
+Use Alpine seed image TODO
 
  - CPU 1 core
  - Memory 2048 MiB
@@ -43,9 +43,9 @@ TODO configure network/bridge
 Virtual Cluster topology
 ------------------------
  
- - 192.168.100.140 - loadbalancer (web.loadlab.ragozin.info)
+ - 192.168.100.140 - loadbalancer (wp.loadlab.ragozin.info)
  - 192.168.100.141 - web1 (web1.loadlab.ragozin.info)
  - 192.168.100.142 - web1 (web2.loadlab.ragozin.info)
  - 192.168.100.143 - database
  - 192.168.100.144 - metrics
- - 192.168.100.145 - host (loadlab.ragozin.info)
+ - 192.168.100.145 - front (loadlab.ragozin.info)

@@ -40,11 +40,10 @@
     - influxdb
     - grafana
 
-- name: Install telegraf
-  hosts: masterhost
+- name: Install Web front
+  hosts: front
   gather_facts: false
   
   roles:
-    - telegraf-host
+    - telegraf-node
     - control-front
-    - masterhost-setup
