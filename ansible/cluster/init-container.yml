@@ -34,10 +34,6 @@
         ansible_connection: lxd
       changed_when: false
 
-    - name: Node "{{container_name}}" - kick dhclient
-      delegate_to: "{{container_name}}"
-      shell: "dhclient -v eth0"
-
     - name: Node "{{container_name}}" - verify IP config
       delegate_to: "{{container_name}}"
       shell: "hostname -I | grep {{lab_ip}} | wc -l"
