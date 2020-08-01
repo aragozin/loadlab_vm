@@ -25,3 +25,6 @@
     - name: Patch hosts files
       become: yes
       include: patch-hosts.yml container_name=masterhost
+
+    - name: Configure SSH on host
+      include: setup-ssh-keys.yml container_name=masterhost
