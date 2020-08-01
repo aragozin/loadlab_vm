@@ -6,24 +6,30 @@
     - name: Kill "loadbalancer"
       lxd_container:
         name: loadbalancer
+        force_stop: yes
         state: absent
     - name: Kill "web1"
       lxd_container:
         name: web1
+        force_stop: yes
         state: absent
     - name: Kill "web2"
       lxd_container:
         name: web2
+        force_stop: yes
         state: absent
     - name: Kill "database"
       lxd_container:
         name: database
+        force_stop: yes
         state: absent
     - name: Kill "metrics"
       lxd_container:
         name: metrics
+        force_stop: yes
         state: absent
     - name: Kill "tools"
       lxd_container:
         name: tools
+        force_stop: yes
         state: absent
