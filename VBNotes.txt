@@ -1,3 +1,6 @@
 ﻿
 https://superuser.com/questions/641933/how-to-get-virtualbox-vms-to-use-hosts-dns
 https://lunar.computer/posts/lxd-alpine/
+https://wiki.gentoo.org/wiki/LXD#Running_systemd_based_containers_on_OpenRC_hosts
+https://wildwolf.name/how-to-run-docker-in-alpine-container-in-lxc-lxd/
+https://github.com/lxc/lxd/issues/1911#issuecomment-357879214
