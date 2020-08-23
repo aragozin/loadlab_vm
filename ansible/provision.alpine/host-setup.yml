@@ -5,4 +5,4 @@
   gather_facts: false
   tasks:
     - name: Setup LXD
-      include: lxd-init.yml
+      include: init-lxd.yml
