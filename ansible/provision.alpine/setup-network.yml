@@ -1,6 +1,6 @@
 ---
 
-    - name: Make systemd mount point script (Alpine workaround)
+    - name: Configure network interfaces
       copy:
         dest: /etc/network/interfaces
         content: |
