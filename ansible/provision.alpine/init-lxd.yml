@@ -1,5 +1,7 @@
 - hosts: 127.0.0.1
   connection: local
+  vars_files:
+    - ../labconfig.yml
   tasks:
     - name: LXD init
       command: lxd init --preseed
@@ -40,7 +42,7 @@
       changed_when: "command_result.stdout == 'Storage pool default_pool created'"
 
     - name: Make systemd mount point (Alpine workaround)
-      shell: mkdir -p /sys/fs/cgroup/systemd; mount -t cgroup -o none,name=systemd systemd /sys/fs/cgroup/systemd
+      
 
     - name: Create SSH key (mkdir)
       file: 

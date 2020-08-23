@@ -1,0 +1,8 @@
+- hosts: 127.0.0.1
+  connection: local
+  vars_files:
+    - ../labconfig.yml
+  gather_facts: false
+  tasks:
+    - name: Setup LXD
+      include: lxd-init.yml
