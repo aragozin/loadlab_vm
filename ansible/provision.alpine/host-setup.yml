@@ -19,4 +19,4 @@
     - name: restart networking
       service:
         name: networking
-        status: restarted
+        state: restarted
