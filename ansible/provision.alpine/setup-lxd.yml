@@ -8,7 +8,9 @@
 
     - name: Install LXD related packages
       package: 
-        name: [lxd]
+        name: 
+          - lxd
+          - apparmor
         state: present
 
     - name: Enable LXD related services
@@ -45,10 +47,38 @@
           file: /etc/subuid
         - line: "root:100000:65536"
           file: /etc/subgid
+               
+    - name: Hack mkfs.ext4 - mkdirs (Alpine workaround)
+      file:
+        path: "{{lab.layout.confdir}}/sbin"
+        state: directory
+
+    - name: Hack mkfs.ext4 - link (Alpine workaround)
+      file:
+        src: /sbin/mke2fs
+        dest: "{{lab.layout.confdir}}/sbin/mkfs.ext4"
+        state: link
+
+    - name: Hack mkfs.ext4 - remove original (Alpine workaround)
+      file:
+        path: /sbin/mkfs.ext4
+        state: absent        
+
+    - name: Hack mkfs.ext4 (Alpine workaround)
+      copy:
+        dest: /usr/sbin/mkfs.ext4
+        mode: "u=rwx,g=rx,o=rx"
+        content: |
+          #!/bin/sh
+          set -e
+          # dirty hack
+          # need to change order of arguments when called by LXD
+          {{lab.layout.confdir}}/sbin/mkfs.ext4 $2 $3 $1
 
     - name: Make systemd mount point script (Alpine workaround)
       copy:
         dest: /etc/init.d/cgroups-systemd-mount
+        mode: "u=rwx,g=rx,o=rx"
         content: |
           #!/sbin/openrc-run
 
@@ -107,6 +137,6 @@
         state: present
 
     - name: LXD Host - Check default storage pool
-      shell: lxc storage create default_pool dir || exit 0
+      shell: lxc storage create default_pool lvm || exit 0
       register: command_result
       changed_when: "command_result.stdout == 'Storage pool default_pool created'"

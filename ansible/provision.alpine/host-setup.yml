@@ -15,6 +15,14 @@
     - name: Setup SSH
       include: setup-ssh.yml    
 
+    - name: Make systemd mount point script (Alpine workaround)
+      copy:
+        dest: /etc/motd
+        content: |
+          Wellcome to Lab VM
+
+          TODO Need to put something smart here
+
   handlers:
     - name: restart networking
       service:

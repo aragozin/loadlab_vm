@@ -1,5 +1,15 @@
 ---
 
+    - name: Check 'hlan' bridge
+      shell: "brctl show | grep hlan | wc -l"
+      register: bridge_present
+      changed_when: false        
+
+    - name: Create 'hlan' bridge
+      shell: "brctl addbr hlan"
+      register: bridge_present
+      when: bridge_present.stdout == "0"
+
     - name: Configure network interfaces
       copy:
         dest: /etc/network/interfaces
@@ -21,4 +31,14 @@
           	address {{lab.network.vm.ip}}
           	netmask 255.255.255.0
           	bridge_stp 0
-      notify: "restart networking"
+
+    - name: Check 'hlan' IP address
+      shell: "ip addr | grep hlan | grep {{lab.network.vm.ip}} | wc -l"
+      register: address_assigned
+      changed_when: false        
+
+    - name: Restart networking
+      service:
+        name: networking
+        state: restarted
+      when: address_assigned.stdout == "0"
