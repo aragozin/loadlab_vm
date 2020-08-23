@@ -21,5 +21,3 @@
           	address {{lab.network.vm.ip}}
           	netmask 255.255.255.0
           	bridge_stp 0
-
-        notify: "restart network"
