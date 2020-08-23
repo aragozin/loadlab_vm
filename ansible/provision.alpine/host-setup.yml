@@ -12,6 +12,9 @@
     - name: Setup LXD
       include: setup-lxd.yml    
 
+    - name: Setup SSH
+      include: setup-ssh.yml    
+
   handlers:
     - name: restart network
       service:

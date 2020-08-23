@@ -61,13 +61,3 @@
       service:
         name: cgroups-systemd-mount
         enabled: yes
-         
-    - name: Create SSH key (mkdir)
-      file: 
-        path: /home/boss/lab_data  
-        state: directory
-
-    - name: Create SSH key      
-      command: ssh-keygen -q -t rsa -f /home/boss/lab_data/ssh -C "" -N ""
-      args:
-        creates: /home/boss/lab_data/ssh

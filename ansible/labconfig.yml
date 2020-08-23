@@ -3,4 +3,8 @@ lab:
   network:
     vm:
       description: VM host for containers
-      ip: 192.168.100.62
+      ip: 192.168.100.61
+  
+  layout:
+    basedir: /opt/loadlab
+    confdir: /opt/loadlab/config    
