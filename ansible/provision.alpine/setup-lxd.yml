@@ -1,10 +1,74 @@
 ---
+    - name: Enabled EDGE repo
+      lineinfile: dest=/etc/apk/repositories line="{{item.repo}}" state=present
+      with_items:
+        - repo: "http://dl-cdn.alpinelinux.org/alpine/edge/main"
+        - repo: "http://dl-cdn.alpinelinux.org/alpine/edge/community"
+        - repo: "http://dl-cdn.alpinelinux.org/alpine/edge/testing"      
 
-    - name: Install LXD package
+    - name: Install LXD related packages
       package: 
-        name: [lxd]
+        name: [lxd, cgroups]
         state: present
 
+    - name: Enable LXD related services
+      service:
+        name: [lxd, cgroups]
+        enabled: yes
+        state: started
+
+    - name: Tweak pam
+      lineinfile: 
+        dest: /etc/pam.d/system-login 
+        line: "session optional pam_cgfs.so -c freezer,memory,name=systemd,unified"
+        state: present
+
+    - name: Tweak LXC idmaps
+      lineinfile: 
+        dest: /etc/lxc/default.conf 
+        line: "{{item.line}}"
+        state: present
+      with_items:
+        - line: "lxc.idmap = u 0 100000 65536"
+        - line: "lxc.idmap = g 0 100000 65536"
+
+    - name: Tweak subuid/subguid
+      lineinfile: 
+        dest: "{{item.file}}" 
+        line: "{{item.line}}"
+        state: present
+      with_items:
+        - line: "root:100000:65536"
+          file: /etc/subuid
+        - line: "root:100000:65536"
+          file: /etc/subgid
+
+    - name: Make systemd mount point script (Alpine workaround)
+      copy:
+        dest: /etc/init.d/cgroups-systemd-mount
+        content: |
+          #!/sbin/openrc-run
+
+          description="Mount systemd controller"
+
+          depend()
+          {
+              need sysfs cgroups    
+          }
+
+          start()
+          {
+              if [ -d /sys/fs/cgroup ]; then
+                  mkdir -p /sys/fs/cgroup/systemd
+                  mount -t cgroup -o none,name=systemd systemd /sys/fs/cgroup/systemd
+              fi
+              return 0
+          }
+
+    - name: Make systemd mount point script - enable (Alpine workaround)
+      service:
+        name: cgroups-systemd-mount
+        enabled: yes
 
     - name: LXD init
       command: lxd init --preseed
@@ -43,30 +107,3 @@
       shell: lxc storage create default_pool dir || exit 0
       register: command_result
       changed_when: "command_result.stdout == 'Storage pool default_pool created'"
-
-    - name: Make systemd mount point script (Alpine workaround)
-      copy:
-        dest: /etc/init.d/cgroups-systemd-mount
-        content: |
-          #!/sbin/openrc-run
-
-          description="Mount systemd controller"
-
-          depend()
-          {
-              need sysfs cgroups    
-          }
-
-          start()
-          {
-              if [ -d /sys/fs/cgroup ]; then
-                  mkdir -p /sys/fs/cgroup/systemd
-                  mount -t cgroup -o none,name=systemd systemd /sys/fs/cgroup/systemd
-              fi
-              return 0
-          }
-
-    - name: Make systemd mount point script - enable (Alpine workaround)
-      service:
-        name: cgroups-systemd-mount
-        enabled: yes
