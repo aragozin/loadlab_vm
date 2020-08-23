@@ -13,7 +13,7 @@
 
     - name: Enable LXD related services
       service:
-        name: {{item.service}}
+        name: "{{item.service}}"
         enabled: yes
         state: started
       with_items:
