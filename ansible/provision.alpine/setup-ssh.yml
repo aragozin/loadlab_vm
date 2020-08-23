@@ -6,6 +6,6 @@
         state: directory
 
     - name: Create SSH key      
-      command: 'ssh-keygen -q -t rsa -f {{lab.layout.confdir}}/ssh -C "" -N "'
+      command: "ssh-keygen -q -t rsa -f {{lab.layout.confdir}}/ssh -C \"\" -N \"\""
       args:
         creates: "{{lab.layout.confdir}}/ssh"
