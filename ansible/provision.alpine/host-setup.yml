@@ -16,7 +16,7 @@
       include: setup-ssh.yml    
 
   handlers:
-    - name: restart network
+    - name: restart networking
       service:
         name: networking
         status: restarted
