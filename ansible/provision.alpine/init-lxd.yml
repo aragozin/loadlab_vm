@@ -38,9 +38,30 @@
       register: command_result
       changed_when: "command_result.stdout == 'Storage pool default_pool created'"
 
-    - name: Make systemd mount point (Alpine workaround)
-      
+    - name: Make systemd mount point script (Alpine workaround)
+      copy:
+        dest: /etc/init.d/cgroups-systemd-mount
+        content: |
+          #!/sbin/openrc-run
+          description="Mount systemd controller"
+          depend()
+          {
+              need sysfs cgroups    
+          }
+          start()
+          {
+              if [ -d /sys/fs/cgroup ]; then
+                  mkdir -p /sys/fs/cgroup/systemd
+                  mount -t cgroup -o none,name=systemd systemd /sys/fs/cgroup/systemd
+              fi
+              return 0
+          }
 
+    - name: Make systemd mount point script - enable (Alpine workaround)
+      service:
+        name: cgroups-systemd-mount
+        enabled: yes
+         
     - name: Create SSH key (mkdir)
       file: 
         path: /home/boss/lab_data  
