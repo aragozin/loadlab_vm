@@ -1,5 +1,11 @@
 ---
 
+    - name: Install LXD package
+      package: 
+        name: [lxd]
+        state: present
+
+
     - name: LXD init
       command: lxd init --preseed
       args:
@@ -43,11 +49,14 @@
         dest: /etc/init.d/cgroups-systemd-mount
         content: |
           #!/sbin/openrc-run
+
           description="Mount systemd controller"
+
           depend()
           {
               need sysfs cgroups    
           }
+
           start()
           {
               if [ -d /sys/fs/cgroup ]; then
