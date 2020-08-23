@@ -1,5 +1,5 @@
 ---
-    - name: Enabled EDGE repo
+    - name: Enable "edge" repo
       lineinfile: dest=/etc/apk/repositories line="{{item.repo}}" state=present
       with_items:
         - repo: "http://dl-cdn.alpinelinux.org/alpine/edge/main"
@@ -13,9 +13,12 @@
 
     - name: Enable LXD related services
       service:
-        name: [lxd, cgroups]
+        name: {{item.service}}
         enabled: yes
         state: started
+      with_items:
+        - service: lxd
+        - service: cgroups
 
     - name: Tweak pam
       lineinfile: 
