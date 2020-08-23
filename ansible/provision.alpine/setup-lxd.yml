@@ -8,7 +8,7 @@
 
     - name: Install LXD related packages
       package: 
-        name: [lxd, cgroups]
+        name: [lxd]
         state: present
 
     - name: Enable LXD related services
