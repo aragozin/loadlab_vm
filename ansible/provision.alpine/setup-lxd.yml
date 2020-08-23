@@ -6,6 +6,11 @@
         - repo: "http://dl-cdn.alpinelinux.org/alpine/edge/community"
         - repo: "http://dl-cdn.alpinelinux.org/alpine/edge/testing"      
 
+    - name: Upgrade to the "edge"
+      apk: 
+        upgrade: yes
+
+
     - name: Install LXD related packages
       package: 
         name: 
@@ -101,6 +106,7 @@
     - name: Make systemd mount point script - enable (Alpine workaround)
       service:
         name: cgroups-systemd-mount
+        state: started
         enabled: yes
 
     - name: LXD init
