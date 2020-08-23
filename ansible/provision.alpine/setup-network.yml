@@ -1,5 +1,11 @@
 ---
 
+    - name: Install 'bridge' package
+      package: 
+        name: 
+          - bridge
+        state: present
+
     - name: Check 'hlan' bridge
       shell: "brctl show | grep hlan | wc -l"
       register: bridge_present
