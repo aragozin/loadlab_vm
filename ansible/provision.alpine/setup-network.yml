@@ -6,16 +6,6 @@
           - bridge
         state: present
 
-    - name: Check 'hlan' bridge
-      shell: "brctl show | grep hlan | wc -l"
-      register: bridge_present
-      changed_when: false        
-
-    - name: Create 'hlan' bridge
-      shell: "brctl addbr hlan"
-      register: bridge_present
-      when: bridge_present.stdout == "0"
-
     - name: Configure network interfaces
       copy:
         dest: /etc/network/interfaces
