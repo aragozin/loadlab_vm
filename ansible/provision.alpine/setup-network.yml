@@ -1,0 +1,25 @@
+---
+
+    - name: Make systemd mount point script (Alpine workaround)
+      copy:
+        dest: /etc/network/interfaces
+        content: |
+
+          auto lo
+          iface lo inet loopback
+
+          auto eth0
+          iface eth0 inet dhcp
+          	hostname boxlab
+
+          auto eth1
+          iface eth1 inet manual
+
+          auto hlan
+          iface hlan inet static
+          	bridge-ports eth1
+          	address {{lab.network.vm.ip}}
+          	netmask 255.255.255.0
+          	bridge_stp 0
+
+        notify: "restart network"
