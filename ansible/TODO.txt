@@ -5,3 +5,5 @@
 /cluster
 /lab
 /content
+  /front
+  /wordpress

@@ -10,13 +10,13 @@
     copy:
       dest: "~/.ssh/id_rsa"
       mode: 0600
-      src: "{{lab.layout.confdir}}/ssh/id_rsa" 
+      src: "{{lab.path.confdir}}/ssh/id_rsa" 
   
   - name: Node "{{container_name}}" - configure authorized_keys
     authorized_key:
       state: present
       user: root
-      key: "{{ lookup('file', '{{lab.layout.confdir}}/ssh/id_rsa.pub') }}"
+      key: "{{ lookup('file', '{{lab.path.confdir}}/ssh/id_rsa.pub') }}"
   
   - name: Node "{{container_name}}" - configure known_host check
     copy:

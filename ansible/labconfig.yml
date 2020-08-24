@@ -33,7 +33,7 @@ lab:
       - "metrics"
       - "front"
   
-  layout:
+  path:
     basedir: /opt/loadlab
     confdir: /opt/loadlab/config
     sourcedir: /opt/loadlab/setup
