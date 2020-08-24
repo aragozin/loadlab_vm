@@ -52,3 +52,9 @@ control_front_root: www
 enabled_selinux: false
 enabled_firewalld: false
 config_only: false
+
+# skip_install: true - repositories / package installation tasks would be skipped
+skip_install: false
+
+# install_only: true - only repository configurationa and package installation would be executed# 
+install_only: false

@@ -1,12 +1,18 @@
 ---
 
+- name: Common setup
+  hosts: containers
+  gather_facts: false
+
+  roles:
+    - common.centos
+    - telegraf-node
+
 - name: Install PostgreSQL
   hosts: database
   gather_facts: false
 
   roles:
-    - common
-    - telegraf-node
     - postgresql
     - wp-db-setup-postgresql
 
@@ -15,8 +21,6 @@
   gather_facts: false
 
   roles:
-    - common
-    - telegraf-node
     - mariadb
     - wp-db-setup
 
@@ -25,8 +29,6 @@
   gather_facts: false
 
   roles:
-    - common
-    - telegraf-node
     - php-fpm
     - nginx
     - wordpress
@@ -37,16 +39,13 @@
   gather_facts: false
 
   roles:
-    - common
-    - telegraf-node
     - haproxy
 
-- name: Install InfluxDB
+- name: Install monitoring
   hosts: metrics
   gather_facts: false
 
   roles:
-    - common
     - influxdb
     - grafana
 
@@ -55,9 +54,7 @@
   gather_facts: false
 
   roles:
-    - common
     - nginx
-    - telegraf-node
     - control-front
 
 - name: Setup master host

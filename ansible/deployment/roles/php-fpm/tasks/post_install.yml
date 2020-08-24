@@ -1,0 +1,24 @@
+---
+- name: Install epel-release, remi & yum-utils
+  yum: 
+    name: [epel-release, yum-utils, "http://rpms.remirepo.net/enterprise/remi-release-7.rpm"] 
+    state: present    
+  when: config_only == false
+
+- name: Enable PHP7.3
+  command: yum-config-manager --enable remi-php73
+  when: config_only == false
+
+- name: Install php-fpm and deps
+  yum: 
+    name: [php-cli, php-fpm, php-mysql, php-json, php-opcache, php-mbstring, php-xml, php-gd, php-curl]
+    state: present    
+  when: config_only == false
+
+- name: Disable default pool
+  command: mv /etc/php-fpm.d/www.conf /etc/php-fpm.d/www.disabled creates=/etc/php-fpm.d/www.disabled
+  notify: restart php-fpm
+
+- name: Copy php-fpm configuration
+  template: src=wordpress.conf dest=/etc/php-fpm.d/
+  notify: restart php-fpm
