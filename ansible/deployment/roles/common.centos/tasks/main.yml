@@ -5,5 +5,5 @@
   when: skip_install == false
 
 - name: Setup and configuration
-  include_tasks: "{{ rolw_path }}/tasks/post_install.yml"
+  include_tasks: "{{ role_path }}/tasks/post_install.yml"
   when: install_only == false
