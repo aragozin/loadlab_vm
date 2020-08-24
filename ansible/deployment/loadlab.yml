@@ -53,6 +53,7 @@
 - name: Install Web front
   hosts: front
   gather_facts: false
+
   roles:
     - common
     - nginx
@@ -61,5 +62,6 @@
 
 - name: Setup master host
   hosts: masterhost
+  
   roles:
     - telegraf-host
