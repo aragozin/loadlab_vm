@@ -1,0 +1,57 @@
+---
+
+- name: Command setup
+  hosts: containers
+  gather_facts: false
+
+  roles:
+    - common.centos
+    - telegraf-node
+  
+
+- name: Install MariaDB
+  hosts: database
+  gather_facts: false
+
+  roles:
+    - mariadb
+    - wp-db-setup
+
+- name: Install Wordpress
+  hosts: web
+  gather_facts: false
+
+  roles:
+    - php-fpm
+    - nginx
+    - wordpress
+    - wordpress-plugins
+
+- name: Install HAProxy
+  hosts: loadbalancer
+  gather_facts: false
+
+  roles:
+    - haproxy
+
+- name: Install monitoring
+  hosts: metrics
+  gather_facts: false
+
+  roles:
+    - influxdb
+    - grafana
+
+- name: Install Web front
+  hosts: front
+  gather_facts: false
+  
+  roles:
+    - nginx
+    - control-front
+
+#- name: Setup master host
+#  hosts: masterhost
+#  
+#  roles:
+#    - telegraf-host
