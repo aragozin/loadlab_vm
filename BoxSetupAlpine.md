@@ -16,27 +16,79 @@ SSH to VM
 
 You may change SSH host IP in VM configuration (see port forwarding under network settings)
 
+VirtualBox host only network
+----------------------------
 
-Setup software on the box
--------------------------
+Configure VirtualBox host only network
 
-As root
+ - IPv4 Address: 192.168.100.1
+ - IPv4 Mask: 255.255.255.0
+ - IPv6 turned off
+ - DHCP is not enabled
 
-TODO configure network/bridge
+
+Initial host setup
+------------------
+
+Get initial playbook files to the VM, two options are below
+
+Get initial playbook from local source
+
+    # clone https://github.com/aragozin/loadlab_vm.git to your desktop machine
+
+    mkdir -p /opt/loadlab/setup
+
+    # copy content of repo to /opt/loadlab/setup via sftp
+
+    cd /opt/loadlab/setup/ansible/provision.alpine
+    apk add ansible
+    ansible-playbook ansible/provision.alpine/host-setup.yml
+
+     
+Get initial playbook from github repo
+
+    apk add git
+    mkdir -p /opt/loadlab
+    git clone github https://github.com/aragozin/loadlab_vm.git setup
+
+Install LXD and apply host configuration
+
+    cd /opt/loadlab/setup/
+    apk add ansible
+    ansible-playbook ansible/provision.alpine/host-setup.yml
+
+Reboot VM
+
+    reboot
+    
+Now VM is also available though your host only VirtualBox network (192.168.100.61).
+
+Local git server is also available to be used in VM now.
+
+
+Lab deploymnet
+---------
+
+Link source for working locally
 
     apk add git
 
-    mkdir -p /home/boss
-    cd /home/boss
-    git clone git://192.168.100.1/ setup
+    cd /opt/loadlab
+    rm -rf setup
+    git clone https://github.com/aragozin/loadlab_vm.git setup
     cd setup
-    git remote add github https://github.com/aragozin/loadlab_vm.git
+
+    # optionally link, locally served git repo
+    git add local git://192.168.100.1/
+    git fetch local
 
     apk add ansible
 
-    ansible-playbook /home/boss/setup/ansible/provision.ubuntu/init-lxd.yml
-    
-    ansible-playbook /home/boss/setup/ansible/cluster/make-cluster.yml
+    # Wipe old container for clean setup
+    ansible-playbook /opt/loadlab/setup/ansible/cluster/force-wipe-cluster.yml
+
+    # Build containers
+    ansible-playbook /opt/loadlab/setup/ansible/cluster/make-cluster.yml
 
     ansible-playbook -i /home/boss/setup/ansible/deployment/loadlab.hosts --extra-vars "wp_db_import_dump=true" /home/boss/setup/ansible/deployment/loadlab.yml
 

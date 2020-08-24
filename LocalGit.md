@@ -11,4 +11,4 @@ Start daemon
 
 Inside VM clone (use IP on host network)
 
-     git cloone git://192.168.100.1/
+     git clone git://192.168.100.1/ 
