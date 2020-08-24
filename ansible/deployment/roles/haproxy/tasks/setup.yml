@@ -1,0 +1,33 @@
+---
+
+- name: Copy TLS certificate
+  copy:
+    dest: "/etc/haproxy/loadlab.ragozin.info.pem"
+    mode: 0644
+    owner: root
+    content: |
+      {{ lookup('file', '{{lab.path.confdir}}/certbot/cfg/live/loadlab.ragozin.info/fullchain.pem') }}
+      {{ lookup('file', '{{lab.path.confdir}}/certbot/cfg/live/loadlab.ragozin.info/privkey.pem') }}
+
+- name: Copy HAProxy configuration in place.
+  template:
+    src: haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+    mode: 0644
+    validate: haproxy -f %s -c -q
+  notify: restart haproxy
+
+- name: Configure telegraf plugin for haproxy
+  copy:
+    src: telegraf.d
+    dest: /etc/telegraf/
+  notify: restart telegraf
+
+- name: Copy hacmd script
+  copy:
+    src: hacmd
+    dest: /usr/local/sbin/hacmd
+    mode: +x
+
+- name: Ensure HAProxy is started and enabled on boot.
+  service: name=haproxy state=restarted enabled=yes

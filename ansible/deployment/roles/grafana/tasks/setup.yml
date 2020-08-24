@@ -1,0 +1,20 @@
+---
+
+  - name: Configure Grafana
+    copy:
+      dest: /etc/grafana/grafana.ini
+      src: grafana.ini
+
+  - name: Configure Grafana (SQLite)
+    copy:
+      dest: /var/lib/grafana/grafana.db
+      src: grafana.db
+      owner: grafana
+
+  - name: Provision Grafana (data sources & dashboards)
+    copy:
+      dest: /etc/grafana/provisioning/
+      src: provisioning/
+
+  - name: Start Grafana
+    service: name=grafana-server state=restarted enabled=yes
