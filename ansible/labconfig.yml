@@ -26,7 +26,7 @@ lab:
 
     hosts_file:
       - name: vm
-        ip:   "{{lab.network.nodes.vm.ip}}"
+        ip:   192.168.100.61
 
       - name: loadbalancer
         ip:   192.168.100.140

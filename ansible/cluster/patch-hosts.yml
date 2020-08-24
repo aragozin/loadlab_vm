@@ -1,7 +1,7 @@
 ﻿---
 
   - name: Node "{{container_name}}" - generate hosts file
-    lineinfile: dest=/etc/hosts regexp='.*{{ item.name }}$' line="{{item.ip}} {{item.name}}" state=present
+    lineinfile: dest=/etc/hosts regexp='.*{{ item.name }}$' line="{{ lab.network.nodes.{{item.name}}.ip }} {{item.name}}" state=present
     with_items: "{{lab.network.hosts_file}}"
 #    with_items:
 #      - name: loadbalancer
