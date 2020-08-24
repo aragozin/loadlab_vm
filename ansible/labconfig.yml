@@ -25,14 +25,15 @@ lab:
         ip: 192.168.100.145
 
     hosts_file:
-      - name: vm
-      - name: loadbalancer
-      - name: web1
-      - name: web2
-      - name: database
-      - name: metrics
-      - name: front
+      - "vm"
+      - "loadbalancer"
+      - "web1"
+      - "web2"
+      - "database"
+      - "metrics"
+      - "front"
   
   layout:
     basedir: /opt/loadlab
-    confdir: /opt/loadlab/config    
+    confdir: /opt/loadlab/config
+    sourcedir: /opt/loadlab/setup
