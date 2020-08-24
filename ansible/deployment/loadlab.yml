@@ -1,6 +1,4 @@
 ---
-
+ 
 - name: LoadLab playbook
   import_playbook: loadlab.playbook.yml
-  vars_files:
-    - ../labconfig.yml
