@@ -1,0 +1,7 @@
+﻿Layout
+
+/host
+/preseed
+/cluster
+/lab
+/content
