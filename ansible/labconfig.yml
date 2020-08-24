@@ -24,7 +24,7 @@ lab:
       front:
         ip: 192.168.100.145
 
-    host_file:
+    hosts_file:
       - name: vm
         ip:   192.168.100.61
 
