@@ -24,12 +24,12 @@
           auto hlan
           iface hlan inet static
           	bridge-ports eth1
-          	address {{lab.network.vm.ip}}
+          	address {{lab.network.nodes.vm.ip}}
           	netmask 255.255.255.0
           	bridge_stp 0
 
     - name: Check 'hlan' IP address
-      shell: "ip addr | grep hlan | grep {{lab.network.vm.ip}} | wc -l"
+      shell: "ip addr | grep hlan | grep {{lab.network.nodes.vm.ip}} | wc -l"
       register: address_assigned
       changed_when: false        
 
