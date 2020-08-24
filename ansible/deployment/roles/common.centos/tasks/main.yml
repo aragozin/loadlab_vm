@@ -1,9 +1,9 @@
 ---
 
 - name: Package installation
-  include_tasks: "{{ role_path }}/tasks/install.yml"
+  include_tasks: "{{ role_path }}/tasks/provision.yml"
   when: skip_install == false
 
 - name: Setup and configuration
-  include_tasks: "{{ role_path }}/tasks/post_install.yml"
+  include_tasks: "{{ role_path }}/tasks/setup.yml"
   when: install_only == false
