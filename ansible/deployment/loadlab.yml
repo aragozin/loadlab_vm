@@ -1,4 +1,78 @@
 ---
- 
-- name: LoadLab playbook
-  import_playbook: loadlab.playbook.yml
+
+- name: Common setup
+  hosts: containers
+  vars_files:
+    - ../labconfig.yml
+  gather_facts: false
+
+  roles:
+    - common.centos
+    - telegraf-node
+
+- name: Install MariaDB
+  hosts: database
+  vars_files:
+    - ../labconfig.yml
+  gather_facts: false
+
+  roles:
+    - mariadb
+    - wp-db-setup
+
+- name: Install PostgreSQL
+  hosts: database
+  vars_files:
+    - ../labconfig.yml
+  gather_facts: false
+
+  roles:
+    - postgresql  
+    - wp-db-setup-postgresql
+
+- name: Install Wordpress
+  hosts: web
+  vars_files:
+    - ../labconfig.yml
+  gather_facts: false
+
+  roles:
+    - php-fpm
+    - nginx
+    - wordpress
+    - wordpress-plugins
+
+- name: Install HAProxy
+  hosts: loadbalancer
+  vars_files:
+    - ../labconfig.yml
+  gather_facts: false
+
+  roles:
+    - haproxy
+
+- name: Install monitoring
+  hosts: metrics
+  vars_files:
+    - ../labconfig.yml
+  gather_facts: false
+
+  roles:
+    - influxdb
+    - grafana
+
+- name: Install Web front
+  hosts: front
+  vars_files:
+    - ../labconfig.yml
+  gather_facts: false
+  
+  roles:
+    - nginx
+    - control-front
+
+#- name: Setup master host
+#  hosts: masterhost
+#  
+#  roles:
+#    - telegraf-host

@@ -24,7 +24,6 @@ web1
 web2
 database
 metrics
-tools
 
 [containers:vars]
 ansible_connection=lxd
