@@ -1,4 +1,8 @@
 ---
+
+- name: Set timezone to Europe/Moscow
+  command: timedatectl set-timezone Europe/Moscow
+
 - name: And the NGINX repository definition
   copy: src=nginx.repo dest=/etc/yum.repos.d/
   when: config_only == false

@@ -1,0 +1,78 @@
+---
+- name: Copy static content
+  copy:
+    src: www
+    dest: /srv/control-front
+
+- name: Create gotty term trampoline
+  copy:
+    dest: /srv/control-front/start
+    content: |
+      if [ $# -eq 2 ]
+      then
+        if [ -e "/tmp/command-mark-$2" ] 
+        then 
+          echo "Command have been executed before"
+          exit 0
+        else 
+          touch "/tmp/command-mark-$2"
+        fi
+      fi
+      CMD=/tmp/start-$RANDOM.lxc      
+      #echo $1 | base64 -d > $CMD
+      #export TERM=xterm && bash $CMD
+      # SSH mode
+      ssh -tt {{lab.network.nodes.vm.ip}} "export TERM=xterm && echo $1 | base64 -d > $CMD && sh $CMD"
+
+- name: Create gotty service entry
+  copy:
+    dest: /etc/systemd/system/gotty.service
+    content: |
+      [Unit]
+      Description=GoTTY service
+      After=network.target
+
+      [Service]
+      Type=simple
+      User=root
+      ExecStart=/srv/control-front/gotty -w --permit-arguments bash /srv/control-front/start
+      Restart=on-abort
+
+      [Install]
+      WantedBy=multi-user.target
+  become: yes
+  when: config_only == false
+
+- name: Daemon reload
+  command: systemctl daemon-reload
+  become: true
+  when: config_only == false
+
+- name: Enable gotty service
+  service: name=gotty state=started enabled=yes
+  become: yes
+  when: config_only == false  
+
+# disable IPv6 is messing things up 
+#- name: Install nginx
+#  shell: apt -y install nginx | echo Ignore misconfiguration
+#  become: yes
+#  when: config_only == false
+
+- name: Create dir for access.log
+  file:
+    path: /var/log/nginx
+    state: directory
+
+- name: Configure nginx for static site
+  template: src=default.site dest=/etc/nginx/conf.d/default.conf
+  notify: restart nginx
+  become: yes
+
+- name: http service stop
+  service: name=nginx state=stopped
+  become: yes
+
+- name: http service state
+  service: name=nginx state=started enabled=yes
+  become: yes
