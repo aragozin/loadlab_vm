@@ -1,37 +1,29 @@
 ---
-# Playbook for ubuntu host
-
-  - name: Add telegraf repo
-    become: true
-    copy:
-      dest: /etc/apt/sources.list.d/influxdata.list
-      content: |
-        deb https://repos.influxdata.com/debian stretch stable
-    when: config_only == false
-
-  - name: Add repository key
-    become: true
-    shell: curl -sL https://repos.influxdata.com/influxdb.key | apt-key add -    
-    when: config_only == false
+# Playbook for Alpine host
 
   - name: Install Telegraf
     become: true
-    apt: name=telegraf update_cache=yes
+    package: name=telegraf state=installed
     when: config_only == false
 
-  - name: Add telegraf user to sudo
-    become: true
-    copy:
-      dest: /etc/sudoers.d/telegraf
-      src: sudoers.d/telegraf
-      mode: 0440
-    when: config_only == false
+#  - name: Add telegraf user to sudo
+#    become: true
+#    copy:
+#      dest: /etc/sudoers.d/telegraf
+#      src: sudoers.d/telegraf
+#      mode: 0440
+#    when: config_only == false
 
   - name: Configure telegraf
     become: true
     copy:
-      dest: /etc/telegraf/telegraf.conf
+      dest: /etc/telegraf.conf
       src: telegraf.conf
+
+  - name: Create dir "/usr/local/sbin/"
+    file:
+      path: /usr/local/sbin/
+      state: directory
 
   - name: Deploy LXD monitoring script
     become: true
@@ -44,7 +36,7 @@
   - name: Add telegraf config for LXD
     become: true
     copy:
-      dest: /etc/telegraf/telegraf.d/
+      dest: /etc/telegraf.conf.d/
       src: telegraf.d/
 
   - name: Start Telegraf

@@ -1,0 +1,27 @@
+---
+
+  - name: Node "{{container_name}}" - mkdir ~\.ssh
+    file: 
+      dest: "~/.ssh"
+      mode: 0700 
+      state: directory
+  
+  - name: Node "{{container_name}}" - deploy private SSH key
+    copy:
+      dest: "~/.ssh/id_rsa"
+      mode: 0600
+      src: "/home/boss/lab_data/ssh" 
+  
+  - name: Node "{{container_name}}" - configure authorized_keys
+    authorized_key:
+      state: present
+      user: root
+      key: "{{ lookup('file', '/home/boss/lab_data/ssh.pub') }}"
+  
+  - name: Node "{{container_name}}" - configure known_host check
+    copy:
+      dest: "~/.ssh/config"
+      mode: 0400
+      content: |
+        Host *
+          StrictHostKeyChecking no

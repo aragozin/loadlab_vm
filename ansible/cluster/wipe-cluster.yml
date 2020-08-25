@@ -3,27 +3,15 @@
 - hosts: localhost
   connection: local
   tasks:
-    - name: Kill "loadbalancer"
+    - name: Kill "{{item.name}}"
       lxd_container:
-        name: loadbalancer
+        name: "{{item.name}}"
         state: absent
-    - name: Kill "web1"
-      lxd_container:
-        name: web1
-        state: absent
-    - name: Kill "web2"
-      lxd_container:
-        name: web2
-        state: absent
-    - name: Kill "database"
-      lxd_container:
-        name: database
-        state: absent
-    - name: Kill "metrics"
-      lxd_container:
-        name: metrics
-        state: absent
-    - name: Kill "tools"
-      lxd_container:
-        name: tools
-        state: absent
+      with_items:
+        - name: loadbalancer
+        - name: web1
+        - name: web2
+        - name: database
+        - name: metrics
+        - name: tools
+        - name: front

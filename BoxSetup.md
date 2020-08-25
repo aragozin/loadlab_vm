@@ -31,7 +31,7 @@ Setup software on the box
     
     sudo ansible-playbook /home/boss/setup/ansible/provision.ubuntu/init-bridge-adapter.yml
 
-    ansible-playbook /home/boss/setup/ansible/cluster/init-cluster.yml
+    ansible-playbook /home/boss/setup/ansible/cluster/make-cluster.yml
 
 Virtual Cluster topology
 ------------------------

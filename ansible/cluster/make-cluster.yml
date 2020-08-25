@@ -19,6 +19,12 @@
     - name: Initialize node - metrics @ 192.168.100.144
       include: init-container.yml container_name=metrics           lab_ip=192.168.100.144
 
+    - name: Initialize node - front @ 192.168.100.145
+      include: init-container.yml container_name=front             lab_ip=192.168.100.145
+
     - name: Patch hosts files
       become: yes
       include: patch-hosts.yml container_name=masterhost
+
+    - name: Configure SSH on host
+      include: setup-ssh-keys.yml container_name=masterhost

@@ -1,0 +1,18 @@
+---
+
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: Force kill "{{item.name}}"
+      lxd_container:
+        name: "{{item.name}}"
+        force_stop: yes
+        state: absent
+      with_items:
+        - name: loadbalancer
+        - name: web1
+        - name: web2
+        - name: database
+        - name: metrics
+        - name: tools
+        - name: front

@@ -1,3 +1,6 @@
+[masterhost]
+local ansible_connection=local
+
 [loadbalancer]
 loadbalancer
 
@@ -11,10 +14,11 @@ database
 [metrics]
 metrics
 
-[masterhost]
-local ansible_connection=local
+[front]
+front
 
 [containers]
+front
 loadbalancer
 web1
 web2
@@ -24,6 +28,3 @@ tools
 
 [containers:vars]
 ansible_connection=lxd
-#ansible_connection=ssh
-#ansible_user=root
-#ansible_ssh_pass=toor
