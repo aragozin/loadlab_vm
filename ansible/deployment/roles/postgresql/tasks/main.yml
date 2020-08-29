@@ -2,11 +2,12 @@
 # This playbook will install PostgreSQL and create db user and give permissions and enable pg_stat_statements extension.
 
 - name: Install PostgreSQL package
-  yum: name={{ item }} state=installed
-  with_items:
-   - postgresql-server
-   - postgresql
-   - postgresql-libs
+  package: 
+    name:
+      - postgresql-server
+      - postgresql
+      - postgresql-libs
+    state: present
   when: config_only == false
 
 - name: Enable PostgreSQL service
