@@ -1,0 +1,11 @@
+---
+
+- name: Install PostgreSQL
+  hosts: database
+  gather_facts: false
+
+  roles:
+    - common
+    - telegraf-node
+    - postgresql
+
