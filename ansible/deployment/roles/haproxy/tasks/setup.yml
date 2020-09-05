@@ -58,8 +58,8 @@
     mode: 0644
     owner: root
     content: |
-      {{ lookup('file', '{{lab.path.confdir}}/selfsign/{{lab.web.domain}}/fullchain.pem') }}
-      {{ lookup('file', '{{lab.path.confdir}}/selfsign/{{lab.web.domain}}/privkey.pem') }}
+      {{ lookup('file', '{{lab.path.confdir}}/selfsigned/{{lab.web.domain}}/fullchain.pem') }}
+      {{ lookup('file', '{{lab.path.confdir}}/selfsigned/{{lab.web.domain}}/privkey.pem') }}
   when: not stat_cert.stat.exists
 
 - name: Copy HAProxy configuration in place.
