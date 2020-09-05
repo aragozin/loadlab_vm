@@ -77,4 +77,4 @@
     - ../labconfig.yml
   
   roles:
-    - telegraf-host
+    - telegraf-host.alpine
