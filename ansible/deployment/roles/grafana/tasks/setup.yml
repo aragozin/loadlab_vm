@@ -15,6 +15,4 @@
     copy:
       dest: /etc/grafana/provisioning/
       src: "{{ lab.path.contentdir }}/grafana/"
-
-  - name: Start Grafana
-    service: name=grafana-server state=restarted enabled=yes
+    norify: restart grafana
