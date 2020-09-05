@@ -7,21 +7,26 @@ lab:
         ip: 192.168.100.146
       
       loadbalancer:
+        description: HAProxy container
         ip: 192.168.100.140
 
       web1:
+        description: Web node Nginx + PHP
         ip: 192.168.100.141
 
       web2:
+        description: Web node Nginx + PHP
         ip: 192.168.100.142
 
       database:
         ip: 192.168.100.143
 
       metrics:
+        description: Influx + Graphana
         ip: 192.168.100.144
 
       front:
+        description: Lab pages and terminal
         ip: 192.168.100.145
 
     hosts_file:
@@ -33,6 +38,10 @@ lab:
       - "metrics"
       - "front"
   
+  web:
+    domain: loadlab.ragozin.info
+    certificate: 
+
   path:
     basedir: /opt/loadlab
     confdir: /opt/loadlab/config

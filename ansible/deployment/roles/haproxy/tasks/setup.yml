@@ -1,13 +1,58 @@
 ---
 
-- name: Copy TLS certificate
+- name: Check LetsEncrypt TLS certificate presence
+  stat:
+    path: '{{lab.path.confdir}}/certbot/cfg/live/{{lab.web.domain}}/privkey.pem'
+  register: stat_cert
+
+- name: Copy LetsEncrypt TLS certificate
   copy:
-    dest: "/etc/haproxy/loadlab.ragozin.info.pem"
+    dest: "/etc/haproxy/{{lab.web.domain}}.pem"
     mode: 0644
     owner: root
     content: |
-      {{ lookup('file', '{{lab.path.confdir}}/certbot/cfg/live/loadlab.ragozin.info/fullchain.pem') }}
-      {{ lookup('file', '{{lab.path.confdir}}/certbot/cfg/live/loadlab.ragozin.info/privkey.pem') }}
+      {{ lookup('file', '{{lab.path.confdir}}/certbot/cfg/live/{{lab.web.domain}}/fullchain.pem') }}
+      {{ lookup('file', '{{lab.path.confdir}}/certbot/cfg/live/{{lab.web.domain}}/privkey.pem') }}
+  when: stat_cert.stat.exists
+
+- name: Generate self signed TLS certificate [private key]
+  openssl_privatekey:
+    path: "{{lab.path.confdir}}/selfsigned/{{lab.web.domain}}/privkey.pem"
+    state: present
+    mode: 0640
+    owner: root
+  when: not stat_cert.stat.exists
+
+- name: Generate self signed TLS certificate [CSR]
+  openssl_csr:
+    path: "{{lab.path.confdir}}/selfsigned/{{lab.web.domain}}/cert.csr"
+    privatekey_path: "{{lab.path.confdir}}/selfsigned/{{lab.web.domain}}/privkey.pem"
+    common_name: "{{lab.web.domain}}"
+    locality_name: "omit"
+    state_or_province_name: "omit"
+    country_name: "omit"
+    organization_name: "omit"
+    organizational_unit_name: "omit"
+    state: present
+  when: not stat_cert.stat.exists
+
+- name: Generate self signed TLS certificate
+  openssl_certificate:
+    path: "{{lab.path.confdir}}/selfsigned/{{lab.web.domain}}/fullchain.pem"
+    privatekey_path: "{{lab.path.confdir}}/selfsigned/{{lab.web.domain}}/privkey.pem"
+    csr_path: "{{lab.path.confdir}}/selfsigned/{{lab.web.domain}}/cert.csr"
+    provider: selfsigned
+    state: present
+
+- name: Copy self signed TLS certificate
+  copy:
+    dest: "/etc/haproxy/{{lab.web.domain}}.pem"
+    mode: 0644
+    owner: root
+    content: |
+      {{ lookup('file', '{{lab.path.confdir}}/selfsign/{{lab.web.domain}}/fullchain.pem') }}
+      {{ lookup('file', '{{lab.path.confdir}}/selfsign/{{lab.web.domain}}/privkey.pem') }}
+  when: not stat_cert.stat.exists
 
 - name: Copy HAProxy configuration in place.
   template:

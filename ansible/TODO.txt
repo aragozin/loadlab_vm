@@ -1,9 +1,15 @@
-﻿Layout
+﻿
+* LXD metrics replace plugin
+* Update limits file / publish limits from file to influx
+* Generate hosts list from inventory
+
+Change layout
 
 /host
-/preseed
+/preseed - baking a common image
 /cluster
 /lab
 /content
   /front
-  /wordpress
+  /wordpress (db dumps)   
+  /grapha-dashboards
