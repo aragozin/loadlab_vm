@@ -39,11 +39,6 @@
     path: "{{lab.path.confdir}}/selfsigned/{{lab.web.domain}}/cert.csr"
     privatekey_path: "{{lab.path.confdir}}/selfsigned/{{lab.web.domain}}/privkey.pem"
     common_name: "{{lab.web.domain}}"
-    locality_name: "omit"
-    state_or_province_name: "omit"
-    country_name: "omit"
-    organization_name: "omit"
-    organizational_unit_name: "omit"
     state: present
   when: not stat_cert.stat.exists
 
