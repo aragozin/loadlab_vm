@@ -71,8 +71,10 @@
     - nginx
     - control-front
 
-#- name: Setup master host
-#  hosts: masterhost
-#  
-#  roles:
-#    - telegraf-host
+- name: Setup master host
+  hosts: masterhost
+  vars_files:
+    - ../labconfig.yml
+  
+  roles:
+    - telegraf-host
