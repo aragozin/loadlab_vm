@@ -1,7 +1,8 @@
 ---
 
 - name: Check LetsEncrypt TLS certificate presence
-  stat:
+  local_action:
+    module: stat
     path: '{{lab.path.confdir}}/certbot/cfg/live/{{lab.web.domain}}/privkey.pem'
   register: stat_cert
 
@@ -15,8 +16,17 @@
       {{ lookup('file', '{{lab.path.confdir}}/certbot/cfg/live/{{lab.web.domain}}/privkey.pem') }}
   when: stat_cert.stat.exists
 
+- name: Generate self signed TLS certificate [mkdir]
+  local_action:
+    module: file
+    path: "{{lab.path.confdir}}/selfsigned/{{lab.web.domain}}"
+    state: directory
+    mode: 0640
+  when: not stat_cert.stat.exists
+
 - name: Generate self signed TLS certificate [private key]
-  openssl_privatekey:
+  local_action:
+    module: openssl_privatekey
     path: "{{lab.path.confdir}}/selfsigned/{{lab.web.domain}}/privkey.pem"
     state: present
     mode: 0640
@@ -24,7 +34,8 @@
   when: not stat_cert.stat.exists
 
 - name: Generate self signed TLS certificate [CSR]
-  openssl_csr:
+  local_action:
+    module: openssl_csr
     path: "{{lab.path.confdir}}/selfsigned/{{lab.web.domain}}/cert.csr"
     privatekey_path: "{{lab.path.confdir}}/selfsigned/{{lab.web.domain}}/privkey.pem"
     common_name: "{{lab.web.domain}}"
@@ -37,12 +48,14 @@
   when: not stat_cert.stat.exists
 
 - name: Generate self signed TLS certificate
-  openssl_certificate:
+  local_action:
+    module: openssl_certificate
     path: "{{lab.path.confdir}}/selfsigned/{{lab.web.domain}}/fullchain.pem"
     privatekey_path: "{{lab.path.confdir}}/selfsigned/{{lab.web.domain}}/privkey.pem"
     csr_path: "{{lab.path.confdir}}/selfsigned/{{lab.web.domain}}/cert.csr"
     provider: selfsigned
     state: present
+  when: not stat_cert.stat.exists
 
 - name: Copy self signed TLS certificate
   copy:
