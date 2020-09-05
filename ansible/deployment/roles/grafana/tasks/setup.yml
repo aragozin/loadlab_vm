@@ -15,4 +15,4 @@
     copy:
       dest: /etc/grafana/provisioning/
       src: "{{ lab.path.contentdir }}/grafana/"
-    norify: restart grafana
+    notify: restart grafana
