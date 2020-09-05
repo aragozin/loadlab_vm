@@ -1,8 +1,25 @@
 ---
-- name: Copy static content
-  copy:
-    src: "{{ lab.path.contentdir }}/front/www"
-    dest: /srv/control-front
+
+- name: Copy static content (dirs)
+   file:
+     path: "{{ lab.path.contentdir }}/front/www/{{ item.path }}"
+     state: directory
+     mode: "{{ item.mode }}"
+   with_filetree: "{{ lab.path.contentdir }}/front/www"
+   when: item.state == "directory"
+
+ - name: Copy static content (files)
+   template:
+     src: "{{ item.src }}"
+     dest: "/srv/control-front/{{ item.path }}"
+     mode: "{{ item.mode }}"
+   with_filetree: "{{ lab.path.contentdir }}/front/www"
+   when: item.state == "file"
+
+#- name: Copy static content
+#  copy:
+#    src: "{{ lab.path.contentdir }}/front/www"
+#    dest: /srv/control-front
 
 - name: Create gotty term trampoline
   copy:
