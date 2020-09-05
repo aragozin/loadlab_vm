@@ -14,7 +14,7 @@
   - name: Provision Grafana (data sources & dashboards)
     copy:
       dest: /etc/grafana/provisioning/
-      src: provisioning/
+      src: "{{ lab.path.content.dir }}"/grafana/
 
   - name: Start Grafana
     service: name=grafana-server state=restarted enabled=yes
