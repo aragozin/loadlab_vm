@@ -4,7 +4,8 @@
     lineinfile: 
       dest: /etc/chrony/chrony.conf
       regexp: '.*{{ item }}$' 
-      line: "{{item}}" state=present
+      line: "{{item}}" 
+      state: present
     with_items: 
      - "minpoll 0"
      - "maxpoll 5"
