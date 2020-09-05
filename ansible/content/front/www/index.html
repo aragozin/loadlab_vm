@@ -64,21 +64,27 @@
     <div class="main">
         <div>
             <h1>Состав тестового стенда</h1>
-            <h3><a href="http://wp.loadlab.ragozin.info">wp.loadlab.ragozin.info</a> <b>[{{ lab.network.nodes.loadbalancer.ip }}]</b></h3>
+
+            <h3><a href="http://{{ lab.network.nodes.loadbalancer.fqdn }}">{{ lab.network.nodes.loadbalancer.fqdn }}</a> <b>[{{ lab.network.nodes.loadbalancer.ip }}]</b></h3>
             <p class="ssh">SSH root/toor</p>
-            <p>HAProxy loadbalancer (<a href="http://wp.loadlab.ragozin.info:1936">stat page</a>)</p>
-            <h3><a href="http://web1.loadlab.ragozin.info">web1.loadlab.ragozin.info</a> <b>[192.168.100.141]</b></h3>
+            <p>HAProxy loadbalancer (<a href="http://{{ lab.network.nodes.loadbalancer.fqdn }}:1936">stat page</a>)</p>
+
+            <h3><a href="http://{{ lab.network.nodes.web1.fqdn }}">{{ lab.network.nodes.web1.fqdn }}</a> <b>[{{ lab.network.nodes.web1.ip }}]</b></h3>
             <p class="ssh">SSH root/toor</p>
-            <p>WordPress #1 (<a href="http://web1.loadlab.ragozin.info/nginx_status">nginx status</a>)</p>
+            <p>WordPress #1 (<a href="http://{{ lab.network.nodes.web1.fqdn }}/nginx_status">nginx status</a>)</p>
+
             <h3><a href="http://web2.loadlab.ragozin.info">web2.loadlab.ragozin.info</a> <b>[192.168.100.142]</b></h3>
             <p class="ssh">SSH root/toor</p>
             <p>WordPress #2 (<a href="http://web2.loadlab.ragozin.info/nginx_status">nginx status</a>)</p>
+
             <h3><a href1="http://database.loadlab.ragozin.info">database.loadlab.ragozin.info</a> <b>[192.168.100.143]</b></h3>
             <p class="ssh">SSH root/toor</p>
             <p>Maria DB</p>
+
             <h3><a href1="http://metrics.loadlab.ragozin.info">metrics.loadlab.ragozin.info</a> <b>[192.168.100.144]</b></h3>
             <p class="ssh">SSH root/toor</p>
             <p>InfluxDb<br/><a href="http://192.168.100.144:3000/">Grafana</a></p>
+
             <h3><a href="http://loadlab.ragozin.info">loadlab.ragozin.info</a> <b>[192.168.100.145]</b></h3>
             <p class="ssh">SSH boss/boss</p>
             <p>VirtualBox VM - container host (<a href="term.html?cmd=top">show top</a>)</p>
