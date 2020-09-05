@@ -9,6 +9,9 @@
     - name: Setup network
       include: setup-network.yml
 
+    - name: Setup chrony
+      include: setup-chrony.yml
+
     - name: Setup LXD
       include: setup-lxd.yml    
 
