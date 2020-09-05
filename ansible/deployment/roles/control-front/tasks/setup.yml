@@ -1,6 +1,6 @@
 ---
 
-- name: Copy static content (dirs)
+ - name: Copy static content (dirs)
    file:
      path: "{{ lab.path.contentdir }}/front/www/{{ item.path }}"
      state: directory
