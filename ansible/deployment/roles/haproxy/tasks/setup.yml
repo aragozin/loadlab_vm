@@ -38,7 +38,7 @@
     module: openssl_csr
     path: "{{lab.path.confdir}}/selfsigned/{{lab.web.domain}}/cert.csr"
     privatekey_path: "{{lab.path.confdir}}/selfsigned/{{lab.web.domain}}/privkey.pem"
-    common_name: "{{lab.web.domain}}"
+    common_name: "*.{{lab.web.domain}}"
     state: present
   when: not stat_cert.stat.exists
 
