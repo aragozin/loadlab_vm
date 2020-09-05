@@ -3,5 +3,5 @@
 
   - name: Install Telegraf
     become: true
-    package: name=telegraf state=installed
+    package: name=telegraf@testing state=installed
     when: config_only == false
