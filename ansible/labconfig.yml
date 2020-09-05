@@ -1,6 +1,7 @@
 ---
 lab:
   network:
+    subnet: "192.168.100"
     nodes:
       vm:
         description: VM host for containers
@@ -46,3 +47,4 @@ lab:
     basedir: /opt/loadlab
     confdir: /opt/loadlab/config
     sourcedir: /opt/loadlab/setup
+    contentdir: /opt/loadlab/setup/ansible/content

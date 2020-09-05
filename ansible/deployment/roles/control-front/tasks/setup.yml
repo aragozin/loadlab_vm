@@ -1,7 +1,7 @@
 ---
 - name: Copy static content
   copy:
-    src: www
+    src: {{ lab.path.contentdir }}/front/www
     dest: /srv/control-front
 
 - name: Create gotty term trampoline

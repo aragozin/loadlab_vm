@@ -1,0 +1,7 @@
+---
+# Playbook for Alpine host
+
+  - name: Install Telegraf
+    become: true
+    package: name=telegraf state=installed
+    when: config_only == false
