@@ -11,7 +11,7 @@
 - name: Copy static content (files)
   template:
     src: "{{ item.src }}"
-    dest: "/srv/control-front/{{ item.path }}"
+    dest: "/srv/control-front/www/{{ item.path }}"
     mode: "{{ item.mode }}"
   with_filetree: "{{ lab.path.contentdir }}/front/www"
   when: item.state == "file"
