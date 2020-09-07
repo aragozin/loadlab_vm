@@ -16,3 +16,8 @@
     dest: "/etc/systemd/system/multi-user.target.wants/postgresql.service"
     state: link
 
+- name: Start service PostgreSQL, if not started
+  service:
+    name: postgresql
+    enabled: true
+    state: started
