@@ -1,5 +1,15 @@
 ---
 
+- name: Install PostgreSQL
+  hosts: database
+  gather_facts: false
+
+  roles:
+    - common
+    - telegraf-node
+    - postgresql
+    - wp-db-setup-postgresql
+
 - name: Install MariaDB
   hosts: database
   gather_facts: false
@@ -43,7 +53,6 @@
 - name: Install Web front
   hosts: front
   gather_facts: false
-  
   roles:
     - common
     - nginx
@@ -52,6 +61,5 @@
 
 - name: Setup master host
   hosts: masterhost
-  
   roles:
     - telegraf-host
