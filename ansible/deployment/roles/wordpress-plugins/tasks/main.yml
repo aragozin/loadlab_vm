@@ -16,3 +16,19 @@
     src: classic-editor
     dest: /srv/wordpress/wp-content/plugins
   when: config_only == false
+
+  # https://wordpress.org/plugins/wppg
+- name: Copy WPPG
+  copy:
+    src: wppg
+    dest: /srv/wordpress/wp-content/plugins
+  when: config_only == false
+
+- name: Activate Plugin WPPG - copy db.php
+  copy:
+    src: wppg/pg4wp/db.php
+    dest: /srv/wordpress/wp-content/db.php
+  when: config_only == false
+
+- name: Change ownership of WordPress installation
+  file: path=/srv/wordpress/ owner=wordpress group=wordpress state=directory recurse=yes

@@ -10,7 +10,7 @@
 
 - name: Install php-fpm and deps
   yum: name={{ item }} state=present    
-  with_items: [php-cli, php-fpm, php-mysql, php-json, php-opcache, php-mbstring, php-xml, php-gd, php-curl]
+  with_items: [php-cli, php-fpm, php-mysql, php-pgsql, php-json, php-opcache, php-mbstring, php-xml, php-gd, php-curl]
   when: config_only == false
 
 - name: Disable default pool
