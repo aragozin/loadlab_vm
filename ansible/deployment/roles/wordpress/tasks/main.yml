@@ -10,6 +10,10 @@
            sha256sum="{{ wp_sha256sum }}"
   when: config_only == false
 
+- name: Delete Folder wordpress
+  command: rm -rf /srv/wordpress
+  when: config_only == false
+
 - name: Extract archive
   command: chdir=/srv/ /bin/tar xvf wordpress-{{ wp_version }}.tar.gz creates=/srv/wordpress
   when: config_only == false
