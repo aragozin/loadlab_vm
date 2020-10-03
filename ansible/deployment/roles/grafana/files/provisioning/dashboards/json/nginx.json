@@ -45,7 +45,7 @@
       "bars": true,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb-telegraf",
+      "datasource": "$db",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -415,7 +415,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "$datasource",
+      "datasource": "$db",
       "fill": 1,
       "gridPos": {
         "h": 9,
@@ -561,7 +561,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "$datasource",
+      "datasource": "$db",
       "fill": 1,
       "gridPos": {
         "h": 9,
@@ -911,7 +911,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "$datasource",
+      "datasource": "$db",
       "editable": true,
       "error": false,
       "fill": 1,
@@ -1219,11 +1219,11 @@
         "includeAll": false,
         "label": "",
         "multi": false,
-        "name": "datasource",
+        "name": "db",
         "options": [],
         "query": "influxdb",
         "refresh": 1,
-        "regex": "",
+        "regex": "/^Telegraf: .*$/",
         "skipUrlSync": false,
         "type": "datasource"
       },
@@ -1236,7 +1236,7 @@
             "web1"
           ]
         },
-        "datasource": "$datasource",
+        "datasource": "$db",
         "definition": "",
         "hide": 0,
         "includeAll": false,
@@ -1288,6 +1288,6 @@
   },
   "timezone": "browser",
   "title": "Nginx",
-  "uid": "GqFjuAgmk",
+  "uid": "nginx",
   "version": 1
 }
