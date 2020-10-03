@@ -25,7 +25,7 @@
       "bars": true,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb-telegraf",
+      "datasource": "$db",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -283,7 +283,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb-telegraf",
+      "datasource": "$db",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -412,7 +412,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#299c46"
       ],
-      "datasource": "influxdb-telegraf",
+      "datasource": "$db",
       "decimals": null,
       "format": "none",
       "gauge": {
@@ -529,7 +529,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "influxdb-telegraf",
+      "datasource": "$db",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -647,7 +647,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "influxdb-telegraf",
+      "datasource": "$db",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -765,7 +765,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "influxdb-telegraf",
+      "datasource": "$db",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -882,7 +882,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "influxdb-telegraf",
+      "datasource": "$db",
       "decimals": 1,
       "format": "s",
       "gauge": {
@@ -998,7 +998,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb-telegraf",
+      "datasource": "$db",
       "fill": 1,
       "gridPos": {
         "h": 6,
@@ -1185,7 +1185,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb-telegraf",
+      "datasource": "$db",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -1340,7 +1340,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb-telegraf",
+      "datasource": "$db",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -1620,7 +1620,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb-telegraf",
+      "datasource": "$db",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -1742,7 +1742,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb-telegraf",
+      "datasource": "$db",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -1909,7 +1909,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb-telegraf",
+      "datasource": "$db",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -2089,7 +2089,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb-telegraf",
+      "datasource": "$db",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -2255,7 +2255,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb-telegraf",
+      "datasource": "$db",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -2421,7 +2421,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb-telegraf",
+      "datasource": "$db",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -2676,7 +2676,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb-telegraf",
+      "datasource": "$db",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -2856,12 +2856,50 @@
   "templating": {
     "list": [
       {
+        "current": {
+          "selected": true,
+          "text": "Stand LoadLab",
+          "value": "Stand LoadLab"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Stand",
+        "multi": false,
+        "name": "db_stand",
+        "options": [],
+        "query": "influxdb",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "/^Stand .*$/",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "hide": 2,
+        "includeAll": true,
+        "label": "db",
+        "multi": false,
+        "name": "db",
+        "options": [],
+        "query": "influxdb",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "/^Telegraf: ${db_stand:regex}$/",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
         "allValue": null,
         "current": {
           "text": "localhost:3306",
           "value": "localhost:3306"
         },
-        "datasource": "influxdb-telegraf",
+        "datasource": "$db",
         "definition": "",
         "hide": 0,
         "includeAll": false,
