@@ -1,0 +1,42 @@
+
+###############################################################################
+#                            INPUT PLUGINS                                    #
+###############################################################################
+
+[[inputs.postgresql_extensible]]
+	interval = "60s"
+	address = "postgres://{{ pg_monitoring_login }}:{{ pg_monitoring_password }}@{{ pg_host }}/postgres"
+
+	[[inputs.postgresql_extensible.query]]
+    	sqlquery = "SELECT * FROM monitoring_stat_statements()"
+    	tagvalue = "usename,datname,query,query_md5,queryid"
+    	withdbname = false
+    	measurement = "pg_stat_statements"
+
+    [[inputs.postgresql_extensible.query]]
+        sqlquery = "SELECT * FROM monitoring_stat_activity_count()"
+        tagvalue = "usename,datname,state"
+        withdbname = false
+        measurement = "pg_stat_activity_count"
+
+    [[inputs.postgresql_extensible.query]]
+        sqlquery = "SELECT * FROM monitoring_stat_activity_idle_in_transaction()"
+        tagvalue = "usename,datname,state,query_md5"
+        withdbname = false
+        measurement = "pg_stat_activity_idle_in_transaction"
+
+    [[inputs.postgresql_extensible.query]]
+        sqlquery = "SELECT * FROM monitoring_stat_activity_waiting()"
+        tagvalue = "usename,datname,state,query_md5"
+        withdbname = false
+        measurement = "pg_stat_activity_waiting"
+
+    [[inputs.postgresql_extensible.query]]
+        sqlquery = "SELECT datname, numbackends, xact_commit, xact_rollback, blks_read, blks_hit, tup_returned, tup_fetched, tup_inserted, tup_updated, tup_deleted, conflicts, temp_files, temp_bytes, deadlocks, blk_read_time, blk_write_time FROM pg_stat_database"
+        tagvalue = "datname"
+        withdbname = false
+        measurement = "pg_stat_database"
+
+    [inputs.postgresql_extensible.tags]
+        db_and_stand = "telegraf_pg_database"
+        host = "database"
