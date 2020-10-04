@@ -72,7 +72,7 @@
 - name: Set search_path = public
   postgresql_query:
     db: "{{ wp_db_name }}"
-    query: ALTER DATABASE {{ wp_db_name }} SET search_path = public;
+    query: ALTER DATABASE {{ wp_db_name }} SET search_path = wordpress;
   become: true
   become_user: postgres
   become_method: su
@@ -81,7 +81,7 @@
 - name: Set search_path = public to {{ wp_db_user }}
   postgresql_query:
     db: "{{ wp_db_name }}"
-    query: ALTER ROLE {{ wp_db_user }} IN DATABASE {{ wp_db_name }} SET search_path = public;
+    query: ALTER ROLE {{ wp_db_user }} IN DATABASE {{ wp_db_name }} SET search_path = wordpress;
   become: true
   become_user: postgres
   become_method: su
