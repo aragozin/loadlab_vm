@@ -15,7 +15,9 @@ LOAD DATABASE
 
  WITH quote identifiers
 
- CAST type datetime to "timestamp without time zone"
+ CAST type datetime 
+        when default '0000-00-00 00:00:00'
+	to "timestamp without time zone" default "now()"
 
 ;
 
