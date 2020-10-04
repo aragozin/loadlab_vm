@@ -17,13 +17,13 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: wordpress; Type: SCHEMA; Schema: -; Owner: root
+-- Name: wordpress; Type: SCHEMA; Schema: -; Owner: wordpress
 --
 
 CREATE SCHEMA wordpress;
 
 
-ALTER SCHEMA wordpress OWNER TO "wordpress";
+ALTER SCHEMA wordpress OWNER TO wordpress;
 
 --
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
@@ -38,6 +38,24 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
+
+--
+-- Name: field(anyelement, anyarray); Type: FUNCTION; Schema: wordpress; Owner: wordpress
+--
+
+CREATE FUNCTION wordpress.field(anyelement, VARIADIC anyarray) RETURNS bigint
+    LANGUAGE sql IMMUTABLE
+    AS $_$
+SELECT rownum
+FROM (SELECT ROW_NUMBER() OVER () AS rownum, elem
+	FROM unnest($2) elem) numbered
+WHERE numbered.elem = $1
+UNION ALL
+SELECT 0
+$_$;
+
+
+ALTER FUNCTION wordpress.field(anyelement, VARIADIC anyarray) OWNER TO wordpress;
 
 SET default_tablespace = '';
 
@@ -89,8 +107,8 @@ CREATE TABLE wordpress.wp_comments (
     comment_author_email character varying(100) DEFAULT ''::character varying NOT NULL,
     comment_author_url character varying(200) DEFAULT ''::character varying NOT NULL,
     "comment_author_IP" character varying(100) DEFAULT ''::character varying NOT NULL,
-    comment_date timestamp without time zone DEFAULT "now"() NOT NULL,
-    comment_date_gmt timestamp without time zone DEFAULT "now"() NOT NULL,
+    comment_date timestamp without time zone,
+    comment_date_gmt timestamp without time zone,
     comment_content text NOT NULL,
     comment_karma bigint DEFAULT '0'::bigint NOT NULL,
     comment_approved character varying(20) DEFAULT '1'::character varying NOT NULL,
@@ -138,7 +156,7 @@ CREATE TABLE wordpress.wp_links (
     link_visible character varying(20) DEFAULT 'Y'::character varying NOT NULL,
     link_owner numeric DEFAULT '1'::numeric NOT NULL,
     link_rating bigint DEFAULT '0'::bigint NOT NULL,
-    link_updated timestamp without time zone DEFAULT "now"() NOT NULL,
+    link_updated timestamp without time zone,
     link_rel character varying(255) DEFAULT ''::character varying NOT NULL,
     link_notes text NOT NULL,
     link_rss character varying(255) DEFAULT ''::character varying NOT NULL
@@ -245,8 +263,8 @@ ALTER SEQUENCE wordpress.wp_postmeta_meta_id_seq OWNED BY wordpress.wp_postmeta.
 CREATE TABLE wordpress.wp_posts (
     "ID" bigint NOT NULL,
     post_author numeric DEFAULT '0'::numeric NOT NULL,
-    post_date timestamp without time zone DEFAULT "now"() NOT NULL,
-    post_date_gmt timestamp without time zone DEFAULT "now"() NOT NULL,
+    post_date timestamp without time zone,
+    post_date_gmt timestamp without time zone,
     post_content text NOT NULL,
     post_title text NOT NULL,
     post_excerpt text NOT NULL,
@@ -257,8 +275,8 @@ CREATE TABLE wordpress.wp_posts (
     post_name character varying(200) DEFAULT ''::character varying NOT NULL,
     to_ping text NOT NULL,
     pinged text NOT NULL,
-    post_modified timestamp without time zone DEFAULT "now"() NOT NULL,
-    post_modified_gmt timestamp without time zone DEFAULT "now"() NOT NULL,
+    post_modified timestamp without time zone,
+    post_modified_gmt timestamp without time zone,
     post_content_filtered text NOT NULL,
     post_parent numeric DEFAULT '0'::numeric NOT NULL,
     guid character varying(255) DEFAULT ''::character varying NOT NULL,
@@ -458,7 +476,7 @@ CREATE TABLE wordpress.wp_users (
     user_nicename character varying(50) DEFAULT ''::character varying NOT NULL,
     user_email character varying(100) DEFAULT ''::character varying NOT NULL,
     user_url character varying(100) DEFAULT ''::character varying NOT NULL,
-    user_registered timestamp without time zone DEFAULT "now"() NOT NULL,
+    user_registered timestamp without time zone,
     user_activation_key character varying(255) DEFAULT ''::character varying NOT NULL,
     user_status bigint DEFAULT '0'::bigint NOT NULL,
     display_name character varying(250) DEFAULT ''::character varying NOT NULL
@@ -896,288 +914,288 @@ SELECT pg_catalog.setval('wordpress."wp_users_ID_seq"', 1, true);
 
 
 --
--- Name: wp_commentmeta idx_20057_PRIMARY; Type: CONSTRAINT; Schema: wordpress; Owner: root
+-- Name: wp_commentmeta idx_22003_PRIMARY; Type: CONSTRAINT; Schema: wordpress; Owner: root
 --
 
 ALTER TABLE ONLY wordpress.wp_commentmeta
-    ADD CONSTRAINT "idx_20057_PRIMARY" PRIMARY KEY (meta_id);
+    ADD CONSTRAINT "idx_22003_PRIMARY" PRIMARY KEY (meta_id);
 
 
 --
--- Name: wp_comments idx_20067_PRIMARY; Type: CONSTRAINT; Schema: wordpress; Owner: root
+-- Name: wp_comments idx_22013_PRIMARY; Type: CONSTRAINT; Schema: wordpress; Owner: root
 --
 
 ALTER TABLE ONLY wordpress.wp_comments
-    ADD CONSTRAINT "idx_20067_PRIMARY" PRIMARY KEY ("comment_ID");
+    ADD CONSTRAINT "idx_22013_PRIMARY" PRIMARY KEY ("comment_ID");
 
 
 --
--- Name: wp_links idx_20086_PRIMARY; Type: CONSTRAINT; Schema: wordpress; Owner: root
+-- Name: wp_links idx_22032_PRIMARY; Type: CONSTRAINT; Schema: wordpress; Owner: root
 --
 
 ALTER TABLE ONLY wordpress.wp_links
-    ADD CONSTRAINT "idx_20086_PRIMARY" PRIMARY KEY (link_id);
+    ADD CONSTRAINT "idx_22032_PRIMARY" PRIMARY KEY (link_id);
 
 
 --
--- Name: wp_options idx_20105_PRIMARY; Type: CONSTRAINT; Schema: wordpress; Owner: root
+-- Name: wp_options idx_22051_PRIMARY; Type: CONSTRAINT; Schema: wordpress; Owner: root
 --
 
 ALTER TABLE ONLY wordpress.wp_options
-    ADD CONSTRAINT "idx_20105_PRIMARY" PRIMARY KEY (option_id);
+    ADD CONSTRAINT "idx_22051_PRIMARY" PRIMARY KEY (option_id);
 
 
 --
--- Name: wp_postmeta idx_20116_PRIMARY; Type: CONSTRAINT; Schema: wordpress; Owner: root
+-- Name: wp_postmeta idx_22062_PRIMARY; Type: CONSTRAINT; Schema: wordpress; Owner: root
 --
 
 ALTER TABLE ONLY wordpress.wp_postmeta
-    ADD CONSTRAINT "idx_20116_PRIMARY" PRIMARY KEY (meta_id);
+    ADD CONSTRAINT "idx_22062_PRIMARY" PRIMARY KEY (meta_id);
 
 
 --
--- Name: wp_posts idx_20126_PRIMARY; Type: CONSTRAINT; Schema: wordpress; Owner: root
+-- Name: wp_posts idx_22072_PRIMARY; Type: CONSTRAINT; Schema: wordpress; Owner: root
 --
 
 ALTER TABLE ONLY wordpress.wp_posts
-    ADD CONSTRAINT "idx_20126_PRIMARY" PRIMARY KEY ("ID");
+    ADD CONSTRAINT "idx_22072_PRIMARY" PRIMARY KEY ("ID");
 
 
 --
--- Name: wp_termmeta idx_20147_PRIMARY; Type: CONSTRAINT; Schema: wordpress; Owner: root
+-- Name: wp_termmeta idx_22093_PRIMARY; Type: CONSTRAINT; Schema: wordpress; Owner: root
 --
 
 ALTER TABLE ONLY wordpress.wp_termmeta
-    ADD CONSTRAINT "idx_20147_PRIMARY" PRIMARY KEY (meta_id);
+    ADD CONSTRAINT "idx_22093_PRIMARY" PRIMARY KEY (meta_id);
 
 
 --
--- Name: wp_terms idx_20157_PRIMARY; Type: CONSTRAINT; Schema: wordpress; Owner: root
+-- Name: wp_terms idx_22103_PRIMARY; Type: CONSTRAINT; Schema: wordpress; Owner: root
 --
 
 ALTER TABLE ONLY wordpress.wp_terms
-    ADD CONSTRAINT "idx_20157_PRIMARY" PRIMARY KEY (term_id);
+    ADD CONSTRAINT "idx_22103_PRIMARY" PRIMARY KEY (term_id);
 
 
 --
--- Name: wp_term_relationships idx_20164_PRIMARY; Type: CONSTRAINT; Schema: wordpress; Owner: root
+-- Name: wp_term_relationships idx_22110_PRIMARY; Type: CONSTRAINT; Schema: wordpress; Owner: root
 --
 
 ALTER TABLE ONLY wordpress.wp_term_relationships
-    ADD CONSTRAINT "idx_20164_PRIMARY" PRIMARY KEY (object_id, term_taxonomy_id);
+    ADD CONSTRAINT "idx_22110_PRIMARY" PRIMARY KEY (object_id, term_taxonomy_id);
 
 
 --
--- Name: wp_term_taxonomy idx_20175_PRIMARY; Type: CONSTRAINT; Schema: wordpress; Owner: root
+-- Name: wp_term_taxonomy idx_22121_PRIMARY; Type: CONSTRAINT; Schema: wordpress; Owner: root
 --
 
 ALTER TABLE ONLY wordpress.wp_term_taxonomy
-    ADD CONSTRAINT "idx_20175_PRIMARY" PRIMARY KEY (term_taxonomy_id);
+    ADD CONSTRAINT "idx_22121_PRIMARY" PRIMARY KEY (term_taxonomy_id);
 
 
 --
--- Name: wp_usermeta idx_20188_PRIMARY; Type: CONSTRAINT; Schema: wordpress; Owner: root
+-- Name: wp_usermeta idx_22134_PRIMARY; Type: CONSTRAINT; Schema: wordpress; Owner: root
 --
 
 ALTER TABLE ONLY wordpress.wp_usermeta
-    ADD CONSTRAINT "idx_20188_PRIMARY" PRIMARY KEY (umeta_id);
+    ADD CONSTRAINT "idx_22134_PRIMARY" PRIMARY KEY (umeta_id);
 
 
 --
--- Name: wp_users idx_20198_PRIMARY; Type: CONSTRAINT; Schema: wordpress; Owner: root
+-- Name: wp_users idx_22144_PRIMARY; Type: CONSTRAINT; Schema: wordpress; Owner: root
 --
 
 ALTER TABLE ONLY wordpress.wp_users
-    ADD CONSTRAINT "idx_20198_PRIMARY" PRIMARY KEY ("ID");
+    ADD CONSTRAINT "idx_22144_PRIMARY" PRIMARY KEY ("ID");
 
 
 --
--- Name: idx_20057_comment_id; Type: INDEX; Schema: wordpress; Owner: root
+-- Name: idx_22003_comment_id; Type: INDEX; Schema: wordpress; Owner: root
 --
 
-CREATE INDEX idx_20057_comment_id ON wordpress.wp_commentmeta USING btree (comment_id);
-
-
---
--- Name: idx_20057_meta_key; Type: INDEX; Schema: wordpress; Owner: root
---
-
-CREATE INDEX idx_20057_meta_key ON wordpress.wp_commentmeta USING btree (meta_key);
+CREATE INDEX idx_22003_comment_id ON wordpress.wp_commentmeta USING btree (comment_id);
 
 
 --
--- Name: idx_20067_comment_approved_date_gmt; Type: INDEX; Schema: wordpress; Owner: root
+-- Name: idx_22003_meta_key; Type: INDEX; Schema: wordpress; Owner: root
 --
 
-CREATE INDEX idx_20067_comment_approved_date_gmt ON wordpress.wp_comments USING btree (comment_approved, comment_date_gmt);
-
-
---
--- Name: idx_20067_comment_author_email; Type: INDEX; Schema: wordpress; Owner: root
---
-
-CREATE INDEX idx_20067_comment_author_email ON wordpress.wp_comments USING btree (comment_author_email);
+CREATE INDEX idx_22003_meta_key ON wordpress.wp_commentmeta USING btree (meta_key);
 
 
 --
--- Name: idx_20067_comment_date_gmt; Type: INDEX; Schema: wordpress; Owner: root
+-- Name: idx_22013_comment_approved_date_gmt; Type: INDEX; Schema: wordpress; Owner: root
 --
 
-CREATE INDEX idx_20067_comment_date_gmt ON wordpress.wp_comments USING btree (comment_date_gmt);
-
-
---
--- Name: idx_20067_comment_parent; Type: INDEX; Schema: wordpress; Owner: root
---
-
-CREATE INDEX idx_20067_comment_parent ON wordpress.wp_comments USING btree (comment_parent);
+CREATE INDEX idx_22013_comment_approved_date_gmt ON wordpress.wp_comments USING btree (comment_approved, comment_date_gmt);
 
 
 --
--- Name: idx_20067_comment_post_ID; Type: INDEX; Schema: wordpress; Owner: root
+-- Name: idx_22013_comment_author_email; Type: INDEX; Schema: wordpress; Owner: root
 --
 
-CREATE INDEX "idx_20067_comment_post_ID" ON wordpress.wp_comments USING btree ("comment_post_ID");
-
-
---
--- Name: idx_20086_link_visible; Type: INDEX; Schema: wordpress; Owner: root
---
-
-CREATE INDEX idx_20086_link_visible ON wordpress.wp_links USING btree (link_visible);
+CREATE INDEX idx_22013_comment_author_email ON wordpress.wp_comments USING btree (comment_author_email);
 
 
 --
--- Name: idx_20105_option_name; Type: INDEX; Schema: wordpress; Owner: root
+-- Name: idx_22013_comment_date_gmt; Type: INDEX; Schema: wordpress; Owner: root
 --
 
-CREATE UNIQUE INDEX idx_20105_option_name ON wordpress.wp_options USING btree (option_name);
-
-
---
--- Name: idx_20116_meta_key; Type: INDEX; Schema: wordpress; Owner: root
---
-
-CREATE INDEX idx_20116_meta_key ON wordpress.wp_postmeta USING btree (meta_key);
+CREATE INDEX idx_22013_comment_date_gmt ON wordpress.wp_comments USING btree (comment_date_gmt);
 
 
 --
--- Name: idx_20116_post_id; Type: INDEX; Schema: wordpress; Owner: root
+-- Name: idx_22013_comment_parent; Type: INDEX; Schema: wordpress; Owner: root
 --
 
-CREATE INDEX idx_20116_post_id ON wordpress.wp_postmeta USING btree (post_id);
-
-
---
--- Name: idx_20126_post_author; Type: INDEX; Schema: wordpress; Owner: root
---
-
-CREATE INDEX idx_20126_post_author ON wordpress.wp_posts USING btree (post_author);
+CREATE INDEX idx_22013_comment_parent ON wordpress.wp_comments USING btree (comment_parent);
 
 
 --
--- Name: idx_20126_post_name; Type: INDEX; Schema: wordpress; Owner: root
+-- Name: idx_22013_comment_post_ID; Type: INDEX; Schema: wordpress; Owner: root
 --
 
-CREATE INDEX idx_20126_post_name ON wordpress.wp_posts USING btree (post_name);
-
-
---
--- Name: idx_20126_post_parent; Type: INDEX; Schema: wordpress; Owner: root
---
-
-CREATE INDEX idx_20126_post_parent ON wordpress.wp_posts USING btree (post_parent);
+CREATE INDEX "idx_22013_comment_post_ID" ON wordpress.wp_comments USING btree ("comment_post_ID");
 
 
 --
--- Name: idx_20126_type_status_date; Type: INDEX; Schema: wordpress; Owner: root
+-- Name: idx_22032_link_visible; Type: INDEX; Schema: wordpress; Owner: root
 --
 
-CREATE INDEX idx_20126_type_status_date ON wordpress.wp_posts USING btree (post_type, post_status, post_date, "ID");
-
-
---
--- Name: idx_20147_meta_key; Type: INDEX; Schema: wordpress; Owner: root
---
-
-CREATE INDEX idx_20147_meta_key ON wordpress.wp_termmeta USING btree (meta_key);
+CREATE INDEX idx_22032_link_visible ON wordpress.wp_links USING btree (link_visible);
 
 
 --
--- Name: idx_20147_term_id; Type: INDEX; Schema: wordpress; Owner: root
+-- Name: idx_22051_option_name; Type: INDEX; Schema: wordpress; Owner: root
 --
 
-CREATE INDEX idx_20147_term_id ON wordpress.wp_termmeta USING btree (term_id);
-
-
---
--- Name: idx_20157_name; Type: INDEX; Schema: wordpress; Owner: root
---
-
-CREATE INDEX idx_20157_name ON wordpress.wp_terms USING btree (name);
+CREATE UNIQUE INDEX idx_22051_option_name ON wordpress.wp_options USING btree (option_name);
 
 
 --
--- Name: idx_20157_slug; Type: INDEX; Schema: wordpress; Owner: root
+-- Name: idx_22062_meta_key; Type: INDEX; Schema: wordpress; Owner: root
 --
 
-CREATE INDEX idx_20157_slug ON wordpress.wp_terms USING btree (slug);
-
-
---
--- Name: idx_20164_term_taxonomy_id; Type: INDEX; Schema: wordpress; Owner: root
---
-
-CREATE INDEX idx_20164_term_taxonomy_id ON wordpress.wp_term_relationships USING btree (term_taxonomy_id);
+CREATE INDEX idx_22062_meta_key ON wordpress.wp_postmeta USING btree (meta_key);
 
 
 --
--- Name: idx_20175_taxonomy; Type: INDEX; Schema: wordpress; Owner: root
+-- Name: idx_22062_post_id; Type: INDEX; Schema: wordpress; Owner: root
 --
 
-CREATE INDEX idx_20175_taxonomy ON wordpress.wp_term_taxonomy USING btree (taxonomy);
-
-
---
--- Name: idx_20175_term_id_taxonomy; Type: INDEX; Schema: wordpress; Owner: root
---
-
-CREATE UNIQUE INDEX idx_20175_term_id_taxonomy ON wordpress.wp_term_taxonomy USING btree (term_id, taxonomy);
+CREATE INDEX idx_22062_post_id ON wordpress.wp_postmeta USING btree (post_id);
 
 
 --
--- Name: idx_20188_meta_key; Type: INDEX; Schema: wordpress; Owner: root
+-- Name: idx_22072_post_author; Type: INDEX; Schema: wordpress; Owner: root
 --
 
-CREATE INDEX idx_20188_meta_key ON wordpress.wp_usermeta USING btree (meta_key);
-
-
---
--- Name: idx_20188_user_id; Type: INDEX; Schema: wordpress; Owner: root
---
-
-CREATE INDEX idx_20188_user_id ON wordpress.wp_usermeta USING btree (user_id);
+CREATE INDEX idx_22072_post_author ON wordpress.wp_posts USING btree (post_author);
 
 
 --
--- Name: idx_20198_user_email; Type: INDEX; Schema: wordpress; Owner: root
+-- Name: idx_22072_post_name; Type: INDEX; Schema: wordpress; Owner: root
 --
 
-CREATE INDEX idx_20198_user_email ON wordpress.wp_users USING btree (user_email);
-
-
---
--- Name: idx_20198_user_login_key; Type: INDEX; Schema: wordpress; Owner: root
---
-
-CREATE INDEX idx_20198_user_login_key ON wordpress.wp_users USING btree (user_login);
+CREATE INDEX idx_22072_post_name ON wordpress.wp_posts USING btree (post_name);
 
 
 --
--- Name: idx_20198_user_nicename; Type: INDEX; Schema: wordpress; Owner: root
+-- Name: idx_22072_post_parent; Type: INDEX; Schema: wordpress; Owner: root
 --
 
-CREATE INDEX idx_20198_user_nicename ON wordpress.wp_users USING btree (user_nicename);
+CREATE INDEX idx_22072_post_parent ON wordpress.wp_posts USING btree (post_parent);
+
+
+--
+-- Name: idx_22072_type_status_date; Type: INDEX; Schema: wordpress; Owner: root
+--
+
+CREATE INDEX idx_22072_type_status_date ON wordpress.wp_posts USING btree (post_type, post_status, post_date, "ID");
+
+
+--
+-- Name: idx_22093_meta_key; Type: INDEX; Schema: wordpress; Owner: root
+--
+
+CREATE INDEX idx_22093_meta_key ON wordpress.wp_termmeta USING btree (meta_key);
+
+
+--
+-- Name: idx_22093_term_id; Type: INDEX; Schema: wordpress; Owner: root
+--
+
+CREATE INDEX idx_22093_term_id ON wordpress.wp_termmeta USING btree (term_id);
+
+
+--
+-- Name: idx_22103_name; Type: INDEX; Schema: wordpress; Owner: root
+--
+
+CREATE INDEX idx_22103_name ON wordpress.wp_terms USING btree (name);
+
+
+--
+-- Name: idx_22103_slug; Type: INDEX; Schema: wordpress; Owner: root
+--
+
+CREATE INDEX idx_22103_slug ON wordpress.wp_terms USING btree (slug);
+
+
+--
+-- Name: idx_22110_term_taxonomy_id; Type: INDEX; Schema: wordpress; Owner: root
+--
+
+CREATE INDEX idx_22110_term_taxonomy_id ON wordpress.wp_term_relationships USING btree (term_taxonomy_id);
+
+
+--
+-- Name: idx_22121_taxonomy; Type: INDEX; Schema: wordpress; Owner: root
+--
+
+CREATE INDEX idx_22121_taxonomy ON wordpress.wp_term_taxonomy USING btree (taxonomy);
+
+
+--
+-- Name: idx_22121_term_id_taxonomy; Type: INDEX; Schema: wordpress; Owner: root
+--
+
+CREATE UNIQUE INDEX idx_22121_term_id_taxonomy ON wordpress.wp_term_taxonomy USING btree (term_id, taxonomy);
+
+
+--
+-- Name: idx_22134_meta_key; Type: INDEX; Schema: wordpress; Owner: root
+--
+
+CREATE INDEX idx_22134_meta_key ON wordpress.wp_usermeta USING btree (meta_key);
+
+
+--
+-- Name: idx_22134_user_id; Type: INDEX; Schema: wordpress; Owner: root
+--
+
+CREATE INDEX idx_22134_user_id ON wordpress.wp_usermeta USING btree (user_id);
+
+
+--
+-- Name: idx_22144_user_email; Type: INDEX; Schema: wordpress; Owner: root
+--
+
+CREATE INDEX idx_22144_user_email ON wordpress.wp_users USING btree (user_email);
+
+
+--
+-- Name: idx_22144_user_login_key; Type: INDEX; Schema: wordpress; Owner: root
+--
+
+CREATE INDEX idx_22144_user_login_key ON wordpress.wp_users USING btree (user_login);
+
+
+--
+-- Name: idx_22144_user_nicename; Type: INDEX; Schema: wordpress; Owner: root
+--
+
+CREATE INDEX idx_22144_user_nicename ON wordpress.wp_users USING btree (user_nicename);
 
 
 --
