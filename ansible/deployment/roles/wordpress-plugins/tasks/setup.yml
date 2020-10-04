@@ -2,20 +2,20 @@
 
 - name: Activate Plugin WP Super Cache - copy advanced-cache.php
   copy:
-    src: wp-super-cache/advanced-cache.php
+    src: "{{ lab.path.contentdir }}/wordpress/plugins/wp-super-cache/advanced-cache.php"
     dest: /srv/wordpress/wp-content/advanced-cache.php
   when: config_only == false
 
 - name: Activate Plugin WP Super Cache - copy wp-cache-config-sample.php
   copy:
-    src: wp-super-cache/wp-cache-config-sample.php
+    src: "{{ lab.path.contentdir }}/wordpress/plugins/wp-super-cache/wp-cache-config-sample.php"
     dest: /srv/wordpress/wp-content/wp-cache-config.php
   when: config_only == false
 
 # https://wordpress.org/plugins/wppg
 - name: Activate Plugin WPPG - copy db.php
   copy:
-    src: wppg/pg4wp/db.php
+    src: "{{ lab.path.contentdir }}/wordpress/plugins/wppg/pg4wp/db.php"
     dest: /srv/wordpress/wp-content/db.php
   when: config_only == false
 
