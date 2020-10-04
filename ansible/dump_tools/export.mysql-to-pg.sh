@@ -1,11 +1,17 @@
 ﻿#!/bin/sh
 
+base_path=$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )
+
+cat $base_path/wp_pg_schema.sql | ssh database 'cat > /tmp/wp_pg_schema.sql'
+
 ssh database << EOF
 
 yum -y install pgloader
 dropdb wordpress2 || true
 
 createdb wordpress2
+
+pg_restore -d wordpress2 /tmp/wp_pg_schema.sql
 
 cat > /tmp/pgload.cmd << EOS
 
