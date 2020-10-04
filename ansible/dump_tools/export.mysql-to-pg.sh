@@ -2,7 +2,7 @@
 
 ssh database << EOF
 
-yum install pgloader
+yum -y install pgloader
 dropdb wordpress2 || true
 
 createdb wordpress2
