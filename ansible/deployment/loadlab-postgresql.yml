@@ -1,11 +1,9 @@
 ---
 
-- name: Install PostgreSQL
+
+- name: Convert MariaDB
   hosts: database
   gather_facts: false
 
   roles:
-    - common
-    - telegraf-node
-    - postgresql
-
+    - wp-db-convert-mysql-2-postgresql
