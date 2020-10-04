@@ -15,7 +15,7 @@ LOAD DATABASE
 
  WITH quote identifiers
 
- CAST type timestamp with time zone to timestamp without time zone
+ CAST type datetime to timestamp without time zone
 
 ;
 
