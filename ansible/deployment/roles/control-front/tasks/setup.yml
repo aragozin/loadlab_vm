@@ -5,7 +5,7 @@
     path: "{{ lab.path.contentdir }}/front/www/{{ item.path }}"
     state: directory
     mode: "{{ item.mode }}"
-  with_filetree: "{{ lab.path.contentdir }}/front/www"
+  with_filetree: "{{ lab.path.contentdir }}/front/www/"
   when: item.state == "directory"
 
 - name: Copy static content (files)
@@ -13,7 +13,7 @@
     src: "{{ item.src }}"
     dest: "/srv/control-front/www/{{ item.path }}"
     mode: "{{ item.mode }}"
-  with_filetree: "{{ lab.path.contentdir }}/front/www"
+  with_filetree: "{{ lab.path.contentdir }}/front/www/"
   when: item.state == "file"
 
 #- name: Copy static content
