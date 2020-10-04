@@ -26,6 +26,6 @@ EOF
 
 echo Export complete to wordpress2 db
 
-ssh database pg_dump postgresql:///wordpress2 | sed 's/OWNER to root/OWNER to "wordpress"/g' > wp.dump
+ssh database pg_dump postgresql:///wordpress2 | sed 's/OWNER TO root/OWNER TO "wordpress"/g' > wp.dump
 
 ssh database dropdb wordpress2
