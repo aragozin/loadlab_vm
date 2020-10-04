@@ -1,11 +1,11 @@
 ---
 
+  # minpoll and maxpoll is specified in 2 power of second
+  # minpoll 0 - 1 second
+  # maxpoll 5 - 32 second
   - name: Tweak chronyd time polling
     lineinfile: 
       dest: /etc/chrony/chrony.conf
-      regexp: '.*{{ item }}$' 
-      line: "{{item}}" 
+      regexp: '^pool.*$' 
+      line: "pool pool.ntp.org iburst minpoll 0 maxpoll 5" 
       state: present
-    with_items: 
-     - "minpoll 0"
-     - "maxpoll 5"
