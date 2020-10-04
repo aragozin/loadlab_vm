@@ -83,7 +83,7 @@
 - name: wp_commentmeta TRUNCATE
   postgresql_query:
     db: "{{ wp_db_name }}"
-    query: TRUNCATE TABLE "public"."wp_commentmeta" RESTART IDENTITY
+    query: TRUNCATE TABLE "public"."wp_commentmeta"
   become: true
   become_user: postgres
   become_method: su
@@ -101,7 +101,7 @@
 - name: wp_links TRUNCATE
   postgresql_query:
     db: "{{ wp_db_name }}"
-    query: TRUNCATE TABLE public.wp_links RESTART IDENTITY;
+    query: TRUNCATE TABLE public.wp_links;
   become: true
   become_user: postgres
   become_method: su
@@ -119,7 +119,7 @@
 - name: wp_options TRUNCATE
   postgresql_query:
     db: "{{ wp_db_name }}"
-    query: TRUNCATE TABLE public.wp_options RESTART IDENTITY;
+    query: TRUNCATE TABLE public.wp_options;
   become: true
   become_user: postgres
   become_method: su
@@ -137,7 +137,7 @@
 - name: wp_postmeta TRUNCATE
   postgresql_query:
     db: "{{ wp_db_name }}"
-    query: TRUNCATE TABLE public.wp_postmeta RESTART IDENTITY;
+    query: TRUNCATE TABLE public.wp_postmeta;
   become: true
   become_user: postgres
   become_method: su
@@ -155,7 +155,7 @@
 - name: wp_term_relationships TRUNCATE
   postgresql_query:
     db: "{{ wp_db_name }}"
-    query: TRUNCATE TABLE public.wp_term_relationships RESTART IDENTITY;
+    query: TRUNCATE TABLE public.wp_term_relationships;
   become: true
   become_user: postgres
   become_method: su
@@ -173,7 +173,7 @@
 - name: wp_term_taxonomy TRUNCATE
   postgresql_query:
     db: "{{ wp_db_name }}"
-    query: TRUNCATE TABLE public.wp_term_taxonomy RESTART IDENTITY;
+    query: TRUNCATE TABLE public.wp_term_taxonomy;
   become: true
   become_user: postgres
   become_method: su
@@ -191,7 +191,7 @@
 - name: wp_termmeta TRUNCATE
   postgresql_query:
     db: "{{ wp_db_name }}"
-    query: TRUNCATE TABLE public.wp_termmeta RESTART IDENTITY;
+    query: TRUNCATE TABLE public.wp_termmeta;
   become: true
   become_user: postgres
   become_method: su
@@ -210,7 +210,7 @@
 - name: wp_terms TRUNCATE
   postgresql_query:
     db: "{{ wp_db_name }}"
-    query: TRUNCATE TABLE public.wp_terms RESTART IDENTITY;
+    query: TRUNCATE TABLE public.wp_terms;
   become: true
   become_user: postgres
   become_method: su
@@ -228,7 +228,7 @@
 - name: wp_usermeta TRUNCATE
   postgresql_query:
     db: "{{ wp_db_name }}"
-    query: TRUNCATE TABLE public.wp_usermeta RESTART IDENTITY;
+    query: TRUNCATE TABLE public.wp_usermeta;
   become: true
   become_user: postgres
   become_method: su
@@ -246,7 +246,7 @@
 - name: wp_comments TRUNCATE
   postgresql_query:
     db: "{{ wp_db_name }}"
-    query: TRUNCATE TABLE public.wp_comments RESTART IDENTITY;
+    query: TRUNCATE TABLE public.wp_comments;
   become: true
   become_user: postgres
   become_method: su
@@ -264,7 +264,7 @@
 - name: wp_users TRUNCATE
   postgresql_query:
     db: "{{ wp_db_name }}"
-    query: TRUNCATE TABLE public.wp_users RESTART IDENTITY;
+    query: TRUNCATE TABLE public.wp_users;
   become: true
   become_user: postgres
   become_method: su
@@ -283,7 +283,7 @@
 - name: wp_posts TRUNCATE
   postgresql_query:
     db: "{{ wp_db_name }}"
-    query: TRUNCATE TABLE public.wp_posts RESTART IDENTITY;
+    query: TRUNCATE TABLE public.wp_posts;
   become: true
   become_user: postgres
   become_method: su
