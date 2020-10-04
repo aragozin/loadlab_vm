@@ -23,7 +23,7 @@ SET row_security = off;
 CREATE SCHEMA wordpress;
 
 
-ALTER SCHEMA wordpress OWNER TO root;
+ALTER SCHEMA wordpress OWNER TO "wordpress";
 
 --
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
@@ -55,7 +55,7 @@ CREATE TABLE wordpress.wp_commentmeta (
 );
 
 
-ALTER TABLE wordpress.wp_commentmeta OWNER TO root;
+ALTER TABLE wordpress.wp_commentmeta OWNER TO "wordpress";
 
 --
 -- Name: wp_commentmeta_meta_id_seq; Type: SEQUENCE; Schema: wordpress; Owner: root
@@ -69,7 +69,7 @@ CREATE SEQUENCE wordpress.wp_commentmeta_meta_id_seq
     CACHE 1;
 
 
-ALTER TABLE wordpress.wp_commentmeta_meta_id_seq OWNER TO root;
+ALTER TABLE wordpress.wp_commentmeta_meta_id_seq OWNER TO "wordpress";
 
 --
 -- Name: wp_commentmeta_meta_id_seq; Type: SEQUENCE OWNED BY; Schema: wordpress; Owner: root
@@ -83,12 +83,12 @@ ALTER SEQUENCE wordpress.wp_commentmeta_meta_id_seq OWNED BY wordpress.wp_commen
 --
 
 CREATE TABLE wordpress.wp_comments (
-    comment_id bigint NOT NULL,
-    comment_post_id numeric DEFAULT '0'::numeric NOT NULL,
+    "comment_ID" bigint NOT NULL,
+    "comment_post_ID" numeric DEFAULT '0'::numeric NOT NULL,
     comment_author text NOT NULL,
     comment_author_email character varying(100) DEFAULT ''::character varying NOT NULL,
     comment_author_url character varying(200) DEFAULT ''::character varying NOT NULL,
-    comment_author_ip character varying(100) DEFAULT ''::character varying NOT NULL,
+    "comment_author_IP" character varying(100) DEFAULT ''::character varying NOT NULL,
     comment_date timestamp with time zone,
     comment_date_gmt timestamp with time zone,
     comment_content text NOT NULL,
@@ -101,13 +101,13 @@ CREATE TABLE wordpress.wp_comments (
 );
 
 
-ALTER TABLE wordpress.wp_comments OWNER TO root;
+ALTER TABLE wordpress.wp_comments OWNER TO "wordpress";
 
 --
--- Name: wp_comments_comment_id_seq; Type: SEQUENCE; Schema: wordpress; Owner: root
+-- Name: wp_comments_comment_ID_seq; Type: SEQUENCE; Schema: wordpress; Owner: root
 --
 
-CREATE SEQUENCE wordpress.wp_comments_comment_id_seq
+CREATE SEQUENCE wordpress."wp_comments_comment_ID_seq"
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -115,13 +115,13 @@ CREATE SEQUENCE wordpress.wp_comments_comment_id_seq
     CACHE 1;
 
 
-ALTER TABLE wordpress.wp_comments_comment_id_seq OWNER TO root;
+ALTER TABLE wordpress."wp_comments_comment_ID_seq" OWNER TO "wordpress";
 
 --
--- Name: wp_comments_comment_id_seq; Type: SEQUENCE OWNED BY; Schema: wordpress; Owner: root
+-- Name: wp_comments_comment_ID_seq; Type: SEQUENCE OWNED BY; Schema: wordpress; Owner: root
 --
 
-ALTER SEQUENCE wordpress.wp_comments_comment_id_seq OWNED BY wordpress.wp_comments.comment_id;
+ALTER SEQUENCE wordpress."wp_comments_comment_ID_seq" OWNED BY wordpress.wp_comments."comment_ID";
 
 
 --
@@ -145,7 +145,7 @@ CREATE TABLE wordpress.wp_links (
 );
 
 
-ALTER TABLE wordpress.wp_links OWNER TO root;
+ALTER TABLE wordpress.wp_links OWNER TO "wordpress";
 
 --
 -- Name: wp_links_link_id_seq; Type: SEQUENCE; Schema: wordpress; Owner: root
@@ -159,7 +159,7 @@ CREATE SEQUENCE wordpress.wp_links_link_id_seq
     CACHE 1;
 
 
-ALTER TABLE wordpress.wp_links_link_id_seq OWNER TO root;
+ALTER TABLE wordpress.wp_links_link_id_seq OWNER TO "wordpress";
 
 --
 -- Name: wp_links_link_id_seq; Type: SEQUENCE OWNED BY; Schema: wordpress; Owner: root
@@ -180,7 +180,7 @@ CREATE TABLE wordpress.wp_options (
 );
 
 
-ALTER TABLE wordpress.wp_options OWNER TO root;
+ALTER TABLE wordpress.wp_options OWNER TO "wordpress";
 
 --
 -- Name: wp_options_option_id_seq; Type: SEQUENCE; Schema: wordpress; Owner: root
@@ -194,7 +194,7 @@ CREATE SEQUENCE wordpress.wp_options_option_id_seq
     CACHE 1;
 
 
-ALTER TABLE wordpress.wp_options_option_id_seq OWNER TO root;
+ALTER TABLE wordpress.wp_options_option_id_seq OWNER TO "wordpress";
 
 --
 -- Name: wp_options_option_id_seq; Type: SEQUENCE OWNED BY; Schema: wordpress; Owner: root
@@ -215,7 +215,7 @@ CREATE TABLE wordpress.wp_postmeta (
 );
 
 
-ALTER TABLE wordpress.wp_postmeta OWNER TO root;
+ALTER TABLE wordpress.wp_postmeta OWNER TO "wordpress";
 
 --
 -- Name: wp_postmeta_meta_id_seq; Type: SEQUENCE; Schema: wordpress; Owner: root
@@ -229,7 +229,7 @@ CREATE SEQUENCE wordpress.wp_postmeta_meta_id_seq
     CACHE 1;
 
 
-ALTER TABLE wordpress.wp_postmeta_meta_id_seq OWNER TO root;
+ALTER TABLE wordpress.wp_postmeta_meta_id_seq OWNER TO "wordpress";
 
 --
 -- Name: wp_postmeta_meta_id_seq; Type: SEQUENCE OWNED BY; Schema: wordpress; Owner: root
@@ -243,7 +243,7 @@ ALTER SEQUENCE wordpress.wp_postmeta_meta_id_seq OWNED BY wordpress.wp_postmeta.
 --
 
 CREATE TABLE wordpress.wp_posts (
-    id bigint NOT NULL,
+    "ID" bigint NOT NULL,
     post_author numeric DEFAULT '0'::numeric NOT NULL,
     post_date timestamp with time zone,
     post_date_gmt timestamp with time zone,
@@ -269,13 +269,13 @@ CREATE TABLE wordpress.wp_posts (
 );
 
 
-ALTER TABLE wordpress.wp_posts OWNER TO root;
+ALTER TABLE wordpress.wp_posts OWNER TO "wordpress";
 
 --
--- Name: wp_posts_id_seq; Type: SEQUENCE; Schema: wordpress; Owner: root
+-- Name: wp_posts_ID_seq; Type: SEQUENCE; Schema: wordpress; Owner: root
 --
 
-CREATE SEQUENCE wordpress.wp_posts_id_seq
+CREATE SEQUENCE wordpress."wp_posts_ID_seq"
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -283,13 +283,13 @@ CREATE SEQUENCE wordpress.wp_posts_id_seq
     CACHE 1;
 
 
-ALTER TABLE wordpress.wp_posts_id_seq OWNER TO root;
+ALTER TABLE wordpress."wp_posts_ID_seq" OWNER TO "wordpress";
 
 --
--- Name: wp_posts_id_seq; Type: SEQUENCE OWNED BY; Schema: wordpress; Owner: root
+-- Name: wp_posts_ID_seq; Type: SEQUENCE OWNED BY; Schema: wordpress; Owner: root
 --
 
-ALTER SEQUENCE wordpress.wp_posts_id_seq OWNED BY wordpress.wp_posts.id;
+ALTER SEQUENCE wordpress."wp_posts_ID_seq" OWNED BY wordpress.wp_posts."ID";
 
 
 --
@@ -303,7 +303,7 @@ CREATE TABLE wordpress.wp_term_relationships (
 );
 
 
-ALTER TABLE wordpress.wp_term_relationships OWNER TO root;
+ALTER TABLE wordpress.wp_term_relationships OWNER TO "wordpress";
 
 --
 -- Name: wp_term_taxonomy; Type: TABLE; Schema: wordpress; Owner: root
@@ -319,7 +319,7 @@ CREATE TABLE wordpress.wp_term_taxonomy (
 );
 
 
-ALTER TABLE wordpress.wp_term_taxonomy OWNER TO root;
+ALTER TABLE wordpress.wp_term_taxonomy OWNER TO "wordpress";
 
 --
 -- Name: wp_term_taxonomy_term_taxonomy_id_seq; Type: SEQUENCE; Schema: wordpress; Owner: root
@@ -333,7 +333,7 @@ CREATE SEQUENCE wordpress.wp_term_taxonomy_term_taxonomy_id_seq
     CACHE 1;
 
 
-ALTER TABLE wordpress.wp_term_taxonomy_term_taxonomy_id_seq OWNER TO root;
+ALTER TABLE wordpress.wp_term_taxonomy_term_taxonomy_id_seq OWNER TO "wordpress";
 
 --
 -- Name: wp_term_taxonomy_term_taxonomy_id_seq; Type: SEQUENCE OWNED BY; Schema: wordpress; Owner: root
@@ -354,7 +354,7 @@ CREATE TABLE wordpress.wp_termmeta (
 );
 
 
-ALTER TABLE wordpress.wp_termmeta OWNER TO root;
+ALTER TABLE wordpress.wp_termmeta OWNER TO "wordpress";
 
 --
 -- Name: wp_termmeta_meta_id_seq; Type: SEQUENCE; Schema: wordpress; Owner: root
@@ -368,7 +368,7 @@ CREATE SEQUENCE wordpress.wp_termmeta_meta_id_seq
     CACHE 1;
 
 
-ALTER TABLE wordpress.wp_termmeta_meta_id_seq OWNER TO root;
+ALTER TABLE wordpress.wp_termmeta_meta_id_seq OWNER TO "wordpress";
 
 --
 -- Name: wp_termmeta_meta_id_seq; Type: SEQUENCE OWNED BY; Schema: wordpress; Owner: root
@@ -389,7 +389,7 @@ CREATE TABLE wordpress.wp_terms (
 );
 
 
-ALTER TABLE wordpress.wp_terms OWNER TO root;
+ALTER TABLE wordpress.wp_terms OWNER TO "wordpress";
 
 --
 -- Name: wp_terms_term_id_seq; Type: SEQUENCE; Schema: wordpress; Owner: root
@@ -403,7 +403,7 @@ CREATE SEQUENCE wordpress.wp_terms_term_id_seq
     CACHE 1;
 
 
-ALTER TABLE wordpress.wp_terms_term_id_seq OWNER TO root;
+ALTER TABLE wordpress.wp_terms_term_id_seq OWNER TO "wordpress";
 
 --
 -- Name: wp_terms_term_id_seq; Type: SEQUENCE OWNED BY; Schema: wordpress; Owner: root
@@ -424,7 +424,7 @@ CREATE TABLE wordpress.wp_usermeta (
 );
 
 
-ALTER TABLE wordpress.wp_usermeta OWNER TO root;
+ALTER TABLE wordpress.wp_usermeta OWNER TO "wordpress";
 
 --
 -- Name: wp_usermeta_umeta_id_seq; Type: SEQUENCE; Schema: wordpress; Owner: root
@@ -438,7 +438,7 @@ CREATE SEQUENCE wordpress.wp_usermeta_umeta_id_seq
     CACHE 1;
 
 
-ALTER TABLE wordpress.wp_usermeta_umeta_id_seq OWNER TO root;
+ALTER TABLE wordpress.wp_usermeta_umeta_id_seq OWNER TO "wordpress";
 
 --
 -- Name: wp_usermeta_umeta_id_seq; Type: SEQUENCE OWNED BY; Schema: wordpress; Owner: root
@@ -452,7 +452,7 @@ ALTER SEQUENCE wordpress.wp_usermeta_umeta_id_seq OWNED BY wordpress.wp_usermeta
 --
 
 CREATE TABLE wordpress.wp_users (
-    id bigint NOT NULL,
+    "ID" bigint NOT NULL,
     user_login character varying(60) DEFAULT ''::character varying NOT NULL,
     user_pass character varying(255) DEFAULT ''::character varying NOT NULL,
     user_nicename character varying(50) DEFAULT ''::character varying NOT NULL,
@@ -465,13 +465,13 @@ CREATE TABLE wordpress.wp_users (
 );
 
 
-ALTER TABLE wordpress.wp_users OWNER TO root;
+ALTER TABLE wordpress.wp_users OWNER TO "wordpress";
 
 --
--- Name: wp_users_id_seq; Type: SEQUENCE; Schema: wordpress; Owner: root
+-- Name: wp_users_ID_seq; Type: SEQUENCE; Schema: wordpress; Owner: root
 --
 
-CREATE SEQUENCE wordpress.wp_users_id_seq
+CREATE SEQUENCE wordpress."wp_users_ID_seq"
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -479,13 +479,13 @@ CREATE SEQUENCE wordpress.wp_users_id_seq
     CACHE 1;
 
 
-ALTER TABLE wordpress.wp_users_id_seq OWNER TO root;
+ALTER TABLE wordpress."wp_users_ID_seq" OWNER TO "wordpress";
 
 --
--- Name: wp_users_id_seq; Type: SEQUENCE OWNED BY; Schema: wordpress; Owner: root
+-- Name: wp_users_ID_seq; Type: SEQUENCE OWNED BY; Schema: wordpress; Owner: root
 --
 
-ALTER SEQUENCE wordpress.wp_users_id_seq OWNED BY wordpress.wp_users.id;
+ALTER SEQUENCE wordpress."wp_users_ID_seq" OWNED BY wordpress.wp_users."ID";
 
 
 --
@@ -496,10 +496,10 @@ ALTER TABLE ONLY wordpress.wp_commentmeta ALTER COLUMN meta_id SET DEFAULT nextv
 
 
 --
--- Name: wp_comments comment_id; Type: DEFAULT; Schema: wordpress; Owner: root
+-- Name: wp_comments comment_ID; Type: DEFAULT; Schema: wordpress; Owner: root
 --
 
-ALTER TABLE ONLY wordpress.wp_comments ALTER COLUMN comment_id SET DEFAULT nextval('wordpress.wp_comments_comment_id_seq'::regclass);
+ALTER TABLE ONLY wordpress.wp_comments ALTER COLUMN "comment_ID" SET DEFAULT nextval('wordpress."wp_comments_comment_ID_seq"'::regclass);
 
 
 --
@@ -524,10 +524,10 @@ ALTER TABLE ONLY wordpress.wp_postmeta ALTER COLUMN meta_id SET DEFAULT nextval(
 
 
 --
--- Name: wp_posts id; Type: DEFAULT; Schema: wordpress; Owner: root
+-- Name: wp_posts ID; Type: DEFAULT; Schema: wordpress; Owner: root
 --
 
-ALTER TABLE ONLY wordpress.wp_posts ALTER COLUMN id SET DEFAULT nextval('wordpress.wp_posts_id_seq'::regclass);
+ALTER TABLE ONLY wordpress.wp_posts ALTER COLUMN "ID" SET DEFAULT nextval('wordpress."wp_posts_ID_seq"'::regclass);
 
 
 --
@@ -559,10 +559,10 @@ ALTER TABLE ONLY wordpress.wp_usermeta ALTER COLUMN umeta_id SET DEFAULT nextval
 
 
 --
--- Name: wp_users id; Type: DEFAULT; Schema: wordpress; Owner: root
+-- Name: wp_users ID; Type: DEFAULT; Schema: wordpress; Owner: root
 --
 
-ALTER TABLE ONLY wordpress.wp_users ALTER COLUMN id SET DEFAULT nextval('wordpress.wp_users_id_seq'::regclass);
+ALTER TABLE ONLY wordpress.wp_users ALTER COLUMN "ID" SET DEFAULT nextval('wordpress."wp_users_ID_seq"'::regclass);
 
 
 --
@@ -577,7 +577,7 @@ COPY wordpress.wp_commentmeta (meta_id, comment_id, meta_key, meta_value) FROM s
 -- Data for Name: wp_comments; Type: TABLE DATA; Schema: wordpress; Owner: root
 --
 
-COPY wordpress.wp_comments (comment_id, comment_post_id, comment_author, comment_author_email, comment_author_url, comment_author_ip, comment_date, comment_date_gmt, comment_content, comment_karma, comment_approved, comment_agent, comment_type, comment_parent, user_id) FROM stdin;
+COPY wordpress.wp_comments ("comment_ID", "comment_post_ID", comment_author, comment_author_email, comment_author_url, "comment_author_IP", comment_date, comment_date_gmt, comment_content, comment_karma, comment_approved, comment_agent, comment_type, comment_parent, user_id) FROM stdin;
 1	1	A WordPress Commenter	wapuu@wordpress.example	https://wordpress.org/		2019-05-04 22:40:21+03	2019-05-04 22:40:21+03	Hi, this is a comment.\nTo get started with moderating, editing, and deleting comments, please visit the Comments screen in the dashboard.\nCommenter avatars come from <a href="https://gravatar.com">Gravatar</a>.	0	1			0	0
 \.
 
@@ -769,7 +769,7 @@ COPY wordpress.wp_postmeta (meta_id, post_id, meta_key, meta_value) FROM stdin;
 -- Data for Name: wp_posts; Type: TABLE DATA; Schema: wordpress; Owner: root
 --
 
-COPY wordpress.wp_posts (id, post_author, post_date, post_date_gmt, post_content, post_title, post_excerpt, post_status, comment_status, ping_status, post_password, post_name, to_ping, pinged, post_modified, post_modified_gmt, post_content_filtered, post_parent, guid, menu_order, post_type, post_mime_type, comment_count) FROM stdin;
+COPY wordpress.wp_posts ("ID", post_author, post_date, post_date_gmt, post_content, post_title, post_excerpt, post_status, comment_status, ping_status, post_password, post_name, to_ping, pinged, post_modified, post_modified_gmt, post_content_filtered, post_parent, guid, menu_order, post_type, post_mime_type, comment_count) FROM stdin;
 1	1	2019-05-04 22:40:21+03	2019-05-04 22:40:21+03	<!-- wp:paragraph -->\n<p>Welcome to WordPress. This is your first post. Edit or delete it, then start writing!</p>\n<!-- /wp:paragraph -->	Hello world!		publish	open	open		hello-world			2019-05-04 22:40:21+03	2019-05-04 22:40:21+03		0	http://wp.loadlab.ragozin.info/?p=1	0	post		1
 2	1	2019-05-04 22:40:21+03	2019-05-04 22:40:21+03	<!-- wp:paragraph -->\n<p>This is an example page. It's different from a blog post because it will stay in one place and will show up in your site navigation (in most themes). Most people start with an About page that introduces them to potential site visitors. It might say something like this:</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:quote -->\n<blockquote class="wp-block-quote"><p>Hi there! I'm a bike messenger by day, aspiring actor by night, and this is my website. I live in Los Angeles, have a great dog named Jack, and I like pi&#241;a coladas. (And gettin' caught in the rain.)</p></blockquote>\n<!-- /wp:quote -->\n\n<!-- wp:paragraph -->\n<p>...or something like this:</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:quote -->\n<blockquote class="wp-block-quote"><p>The XYZ Doohickey Company was founded in 1971, and has been providing quality doohickeys to the public ever since. Located in Gotham City, XYZ employs over 2,000 people and does all kinds of awesome things for the Gotham community.</p></blockquote>\n<!-- /wp:quote -->\n\n<!-- wp:paragraph -->\n<p>As a new WordPress user, you should go to <a href="http://wp.loadlab.ragozin.info/wp-admin/">your dashboard</a> to delete this page and create new pages for your content. Have fun!</p>\n<!-- /wp:paragraph -->	Sample Page		publish	closed	open		sample-page			2019-05-04 22:40:21+03	2019-05-04 22:40:21+03		0	http://wp.loadlab.ragozin.info/?page_id=2	0	page		0
 3	1	2019-05-04 22:40:21+03	2019-05-04 22:40:21+03	<!-- wp:heading --><h2>Who we are</h2><!-- /wp:heading --><!-- wp:paragraph --><p>Our website address is: http://wp.loadlab.ragozin.info.</p><!-- /wp:paragraph --><!-- wp:heading --><h2>What personal data we collect and why we collect it</h2><!-- /wp:heading --><!-- wp:heading {"level":3} --><h3>Comments</h3><!-- /wp:heading --><!-- wp:paragraph --><p>When visitors leave comments on the site we collect the data shown in the comments form, and also the visitor&#8217;s IP address and browser user agent string to help spam detection.</p><!-- /wp:paragraph --><!-- wp:paragraph --><p>An anonymized string created from your email address (also called a hash) may be provided to the Gravatar service to see if you are using it. The Gravatar service privacy policy is available here: https://automattic.com/privacy/. After approval of your comment, your profile picture is visible to the public in the context of your comment.</p><!-- /wp:paragraph --><!-- wp:heading {"level":3} --><h3>Media</h3><!-- /wp:heading --><!-- wp:paragraph --><p>If you upload images to the website, you should avoid uploading images with embedded location data (EXIF GPS) included. Visitors to the website can download and extract any location data from images on the website.</p><!-- /wp:paragraph --><!-- wp:heading {"level":3} --><h3>Contact forms</h3><!-- /wp:heading --><!-- wp:heading {"level":3} --><h3>Cookies</h3><!-- /wp:heading --><!-- wp:paragraph --><p>If you leave a comment on our site you may opt-in to saving your name, email address and website in cookies. These are for your convenience so that you do not have to fill in your details again when you leave another comment. These cookies will last for one year.</p><!-- /wp:paragraph --><!-- wp:paragraph --><p>If you have an account and you log in to this site, we will set a temporary cookie to determine if your browser accepts cookies. This cookie contains no personal data and is discarded when you close your browser.</p><!-- /wp:paragraph --><!-- wp:paragraph --><p>When you log in, we will also set up several cookies to save your login information and your screen display choices. Login cookies last for two days, and screen options cookies last for a year. If you select &quot;Remember Me&quot;, your login will persist for two weeks. If you log out of your account, the login cookies will be removed.</p><!-- /wp:paragraph --><!-- wp:paragraph --><p>If you edit or publish an article, an additional cookie will be saved in your browser. This cookie includes no personal data and simply indicates the post ID of the article you just edited. It expires after 1 day.</p><!-- /wp:paragraph --><!-- wp:heading {"level":3} --><h3>Embedded content from other websites</h3><!-- /wp:heading --><!-- wp:paragraph --><p>Articles on this site may include embedded content (e.g. videos, images, articles, etc.). Embedded content from other websites behaves in the exact same way as if the visitor has visited the other website.</p><!-- /wp:paragraph --><!-- wp:paragraph --><p>These websites may collect data about you, use cookies, embed additional third-party tracking, and monitor your interaction with that embedded content, including tracking your interaction with the embedded content if you have an account and are logged in to that website.</p><!-- /wp:paragraph --><!-- wp:heading {"level":3} --><h3>Analytics</h3><!-- /wp:heading --><!-- wp:heading --><h2>Who we share your data with</h2><!-- /wp:heading --><!-- wp:heading --><h2>How long we retain your data</h2><!-- /wp:heading --><!-- wp:paragraph --><p>If you leave a comment, the comment and its metadata are retained indefinitely. This is so we can recognize and approve any follow-up comments automatically instead of holding them in a moderation queue.</p><!-- /wp:paragraph --><!-- wp:paragraph --><p>For users that register on our website (if any), we also store the personal information they provide in their user profile. All users can see, edit, or delete their personal information at any time (except they cannot change their username). Website administrators can also see and edit that information.</p><!-- /wp:paragraph --><!-- wp:heading --><h2>What rights you have over your data</h2><!-- /wp:heading --><!-- wp:paragraph --><p>If you have an account on this site, or have left comments, you can request to receive an exported file of the personal data we hold about you, including any data you have provided to us. You can also request that we erase any personal data we hold about you. This does not include any data we are obliged to keep for administrative, legal, or security purposes.</p><!-- /wp:paragraph --><!-- wp:heading --><h2>Where we send your data</h2><!-- /wp:heading --><!-- wp:paragraph --><p>Visitor comments may be checked through an automated spam detection service.</p><!-- /wp:paragraph --><!-- wp:heading --><h2>Your contact information</h2><!-- /wp:heading --><!-- wp:heading --><h2>Additional information</h2><!-- /wp:heading --><!-- wp:heading {"level":3} --><h3>How we protect your data</h3><!-- /wp:heading --><!-- wp:heading {"level":3} --><h3>What data breach procedures we have in place</h3><!-- /wp:heading --><!-- wp:heading {"level":3} --><h3>What third parties we receive data from</h3><!-- /wp:heading --><!-- wp:heading {"level":3} --><h3>What automated decision making and/or profiling we do with user data</h3><!-- /wp:heading --><!-- wp:heading {"level":3} --><h3>Industry regulatory disclosure requirements</h3><!-- /wp:heading -->	Privacy Policy		draft	closed	open		privacy-policy			2019-05-04 22:40:21+03	2019-05-04 22:40:21+03		0	http://wp.loadlab.ragozin.info/?page_id=3	0	page		0
@@ -842,7 +842,7 @@ COPY wordpress.wp_usermeta (umeta_id, user_id, meta_key, meta_value) FROM stdin;
 -- Data for Name: wp_users; Type: TABLE DATA; Schema: wordpress; Owner: root
 --
 
-COPY wordpress.wp_users (id, user_login, user_pass, user_nicename, user_email, user_url, user_registered, user_activation_key, user_status, display_name) FROM stdin;
+COPY wordpress.wp_users ("ID", user_login, user_pass, user_nicename, user_email, user_url, user_registered, user_activation_key, user_status, display_name) FROM stdin;
 1	boss	$P$B3H1/l7fhkOVhJIklO.JN0SOTU2xiz0	boss	boss@example.com		2019-05-04 22:40:21+03		0	boss
 \.
 
@@ -855,10 +855,10 @@ SELECT pg_catalog.setval('wordpress.wp_commentmeta_meta_id_seq', 1, true);
 
 
 --
--- Name: wp_comments_comment_id_seq; Type: SEQUENCE SET; Schema: wordpress; Owner: root
+-- Name: wp_comments_comment_ID_seq; Type: SEQUENCE SET; Schema: wordpress; Owner: root
 --
 
-SELECT pg_catalog.setval('wordpress.wp_comments_comment_id_seq', 1, true);
+SELECT pg_catalog.setval('wordpress."wp_comments_comment_ID_seq"', 1, true);
 
 
 --
@@ -883,10 +883,10 @@ SELECT pg_catalog.setval('wordpress.wp_postmeta_meta_id_seq', 4, true);
 
 
 --
--- Name: wp_posts_id_seq; Type: SEQUENCE SET; Schema: wordpress; Owner: root
+-- Name: wp_posts_ID_seq; Type: SEQUENCE SET; Schema: wordpress; Owner: root
 --
 
-SELECT pg_catalog.setval('wordpress.wp_posts_id_seq', 5, true);
+SELECT pg_catalog.setval('wordpress."wp_posts_ID_seq"', 5, true);
 
 
 --
@@ -918,295 +918,295 @@ SELECT pg_catalog.setval('wordpress.wp_usermeta_umeta_id_seq', 18, true);
 
 
 --
--- Name: wp_users_id_seq; Type: SEQUENCE SET; Schema: wordpress; Owner: root
+-- Name: wp_users_ID_seq; Type: SEQUENCE SET; Schema: wordpress; Owner: root
 --
 
-SELECT pg_catalog.setval('wordpress.wp_users_id_seq', 1, true);
+SELECT pg_catalog.setval('wordpress."wp_users_ID_seq"', 1, true);
 
 
 --
--- Name: wp_commentmeta idx_17273_primary; Type: CONSTRAINT; Schema: wordpress; Owner: root
+-- Name: wp_commentmeta idx_19022_PRIMARY; Type: CONSTRAINT; Schema: wordpress; Owner: root
 --
 
 ALTER TABLE ONLY wordpress.wp_commentmeta
-    ADD CONSTRAINT idx_17273_primary PRIMARY KEY (meta_id);
+    ADD CONSTRAINT "idx_19022_PRIMARY" PRIMARY KEY (meta_id);
 
 
 --
--- Name: wp_comments idx_17283_primary; Type: CONSTRAINT; Schema: wordpress; Owner: root
+-- Name: wp_comments idx_19032_PRIMARY; Type: CONSTRAINT; Schema: wordpress; Owner: root
 --
 
 ALTER TABLE ONLY wordpress.wp_comments
-    ADD CONSTRAINT idx_17283_primary PRIMARY KEY (comment_id);
+    ADD CONSTRAINT "idx_19032_PRIMARY" PRIMARY KEY ("comment_ID");
 
 
 --
--- Name: wp_links idx_17302_primary; Type: CONSTRAINT; Schema: wordpress; Owner: root
+-- Name: wp_links idx_19051_PRIMARY; Type: CONSTRAINT; Schema: wordpress; Owner: root
 --
 
 ALTER TABLE ONLY wordpress.wp_links
-    ADD CONSTRAINT idx_17302_primary PRIMARY KEY (link_id);
+    ADD CONSTRAINT "idx_19051_PRIMARY" PRIMARY KEY (link_id);
 
 
 --
--- Name: wp_options idx_17321_primary; Type: CONSTRAINT; Schema: wordpress; Owner: root
+-- Name: wp_options idx_19070_PRIMARY; Type: CONSTRAINT; Schema: wordpress; Owner: root
 --
 
 ALTER TABLE ONLY wordpress.wp_options
-    ADD CONSTRAINT idx_17321_primary PRIMARY KEY (option_id);
+    ADD CONSTRAINT "idx_19070_PRIMARY" PRIMARY KEY (option_id);
 
 
 --
--- Name: wp_postmeta idx_17332_primary; Type: CONSTRAINT; Schema: wordpress; Owner: root
+-- Name: wp_postmeta idx_19081_PRIMARY; Type: CONSTRAINT; Schema: wordpress; Owner: root
 --
 
 ALTER TABLE ONLY wordpress.wp_postmeta
-    ADD CONSTRAINT idx_17332_primary PRIMARY KEY (meta_id);
+    ADD CONSTRAINT "idx_19081_PRIMARY" PRIMARY KEY (meta_id);
 
 
 --
--- Name: wp_posts idx_17342_primary; Type: CONSTRAINT; Schema: wordpress; Owner: root
+-- Name: wp_posts idx_19091_PRIMARY; Type: CONSTRAINT; Schema: wordpress; Owner: root
 --
 
 ALTER TABLE ONLY wordpress.wp_posts
-    ADD CONSTRAINT idx_17342_primary PRIMARY KEY (id);
+    ADD CONSTRAINT "idx_19091_PRIMARY" PRIMARY KEY ("ID");
 
 
 --
--- Name: wp_termmeta idx_17363_primary; Type: CONSTRAINT; Schema: wordpress; Owner: root
+-- Name: wp_termmeta idx_19112_PRIMARY; Type: CONSTRAINT; Schema: wordpress; Owner: root
 --
 
 ALTER TABLE ONLY wordpress.wp_termmeta
-    ADD CONSTRAINT idx_17363_primary PRIMARY KEY (meta_id);
+    ADD CONSTRAINT "idx_19112_PRIMARY" PRIMARY KEY (meta_id);
 
 
 --
--- Name: wp_terms idx_17373_primary; Type: CONSTRAINT; Schema: wordpress; Owner: root
+-- Name: wp_terms idx_19122_PRIMARY; Type: CONSTRAINT; Schema: wordpress; Owner: root
 --
 
 ALTER TABLE ONLY wordpress.wp_terms
-    ADD CONSTRAINT idx_17373_primary PRIMARY KEY (term_id);
+    ADD CONSTRAINT "idx_19122_PRIMARY" PRIMARY KEY (term_id);
 
 
 --
--- Name: wp_term_relationships idx_17380_primary; Type: CONSTRAINT; Schema: wordpress; Owner: root
+-- Name: wp_term_relationships idx_19129_PRIMARY; Type: CONSTRAINT; Schema: wordpress; Owner: root
 --
 
 ALTER TABLE ONLY wordpress.wp_term_relationships
-    ADD CONSTRAINT idx_17380_primary PRIMARY KEY (object_id, term_taxonomy_id);
+    ADD CONSTRAINT "idx_19129_PRIMARY" PRIMARY KEY (object_id, term_taxonomy_id);
 
 
 --
--- Name: wp_term_taxonomy idx_17391_primary; Type: CONSTRAINT; Schema: wordpress; Owner: root
+-- Name: wp_term_taxonomy idx_19140_PRIMARY; Type: CONSTRAINT; Schema: wordpress; Owner: root
 --
 
 ALTER TABLE ONLY wordpress.wp_term_taxonomy
-    ADD CONSTRAINT idx_17391_primary PRIMARY KEY (term_taxonomy_id);
+    ADD CONSTRAINT "idx_19140_PRIMARY" PRIMARY KEY (term_taxonomy_id);
 
 
 --
--- Name: wp_usermeta idx_17404_primary; Type: CONSTRAINT; Schema: wordpress; Owner: root
+-- Name: wp_usermeta idx_19153_PRIMARY; Type: CONSTRAINT; Schema: wordpress; Owner: root
 --
 
 ALTER TABLE ONLY wordpress.wp_usermeta
-    ADD CONSTRAINT idx_17404_primary PRIMARY KEY (umeta_id);
+    ADD CONSTRAINT "idx_19153_PRIMARY" PRIMARY KEY (umeta_id);
 
 
 --
--- Name: wp_users idx_17414_primary; Type: CONSTRAINT; Schema: wordpress; Owner: root
+-- Name: wp_users idx_19163_PRIMARY; Type: CONSTRAINT; Schema: wordpress; Owner: root
 --
 
 ALTER TABLE ONLY wordpress.wp_users
-    ADD CONSTRAINT idx_17414_primary PRIMARY KEY (id);
+    ADD CONSTRAINT "idx_19163_PRIMARY" PRIMARY KEY ("ID");
 
 
 --
--- Name: idx_17273_comment_id; Type: INDEX; Schema: wordpress; Owner: root
+-- Name: idx_19022_comment_id; Type: INDEX; Schema: wordpress; Owner: root
 --
 
-CREATE INDEX idx_17273_comment_id ON wordpress.wp_commentmeta USING btree (comment_id);
-
-
---
--- Name: idx_17273_meta_key; Type: INDEX; Schema: wordpress; Owner: root
---
-
-CREATE INDEX idx_17273_meta_key ON wordpress.wp_commentmeta USING btree (meta_key);
+CREATE INDEX idx_19022_comment_id ON wordpress.wp_commentmeta USING btree (comment_id);
 
 
 --
--- Name: idx_17283_comment_approved_date_gmt; Type: INDEX; Schema: wordpress; Owner: root
+-- Name: idx_19022_meta_key; Type: INDEX; Schema: wordpress; Owner: root
 --
 
-CREATE INDEX idx_17283_comment_approved_date_gmt ON wordpress.wp_comments USING btree (comment_approved, comment_date_gmt);
-
-
---
--- Name: idx_17283_comment_author_email; Type: INDEX; Schema: wordpress; Owner: root
---
-
-CREATE INDEX idx_17283_comment_author_email ON wordpress.wp_comments USING btree (comment_author_email);
+CREATE INDEX idx_19022_meta_key ON wordpress.wp_commentmeta USING btree (meta_key);
 
 
 --
--- Name: idx_17283_comment_date_gmt; Type: INDEX; Schema: wordpress; Owner: root
+-- Name: idx_19032_comment_approved_date_gmt; Type: INDEX; Schema: wordpress; Owner: root
 --
 
-CREATE INDEX idx_17283_comment_date_gmt ON wordpress.wp_comments USING btree (comment_date_gmt);
-
-
---
--- Name: idx_17283_comment_parent; Type: INDEX; Schema: wordpress; Owner: root
---
-
-CREATE INDEX idx_17283_comment_parent ON wordpress.wp_comments USING btree (comment_parent);
+CREATE INDEX idx_19032_comment_approved_date_gmt ON wordpress.wp_comments USING btree (comment_approved, comment_date_gmt);
 
 
 --
--- Name: idx_17283_comment_post_id; Type: INDEX; Schema: wordpress; Owner: root
+-- Name: idx_19032_comment_author_email; Type: INDEX; Schema: wordpress; Owner: root
 --
 
-CREATE INDEX idx_17283_comment_post_id ON wordpress.wp_comments USING btree (comment_post_id);
-
-
---
--- Name: idx_17302_link_visible; Type: INDEX; Schema: wordpress; Owner: root
---
-
-CREATE INDEX idx_17302_link_visible ON wordpress.wp_links USING btree (link_visible);
+CREATE INDEX idx_19032_comment_author_email ON wordpress.wp_comments USING btree (comment_author_email);
 
 
 --
--- Name: idx_17321_option_name; Type: INDEX; Schema: wordpress; Owner: root
+-- Name: idx_19032_comment_date_gmt; Type: INDEX; Schema: wordpress; Owner: root
 --
 
-CREATE UNIQUE INDEX idx_17321_option_name ON wordpress.wp_options USING btree (option_name);
-
-
---
--- Name: idx_17332_meta_key; Type: INDEX; Schema: wordpress; Owner: root
---
-
-CREATE INDEX idx_17332_meta_key ON wordpress.wp_postmeta USING btree (meta_key);
+CREATE INDEX idx_19032_comment_date_gmt ON wordpress.wp_comments USING btree (comment_date_gmt);
 
 
 --
--- Name: idx_17332_post_id; Type: INDEX; Schema: wordpress; Owner: root
+-- Name: idx_19032_comment_parent; Type: INDEX; Schema: wordpress; Owner: root
 --
 
-CREATE INDEX idx_17332_post_id ON wordpress.wp_postmeta USING btree (post_id);
-
-
---
--- Name: idx_17342_post_author; Type: INDEX; Schema: wordpress; Owner: root
---
-
-CREATE INDEX idx_17342_post_author ON wordpress.wp_posts USING btree (post_author);
+CREATE INDEX idx_19032_comment_parent ON wordpress.wp_comments USING btree (comment_parent);
 
 
 --
--- Name: idx_17342_post_name; Type: INDEX; Schema: wordpress; Owner: root
+-- Name: idx_19032_comment_post_ID; Type: INDEX; Schema: wordpress; Owner: root
 --
 
-CREATE INDEX idx_17342_post_name ON wordpress.wp_posts USING btree (post_name);
-
-
---
--- Name: idx_17342_post_parent; Type: INDEX; Schema: wordpress; Owner: root
---
-
-CREATE INDEX idx_17342_post_parent ON wordpress.wp_posts USING btree (post_parent);
+CREATE INDEX "idx_19032_comment_post_ID" ON wordpress.wp_comments USING btree ("comment_post_ID");
 
 
 --
--- Name: idx_17342_type_status_date; Type: INDEX; Schema: wordpress; Owner: root
+-- Name: idx_19051_link_visible; Type: INDEX; Schema: wordpress; Owner: root
 --
 
-CREATE INDEX idx_17342_type_status_date ON wordpress.wp_posts USING btree (post_type, post_status, post_date, id);
-
-
---
--- Name: idx_17363_meta_key; Type: INDEX; Schema: wordpress; Owner: root
---
-
-CREATE INDEX idx_17363_meta_key ON wordpress.wp_termmeta USING btree (meta_key);
+CREATE INDEX idx_19051_link_visible ON wordpress.wp_links USING btree (link_visible);
 
 
 --
--- Name: idx_17363_term_id; Type: INDEX; Schema: wordpress; Owner: root
+-- Name: idx_19070_option_name; Type: INDEX; Schema: wordpress; Owner: root
 --
 
-CREATE INDEX idx_17363_term_id ON wordpress.wp_termmeta USING btree (term_id);
-
-
---
--- Name: idx_17373_name; Type: INDEX; Schema: wordpress; Owner: root
---
-
-CREATE INDEX idx_17373_name ON wordpress.wp_terms USING btree (name);
+CREATE UNIQUE INDEX idx_19070_option_name ON wordpress.wp_options USING btree (option_name);
 
 
 --
--- Name: idx_17373_slug; Type: INDEX; Schema: wordpress; Owner: root
+-- Name: idx_19081_meta_key; Type: INDEX; Schema: wordpress; Owner: root
 --
 
-CREATE INDEX idx_17373_slug ON wordpress.wp_terms USING btree (slug);
-
-
---
--- Name: idx_17380_term_taxonomy_id; Type: INDEX; Schema: wordpress; Owner: root
---
-
-CREATE INDEX idx_17380_term_taxonomy_id ON wordpress.wp_term_relationships USING btree (term_taxonomy_id);
+CREATE INDEX idx_19081_meta_key ON wordpress.wp_postmeta USING btree (meta_key);
 
 
 --
--- Name: idx_17391_taxonomy; Type: INDEX; Schema: wordpress; Owner: root
+-- Name: idx_19081_post_id; Type: INDEX; Schema: wordpress; Owner: root
 --
 
-CREATE INDEX idx_17391_taxonomy ON wordpress.wp_term_taxonomy USING btree (taxonomy);
-
-
---
--- Name: idx_17391_term_id_taxonomy; Type: INDEX; Schema: wordpress; Owner: root
---
-
-CREATE UNIQUE INDEX idx_17391_term_id_taxonomy ON wordpress.wp_term_taxonomy USING btree (term_id, taxonomy);
+CREATE INDEX idx_19081_post_id ON wordpress.wp_postmeta USING btree (post_id);
 
 
 --
--- Name: idx_17404_meta_key; Type: INDEX; Schema: wordpress; Owner: root
+-- Name: idx_19091_post_author; Type: INDEX; Schema: wordpress; Owner: root
 --
 
-CREATE INDEX idx_17404_meta_key ON wordpress.wp_usermeta USING btree (meta_key);
-
-
---
--- Name: idx_17404_user_id; Type: INDEX; Schema: wordpress; Owner: root
---
-
-CREATE INDEX idx_17404_user_id ON wordpress.wp_usermeta USING btree (user_id);
+CREATE INDEX idx_19091_post_author ON wordpress.wp_posts USING btree (post_author);
 
 
 --
--- Name: idx_17414_user_email; Type: INDEX; Schema: wordpress; Owner: root
+-- Name: idx_19091_post_name; Type: INDEX; Schema: wordpress; Owner: root
 --
 
-CREATE INDEX idx_17414_user_email ON wordpress.wp_users USING btree (user_email);
-
-
---
--- Name: idx_17414_user_login_key; Type: INDEX; Schema: wordpress; Owner: root
---
-
-CREATE INDEX idx_17414_user_login_key ON wordpress.wp_users USING btree (user_login);
+CREATE INDEX idx_19091_post_name ON wordpress.wp_posts USING btree (post_name);
 
 
 --
--- Name: idx_17414_user_nicename; Type: INDEX; Schema: wordpress; Owner: root
+-- Name: idx_19091_post_parent; Type: INDEX; Schema: wordpress; Owner: root
 --
 
-CREATE INDEX idx_17414_user_nicename ON wordpress.wp_users USING btree (user_nicename);
+CREATE INDEX idx_19091_post_parent ON wordpress.wp_posts USING btree (post_parent);
+
+
+--
+-- Name: idx_19091_type_status_date; Type: INDEX; Schema: wordpress; Owner: root
+--
+
+CREATE INDEX idx_19091_type_status_date ON wordpress.wp_posts USING btree (post_type, post_status, post_date, "ID");
+
+
+--
+-- Name: idx_19112_meta_key; Type: INDEX; Schema: wordpress; Owner: root
+--
+
+CREATE INDEX idx_19112_meta_key ON wordpress.wp_termmeta USING btree (meta_key);
+
+
+--
+-- Name: idx_19112_term_id; Type: INDEX; Schema: wordpress; Owner: root
+--
+
+CREATE INDEX idx_19112_term_id ON wordpress.wp_termmeta USING btree (term_id);
+
+
+--
+-- Name: idx_19122_name; Type: INDEX; Schema: wordpress; Owner: root
+--
+
+CREATE INDEX idx_19122_name ON wordpress.wp_terms USING btree (name);
+
+
+--
+-- Name: idx_19122_slug; Type: INDEX; Schema: wordpress; Owner: root
+--
+
+CREATE INDEX idx_19122_slug ON wordpress.wp_terms USING btree (slug);
+
+
+--
+-- Name: idx_19129_term_taxonomy_id; Type: INDEX; Schema: wordpress; Owner: root
+--
+
+CREATE INDEX idx_19129_term_taxonomy_id ON wordpress.wp_term_relationships USING btree (term_taxonomy_id);
+
+
+--
+-- Name: idx_19140_taxonomy; Type: INDEX; Schema: wordpress; Owner: root
+--
+
+CREATE INDEX idx_19140_taxonomy ON wordpress.wp_term_taxonomy USING btree (taxonomy);
+
+
+--
+-- Name: idx_19140_term_id_taxonomy; Type: INDEX; Schema: wordpress; Owner: root
+--
+
+CREATE UNIQUE INDEX idx_19140_term_id_taxonomy ON wordpress.wp_term_taxonomy USING btree (term_id, taxonomy);
+
+
+--
+-- Name: idx_19153_meta_key; Type: INDEX; Schema: wordpress; Owner: root
+--
+
+CREATE INDEX idx_19153_meta_key ON wordpress.wp_usermeta USING btree (meta_key);
+
+
+--
+-- Name: idx_19153_user_id; Type: INDEX; Schema: wordpress; Owner: root
+--
+
+CREATE INDEX idx_19153_user_id ON wordpress.wp_usermeta USING btree (user_id);
+
+
+--
+-- Name: idx_19163_user_email; Type: INDEX; Schema: wordpress; Owner: root
+--
+
+CREATE INDEX idx_19163_user_email ON wordpress.wp_users USING btree (user_email);
+
+
+--
+-- Name: idx_19163_user_login_key; Type: INDEX; Schema: wordpress; Owner: root
+--
+
+CREATE INDEX idx_19163_user_login_key ON wordpress.wp_users USING btree (user_login);
+
+
+--
+-- Name: idx_19163_user_nicename; Type: INDEX; Schema: wordpress; Owner: root
+--
+
+CREATE INDEX idx_19163_user_nicename ON wordpress.wp_users USING btree (user_nicename);
 
 
 --
