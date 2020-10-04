@@ -18,6 +18,8 @@ LOAD DATABASE
 
 EOS
 
+echo /tmp/pgload.cmd
+
 pgloader /tmp/pgload.cmd
 
 EOF
