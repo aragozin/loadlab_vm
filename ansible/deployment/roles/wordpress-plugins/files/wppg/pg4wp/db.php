@@ -14,7 +14,7 @@ if( !defined('WP_USE_EXT_MYSQL') ){
 define( 'PG4WP_DEBUG', false);
 // If you just want to log queries that generate errors, leave PG4WP_DEBUG to "false"
 // and set this to true
-define( 'PG4WP_LOG_ERRORS', false);
+define( 'PG4WP_LOG_ERRORS', true);
 
 // If you want to allow insecure configuration (from the author point of view) to work with PG4WP,
 // change this to true
