@@ -1,0 +1,28 @@
+---
+- name: Install pgloader
+  yum: name={{ item }} state=present
+  with_items:
+    - pgloader
+  when: config_only == false
+
+- name: Drop PostgreSQL Database
+  command: dropdb wordpress2
+  when: config_only == false
+
+- name: Create PostgreSQL Database
+  command: createdb wordpress2
+  when: config_only == false
+
+
+- name: Convert MySQL Database -> PostgreSQL Database
+  command: pgloader mysql://root@localhost/wordpress postgresql:///wordpress2
+  when: config_only == false
+
+- name: q1
+  postgresql_query:
+    db: "{{ wp_db_name }}"
+    query: ALTER DATABASE {{ wp_db_name }}  OWNER TO {{ wp_db_user }};
+  become: true
+  become_user: postgres
+  become_method: su
+  when: config_only == false

@@ -3,11 +3,23 @@
 wp_version: 5.1.1
 wp_sha256sum: edec479a8ffbd4db3af4fe4c3bf42291ecba1e2849bac3d52d2ff8ec0fd8d18b
 
+grafana_version_rpm: grafana-7.2.0-1.x86_64.rpm
+#wp_version: 4.5.3
+#wp_sha256sum: fd94288cd6fc657b2d8061737fcb121fc6acbe18acfcff80661e49fd2d3ee17c
+
 # MySQL settings
 mysqlservice: mysqld
 mysql_host: database
 mysql_port: 3306
 mysql_connection: database 3306
+
+# PostgreSQL settings
+pg_host: database
+pg_root_login: root
+pg_root_password: secret
+pg_monitoring_login: monitoring
+pg_monitoring_password: secret
+
 
 # These are the WordPress database settings
 wp_db_name: wordpress

@@ -33,3 +33,23 @@
   become: yes
   package: name=chrony state=present
   when: config_only == false
+
+- name: Start service chronyd, if not started
+  service:
+    name: chronyd
+    enabled: true
+    state: started
+  when: config_only == false
+
+- name: chronyd configuration
+  copy:
+    dest: /etc/chrony/chrony.conf
+    src: chrony.conf
+  register: chrony_conf
+
+- name: Restart service chronyd
+  service:
+    name: chronyd
+    enabled: true
+    state: restarted
+  when: chrony_conf.changed

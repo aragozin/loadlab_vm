@@ -16,11 +16,13 @@
   "editable": true,
   "gnetId": 2263,
   "graphTooltip": 0,
-  "iteration": 1558918342856,
+  "id": 10,
+  "iteration": 1601426083439,
   "links": [],
   "panels": [
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -38,14 +40,22 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb-telegraf",
+      "datasource": "$db",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 0,
         "y": 1
       },
+      "hiddenSeries": false,
       "id": 1,
       "interval": "30s",
       "legend": {
@@ -62,6 +72,7 @@
       "links": [],
       "nullPointMode": "connected",
       "percentage": false,
+      "pluginVersion": "7.1.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -71,6 +82,7 @@
       "steppedLine": false,
       "targets": [
         {
+          "alias": "$tag_proxy",
           "application": {
             "filter": ""
           },
@@ -85,6 +97,12 @@
                 "$interval"
               ],
               "type": "time"
+            },
+            {
+              "params": [
+                "proxy"
+              ],
+              "type": "tag"
             },
             {
               "params": [
@@ -133,8 +151,14 @@
             {
               "condition": "AND",
               "key": "proxy",
+              "operator": "=~",
+              "value": "/^$proxy$/"
+            },
+            {
+              "condition": "AND",
+              "key": "type",
               "operator": "=",
-              "value": "main"
+              "value": "frontend"
             }
           ]
         }
@@ -146,7 +170,7 @@
       "title": "http request per second",
       "tooltip": {
         "shared": true,
-        "sort": 0,
+        "sort": 2,
         "value_type": "individual"
       },
       "type": "graph",
@@ -159,6 +183,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:2086",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -167,6 +192,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:2087",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -185,14 +211,22 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb-telegraf",
+      "datasource": "$db",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 12,
         "y": 1
       },
+      "hiddenSeries": false,
       "id": 2,
       "interval": "30s",
       "legend": {
@@ -209,6 +243,7 @@
       "links": [],
       "nullPointMode": "connected",
       "percentage": false,
+      "pluginVersion": "7.1.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -218,6 +253,7 @@
       "steppedLine": false,
       "targets": [
         {
+          "alias": "$tag_proxy - $tag_sv",
           "application": {
             "filter": ""
           },
@@ -232,6 +268,18 @@
                 "$interval"
               ],
               "type": "time"
+            },
+            {
+              "params": [
+                "proxy"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "sv"
+              ],
+              "type": "tag"
             },
             {
               "params": [
@@ -278,14 +326,20 @@
             {
               "condition": "AND",
               "key": "proxy",
-              "operator": "=",
-              "value": "main"
+              "operator": "=~",
+              "value": "/^$proxy$/"
             },
             {
               "condition": "AND",
               "key": "sv",
               "operator": "=~",
               "value": "/^$sv$/"
+            },
+            {
+              "condition": "AND",
+              "key": "type",
+              "operator": "=",
+              "value": "frontend"
             }
           ]
         }
@@ -310,6 +364,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:2359",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -318,6 +373,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:2360",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -336,14 +392,22 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb-telegraf",
+      "datasource": "$db",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 0,
         "y": 8
       },
+      "hiddenSeries": false,
       "id": 4,
       "interval": "30s",
       "legend": {
@@ -360,6 +424,7 @@
       "links": [],
       "nullPointMode": "connected",
       "percentage": false,
+      "pluginVersion": "7.1.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -369,6 +434,7 @@
       "steppedLine": false,
       "targets": [
         {
+          "alias": "$tag_proxy",
           "application": {
             "filter": ""
           },
@@ -421,8 +487,12 @@
                 "type": "field"
               },
               {
+                "params": [],
+                "type": "first"
+              },
+              {
                 "params": [
-                  "10s"
+                  "1s"
                 ],
                 "type": "non_negative_derivative"
               }
@@ -437,8 +507,14 @@
             {
               "condition": "AND",
               "key": "proxy",
+              "operator": "=~",
+              "value": "/^$proxy$/"
+            },
+            {
+              "condition": "AND",
+              "key": "type",
               "operator": "=",
-              "value": "main"
+              "value": "frontend"
             }
           ]
         }
@@ -450,7 +526,7 @@
       "title": "request error number",
       "tooltip": {
         "shared": true,
-        "sort": 0,
+        "sort": 2,
         "value_type": "individual"
       },
       "type": "graph",
@@ -463,6 +539,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:2229",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -471,6 +548,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:2230",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -489,14 +567,22 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb-telegraf",
+      "datasource": "$db",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 12,
         "y": 8
       },
+      "hiddenSeries": false,
       "id": 3,
       "interval": "30s",
       "legend": {
@@ -513,6 +599,7 @@
       "links": [],
       "nullPointMode": "connected",
       "percentage": false,
+      "pluginVersion": "7.1.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -522,6 +609,7 @@
       "steppedLine": false,
       "targets": [
         {
+          "alias": "$tag_proxy - $tag_sv",
           "application": {
             "filter": ""
           },
@@ -536,6 +624,18 @@
                 "$interval"
               ],
               "type": "time"
+            },
+            {
+              "params": [
+                "proxy"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "sv"
+              ],
+              "type": "tag"
             },
             {
               "params": [
@@ -582,14 +682,20 @@
             {
               "condition": "AND",
               "key": "proxy",
-              "operator": "=",
-              "value": "main"
+              "operator": "=~",
+              "value": "/^$proxy$/"
             },
             {
               "condition": "AND",
               "key": "sv",
               "operator": "=~",
               "value": "/^$sv$/"
+            },
+            {
+              "condition": "AND",
+              "key": "type",
+              "operator": "=",
+              "value": "frontend"
             }
           ]
         }
@@ -601,7 +707,7 @@
       "title": "session usage",
       "tooltip": {
         "shared": true,
-        "sort": 0,
+        "sort": 2,
         "value_type": "individual"
       },
       "type": "graph",
@@ -614,6 +720,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:2530",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -622,6 +729,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:2531",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -637,6 +745,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -654,14 +763,22 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb-telegraf",
+      "datasource": "$db",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 24,
         "x": 0,
         "y": 16
       },
+      "hiddenSeries": false,
       "id": 5,
       "interval": "30s",
       "legend": {
@@ -680,6 +797,7 @@
       "links": [],
       "nullPointMode": "null",
       "percentage": false,
+      "pluginVersion": "7.1.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -689,6 +807,7 @@
       "steppedLine": false,
       "targets": [
         {
+          "alias": "$tag_proxy - $tag_sv",
           "application": {
             "filter": ""
           },
@@ -700,13 +819,19 @@
           "groupBy": [
             {
               "params": [
-                "1m"
+                "$__interval"
               ],
               "type": "time"
             },
             {
               "params": [
                 "proxy"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "sv"
               ],
               "type": "tag"
             }
@@ -751,14 +876,20 @@
             {
               "condition": "AND",
               "key": "proxy",
-              "operator": "=",
-              "value": "wp"
+              "operator": "=~",
+              "value": "/^$proxy$/"
             },
             {
               "condition": "AND",
               "key": "sv",
               "operator": "=~",
               "value": "/^$sv$/"
+            },
+            {
+              "condition": "AND",
+              "key": "type",
+              "operator": "=",
+              "value": "backend"
             }
           ]
         }
@@ -783,6 +914,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:2645",
           "format": "ms",
           "label": null,
           "logBase": 1,
@@ -791,6 +923,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:2646",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -809,14 +942,22 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb-telegraf",
+      "datasource": "$db",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 8,
         "x": 0,
         "y": 23
       },
+      "hiddenSeries": false,
       "id": 6,
       "legend": {
         "avg": false,
@@ -834,6 +975,7 @@
       "links": [],
       "nullPointMode": "connected",
       "percentage": false,
+      "pluginVersion": "7.1.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -843,6 +985,7 @@
       "steppedLine": false,
       "targets": [
         {
+          "alias": "$tag_proxy - $tag_sv",
           "application": {
             "filter": ""
           },
@@ -866,6 +1009,12 @@
             },
             {
               "params": [
+                "sv"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
                 "null"
               ],
               "type": "fill"
@@ -882,6 +1031,7 @@
           "options": {
             "showDisabledItems": false
           },
+          "orderByTime": "ASC",
           "policy": "default",
           "refId": "A",
           "resultFormat": "time_series",
@@ -916,6 +1066,12 @@
               "key": "sv",
               "operator": "=~",
               "value": "/^$sv$/"
+            },
+            {
+              "condition": "AND",
+              "key": "type",
+              "operator": "=",
+              "value": "backend"
             }
           ]
         }
@@ -927,7 +1083,7 @@
       "title": "request to receive the number of errors",
       "tooltip": {
         "shared": true,
-        "sort": 0,
+        "sort": 2,
         "value_type": "individual"
       },
       "type": "graph",
@@ -940,6 +1096,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:3481",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -948,6 +1105,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:3482",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -966,14 +1124,22 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb-telegraf",
+      "datasource": "$db",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 8,
         "x": 8,
         "y": 23
       },
+      "hiddenSeries": false,
       "id": 7,
       "legend": {
         "avg": false,
@@ -991,6 +1157,7 @@
       "links": [],
       "nullPointMode": "connected",
       "percentage": false,
+      "pluginVersion": "7.1.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1000,6 +1167,7 @@
       "steppedLine": false,
       "targets": [
         {
+          "alias": "$tag_proxy - $tag_sv",
           "application": {
             "filter": ""
           },
@@ -1023,6 +1191,12 @@
             },
             {
               "params": [
+                "sv"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
                 "null"
               ],
               "type": "fill"
@@ -1039,6 +1213,7 @@
           "options": {
             "showDisabledItems": false
           },
+          "orderByTime": "ASC",
           "policy": "default",
           "refId": "A",
           "resultFormat": "time_series",
@@ -1073,6 +1248,12 @@
               "key": "sv",
               "operator": "=~",
               "value": "/^$sv$/"
+            },
+            {
+              "condition": "AND",
+              "key": "type",
+              "operator": "=",
+              "value": "backend"
             }
           ]
         }
@@ -1097,6 +1278,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:3877",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -1105,6 +1287,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:3878",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -1123,14 +1306,22 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb-telegraf",
+      "datasource": "$db",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 8,
         "x": 16,
         "y": 23
       },
+      "hiddenSeries": false,
       "id": 8,
       "legend": {
         "avg": false,
@@ -1148,6 +1339,7 @@
       "links": [],
       "nullPointMode": "connected",
       "percentage": false,
+      "pluginVersion": "7.1.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1157,6 +1349,7 @@
       "steppedLine": false,
       "targets": [
         {
+          "alias": "$tag_proxy - $tag_sv",
           "application": {
             "filter": ""
           },
@@ -1180,6 +1373,12 @@
             },
             {
               "params": [
+                "sv"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
                 "null"
               ],
               "type": "fill"
@@ -1196,6 +1395,7 @@
           "options": {
             "showDisabledItems": false
           },
+          "orderByTime": "ASC",
           "policy": "default",
           "refId": "A",
           "resultFormat": "time_series",
@@ -1230,6 +1430,12 @@
               "key": "sv",
               "operator": "=~",
               "value": "/^$sv$/"
+            },
+            {
+              "condition": "AND",
+              "key": "type",
+              "operator": "=",
+              "value": "backend"
             }
           ]
         }
@@ -1254,6 +1460,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:4029",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -1262,6 +1469,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:4030",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -1277,6 +1485,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1294,14 +1503,22 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb-telegraf",
+      "datasource": "$db",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 24,
         "x": 0,
         "y": 31
       },
+      "hiddenSeries": false,
       "id": 9,
       "interval": "30s",
       "legend": {
@@ -1318,6 +1535,7 @@
       "links": [],
       "nullPointMode": "connected",
       "percentage": false,
+      "pluginVersion": "7.1.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1327,7 +1545,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "alias": "1xx",
+          "alias": "$col",
           "application": {
             "filter": ""
           },
@@ -1375,76 +1593,21 @@
               },
               {
                 "params": [],
-                "type": "last"
+                "type": "first"
               },
               {
                 "params": [
-                  "10s"
+                  "1s"
                 ],
                 "type": "non_negative_derivative"
+              },
+              {
+                "params": [
+                  "1xx"
+                ],
+                "type": "alias"
               }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "host",
-              "operator": "=~",
-              "value": "/^$host$/"
-            },
-            {
-              "condition": "AND",
-              "key": "proxy",
-              "operator": "=~",
-              "value": "/^$proxy$/"
-            },
-            {
-              "condition": "AND",
-              "key": "sv",
-              "operator": "=~",
-              "value": "/^$sv$/"
-            }
-          ]
-        },
-        {
-          "alias": "2xx",
-          "application": {
-            "filter": ""
-          },
-          "dsType": "influxdb",
-          "functions": [],
-          "group": {
-            "filter": ""
-          },
-          "groupBy": [
-            {
-              "params": [
-                "$interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "host": {
-            "filter": ""
-          },
-          "item": {
-            "filter": ""
-          },
-          "measurement": "haproxy",
-          "mode": 0,
-          "options": {
-            "showDisabledItems": false
-          },
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "B",
-          "resultFormat": "time_series",
-          "select": [
+            ],
             [
               {
                 "params": [
@@ -1454,76 +1617,21 @@
               },
               {
                 "params": [],
-                "type": "last"
+                "type": "first"
               },
               {
                 "params": [
-                  "10s"
+                  "1s"
                 ],
                 "type": "non_negative_derivative"
+              },
+              {
+                "params": [
+                  "2xx"
+                ],
+                "type": "alias"
               }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "host",
-              "operator": "=~",
-              "value": "/^$host$/"
-            },
-            {
-              "condition": "AND",
-              "key": "proxy",
-              "operator": "=~",
-              "value": "/^$proxy$/"
-            },
-            {
-              "condition": "AND",
-              "key": "sv",
-              "operator": "=~",
-              "value": "/^$sv$/"
-            }
-          ]
-        },
-        {
-          "alias": "3xx",
-          "application": {
-            "filter": ""
-          },
-          "dsType": "influxdb",
-          "functions": [],
-          "group": {
-            "filter": ""
-          },
-          "groupBy": [
-            {
-              "params": [
-                "$interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "host": {
-            "filter": ""
-          },
-          "item": {
-            "filter": ""
-          },
-          "measurement": "haproxy",
-          "mode": 0,
-          "options": {
-            "showDisabledItems": false
-          },
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "C",
-          "resultFormat": "time_series",
-          "select": [
+            ],
             [
               {
                 "params": [
@@ -1533,76 +1641,21 @@
               },
               {
                 "params": [],
-                "type": "last"
+                "type": "first"
               },
               {
                 "params": [
-                  "10s"
+                  "1s"
                 ],
                 "type": "non_negative_derivative"
+              },
+              {
+                "params": [
+                  "3xx"
+                ],
+                "type": "alias"
               }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "host",
-              "operator": "=~",
-              "value": "/^$host$/"
-            },
-            {
-              "condition": "AND",
-              "key": "proxy",
-              "operator": "=~",
-              "value": "/^$proxy$/"
-            },
-            {
-              "condition": "AND",
-              "key": "sv",
-              "operator": "=~",
-              "value": "/^$sv$/"
-            }
-          ]
-        },
-        {
-          "alias": "4xx",
-          "application": {
-            "filter": ""
-          },
-          "dsType": "influxdb",
-          "functions": [],
-          "group": {
-            "filter": ""
-          },
-          "groupBy": [
-            {
-              "params": [
-                "$interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "host": {
-            "filter": ""
-          },
-          "item": {
-            "filter": ""
-          },
-          "measurement": "haproxy",
-          "mode": 0,
-          "options": {
-            "showDisabledItems": false
-          },
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "D",
-          "resultFormat": "time_series",
-          "select": [
+            ],
             [
               {
                 "params": [
@@ -1612,76 +1665,21 @@
               },
               {
                 "params": [],
-                "type": "last"
+                "type": "first"
               },
               {
                 "params": [
-                  "10s"
+                  "1s"
                 ],
                 "type": "non_negative_derivative"
+              },
+              {
+                "params": [
+                  "4xx"
+                ],
+                "type": "alias"
               }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "host",
-              "operator": "=~",
-              "value": "/^$host$/"
-            },
-            {
-              "condition": "AND",
-              "key": "proxy",
-              "operator": "=~",
-              "value": "/^$proxy$/"
-            },
-            {
-              "condition": "AND",
-              "key": "sv",
-              "operator": "=~",
-              "value": "/^$sv$/"
-            }
-          ]
-        },
-        {
-          "alias": "5xx",
-          "application": {
-            "filter": ""
-          },
-          "dsType": "influxdb",
-          "functions": [],
-          "group": {
-            "filter": ""
-          },
-          "groupBy": [
-            {
-              "params": [
-                "$interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "host": {
-            "filter": ""
-          },
-          "item": {
-            "filter": ""
-          },
-          "measurement": "haproxy",
-          "mode": 0,
-          "options": {
-            "showDisabledItems": false
-          },
-          "orderByTime": "ASC",
-          "policy": "default",
-          "refId": "E",
-          "resultFormat": "time_series",
-          "select": [
+            ],
             [
               {
                 "params": [
@@ -1691,13 +1689,43 @@
               },
               {
                 "params": [],
-                "type": "last"
+                "type": "first"
               },
               {
                 "params": [
-                  "10s"
+                  "1s"
                 ],
                 "type": "non_negative_derivative"
+              },
+              {
+                "params": [
+                  "5xx"
+                ],
+                "type": "alias"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "http_response.other"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "first"
+              },
+              {
+                "params": [
+                  "1s"
+                ],
+                "type": "non_negative_derivative"
+              },
+              {
+                "params": [
+                  "other"
+                ],
+                "type": "alias"
               }
             ]
           ],
@@ -1729,7 +1757,7 @@
       "title": "http answer",
       "tooltip": {
         "shared": true,
-        "sort": 0,
+        "sort": 2,
         "value_type": "individual"
       },
       "type": "graph",
@@ -1742,6 +1770,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:1897",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -1750,6 +1779,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:1898",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -1765,6 +1795,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1782,14 +1813,22 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb-telegraf",
+      "datasource": "$db",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 24,
         "x": 0,
         "y": 39
       },
+      "hiddenSeries": false,
       "id": 10,
       "interval": "30s",
       "legend": {
@@ -1808,6 +1847,7 @@
       "links": [],
       "nullPointMode": "connected",
       "percentage": false,
+      "pluginVersion": "7.1.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1817,6 +1857,7 @@
       "steppedLine": false,
       "targets": [
         {
+          "alias": "$tag_proxy - $tag_sv",
           "application": {
             "filter": ""
           },
@@ -1828,13 +1869,19 @@
           "groupBy": [
             {
               "params": [
-                "$interval"
+                "$__interval"
               ],
               "type": "time"
             },
             {
               "params": [
                 "proxy"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "sv"
               ],
               "type": "tag"
             },
@@ -1870,11 +1917,11 @@
               },
               {
                 "params": [],
-                "type": "last"
+                "type": "first"
               },
               {
                 "params": [
-                  "10s"
+                  "1s"
                 ],
                 "type": "non_negative_derivative"
               }
@@ -1897,6 +1944,12 @@
               "key": "sv",
               "operator": "=~",
               "value": "/^$sv$/"
+            },
+            {
+              "condition": "AND",
+              "key": "type",
+              "operator": "=",
+              "value": "frontend"
             }
           ]
         }
@@ -1921,6 +1974,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:399",
           "format": "Bps",
           "label": null,
           "logBase": 1,
@@ -1929,6 +1983,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:400",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -1947,14 +2002,22 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb-telegraf",
+      "datasource": "$db",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 24,
         "x": 0,
         "y": 46
       },
+      "hiddenSeries": false,
       "id": 11,
       "interval": "30s",
       "legend": {
@@ -1973,6 +2036,7 @@
       "links": [],
       "nullPointMode": "connected",
       "percentage": false,
+      "pluginVersion": "7.1.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -1982,6 +2046,7 @@
       "steppedLine": false,
       "targets": [
         {
+          "alias": "$tag_proxy - $tag_sv",
           "application": {
             "filter": ""
           },
@@ -2000,6 +2065,12 @@
             {
               "params": [
                 "proxy"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "sv"
               ],
               "type": "tag"
             },
@@ -2035,11 +2106,11 @@
               },
               {
                 "params": [],
-                "type": "last"
+                "type": "first"
               },
               {
                 "params": [
-                  "10s"
+                  "1s"
                 ],
                 "type": "non_negative_derivative"
               }
@@ -2062,6 +2133,12 @@
               "key": "sv",
               "operator": "=~",
               "value": "/^$sv$/"
+            },
+            {
+              "condition": "AND",
+              "key": "type",
+              "operator": "=",
+              "value": "frontend"
             }
           ]
         }
@@ -2086,6 +2163,7 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:520",
           "format": "Bps",
           "label": null,
           "logBase": 1,
@@ -2094,6 +2172,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:521",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -2109,6 +2188,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -2126,14 +2206,22 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb-telegraf",
+      "datasource": "$db",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 24,
         "x": 0,
         "y": 54
       },
+      "hiddenSeries": false,
       "id": 16,
       "interval": "30s",
       "legend": {
@@ -2152,6 +2240,7 @@
       "links": [],
       "nullPointMode": "connected",
       "percentage": false,
+      "pluginVersion": "7.1.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -2161,6 +2250,7 @@
       "steppedLine": false,
       "targets": [
         {
+          "alias": "$tag_proxy - $tag_sv",
           "application": {
             "filter": ""
           },
@@ -2179,6 +2269,12 @@
             {
               "params": [
                 "sv"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "proxy"
               ],
               "type": "tag"
             },
@@ -2218,7 +2314,7 @@
               },
               {
                 "params": [
-                  "10s"
+                  "1s"
                 ],
                 "type": "non_negative_derivative"
               }
@@ -2241,6 +2337,12 @@
               "key": "sv",
               "operator": "=~",
               "value": "/^$sv$/"
+            },
+            {
+              "condition": "AND",
+              "key": "type",
+              "operator": "=",
+              "value": "backend"
             }
           ]
         }
@@ -2265,7 +2367,8 @@
       },
       "yaxes": [
         {
-          "format": "short",
+          "$$hashKey": "object:644",
+          "format": "Bps",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -2273,6 +2376,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:645",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -2291,14 +2395,22 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "influxdb-telegraf",
+      "datasource": "$db",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {}
+        },
+        "overrides": []
+      },
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 24,
         "x": 0,
         "y": 61
       },
+      "hiddenSeries": false,
       "id": 17,
       "interval": "30s",
       "legend": {
@@ -2317,6 +2429,7 @@
       "links": [],
       "nullPointMode": "connected",
       "percentage": false,
+      "pluginVersion": "7.1.3",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -2326,6 +2439,7 @@
       "steppedLine": false,
       "targets": [
         {
+          "alias": "$tag_proxy - $tag_sv",
           "application": {
             "filter": ""
           },
@@ -2344,6 +2458,12 @@
             {
               "params": [
                 "sv"
+              ],
+              "type": "tag"
+            },
+            {
+              "params": [
+                "proxy"
               ],
               "type": "tag"
             },
@@ -2379,11 +2499,11 @@
               },
               {
                 "params": [],
-                "type": "last"
+                "type": "first"
               },
               {
                 "params": [
-                  "10s"
+                  "1s"
                 ],
                 "type": "non_negative_derivative"
               }
@@ -2406,6 +2526,12 @@
               "key": "sv",
               "operator": "=~",
               "value": "/^$sv$/"
+            },
+            {
+              "condition": "AND",
+              "key": "type",
+              "operator": "=",
+              "value": "backend"
             }
           ]
         }
@@ -2430,7 +2556,8 @@
       },
       "yaxes": [
         {
-          "format": "short",
+          "$$hashKey": "object:765",
+          "format": "Bps",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -2438,6 +2565,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:766",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -2452,7 +2580,7 @@
       }
     }
   ],
-  "schemaVersion": 18,
+  "schemaVersion": 26,
   "style": "dark",
   "tags": [
     "haproxy",
@@ -2462,13 +2590,52 @@
   "templating": {
     "list": [
       {
+        "current": {
+          "selected": true,
+          "text": "Stand LoadLab",
+          "value": "Stand LoadLab"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Stand",
+        "multi": false,
+        "name": "db_stand",
+        "options": [],
+        "query": "influxdb",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "/^Stand .*$/",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "hide": 2,
+        "includeAll": true,
+        "label": "db",
+        "multi": false,
+        "name": "db",
+        "options": [],
+        "query": "influxdb",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "/^Telegraf: ${db_stand:regex}$/",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
         "allValue": null,
         "current": {
+          "selected": true,
           "text": "loadbalancer",
           "value": "loadbalancer"
         },
-        "datasource": "influxdb-telegraf",
-        "definition": "",
+        "datasource": "$db",
+        "definition": "SHOW TAG VALUES FROM \"haproxy\" WITH KEY = \"host\"",
         "hide": 0,
         "includeAll": false,
         "label": "server",
@@ -2489,13 +2656,15 @@
       {
         "allValue": null,
         "current": {
-          "text": "wp",
+          "selected": true,
+          "tags": [],
+          "text": "All",
           "value": [
-            "wp"
+            "$__all"
           ]
         },
-        "datasource": "influxdb-telegraf",
-        "definition": "",
+        "datasource": "$db",
+        "definition": "SHOW TAG VALUES FROM \"haproxy\" WITH KEY = \"proxy\"",
         "hide": 0,
         "includeAll": true,
         "label": "service name",
@@ -2516,11 +2685,15 @@
       {
         "allValue": null,
         "current": {
+          "selected": true,
+          "tags": [],
           "text": "All",
-          "value": "$__all"
+          "value": [
+            "$__all"
+          ]
         },
-        "datasource": "influxdb-telegraf",
-        "definition": "",
+        "datasource": "$db",
+        "definition": "SHOW TAG VALUES FROM \"haproxy\" WITH KEY = \"sv\"",
         "hide": 0,
         "includeAll": true,
         "label": "application",
@@ -2571,6 +2744,6 @@
   },
   "timezone": "browser",
   "title": "HAproxy stats",
-  "uid": "4oCJ31mZz",
+  "uid": "haproxy",
   "version": 1
 }

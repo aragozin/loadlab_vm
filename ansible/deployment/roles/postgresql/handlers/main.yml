@@ -1,0 +1,5 @@
+---
+# Handler to handle DB tier notifications
+
+- name: restart telegraf
+  service: name=telegraf state=restarted
