@@ -14,6 +14,7 @@ LOAD DATABASE
      INTO postgresql:///wordpress2
 
  WITH quote identifiers
+;
 
 EOS
 
