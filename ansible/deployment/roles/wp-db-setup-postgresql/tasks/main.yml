@@ -1,80 +1,9 @@
 ---
 
-- name: Create WordPress database
-  postgresql_db:
-    name: "{{ wp_db_name }}"
-    state: present
-  become: true
-  become_user: postgres
-  become_method: su
-  when: wp_db_import_dump|bool
+- name: Package installation
+  include_tasks: "{{ role_path }}/tasks/provision.yml"
+  when: skip_install == false
 
-- name: Create WordPress database user
-  postgresql_user:
-    db: "{{ wp_db_name }}"
-    name: "{{ wp_db_user }}"
-    password: "{{ wp_db_password }}"
-    role_attr_flags: NOSUPERUSER,NOCREATEDB,NOCREATEROLE,NOINHERIT,LOGIN
-  become: true
-  become_user: postgres
-  become_method: su
-  when: config_only == false
-
-- name: Copy WordPress database snapshot
-  copy:
-    src: "{{lab.path.contentdir}}/wordpress/db/pg/wp.dump"
-    dest: /tmp/wp.dump
-  when: wp_db_import_dump|bool
-
-- name: Import WordPress database from snapshot
-  postgresql_db:
-    name: "{{ wp_db_name }}"
-    state: restore
-    target: /tmp/wp.dump
-  become: true
-  become_user: postgres
-  become_method: su
-  when: wp_db_import_dump|bool
-
-
-- name: GRANT ALL PRIVILEGES ON SCHEMA public TO {{ wp_db_user }}
-  postgresql_privs:
-    db: "{{ wp_db_name }}"
-    privs: ALL
-    type: schema
-    objs: public
-    role: "{{ wp_db_user }}"
-  become: true
-  become_user: postgres
-  become_method: su
-  when: config_only == false
-
-- name: GRANT ALL PRIVILEGES ON DATABASE {{ wp_db_name }} TO {{ wp_db_user }}
-  postgresql_privs:
-    db: "{{ wp_db_name }}"
-    privs: ALL
-    type: database
-    obj: "{{ wp_db_user }}"
-    role: "{{ wp_db_user }}"
-  become: true
-  become_user: postgres
-  become_method: su
-  when: config_only == false
-
-- name: Set search_path = public
-  postgresql_query:
-    db: "{{ wp_db_name }}"
-    query: ALTER DATABASE {{ wp_db_name }} SET search_path = public;
-  become: true
-  become_user: postgres
-  become_method: su
-  when: config_only == false
-
-- name: Set search_path = public to {{ wp_db_user }}
-  postgresql_query:
-    db: "{{ wp_db_name }}"
-    query: ALTER ROLE {{ wp_db_user }} IN DATABASE {{ wp_db_name }} SET search_path = public;
-  become: true
-  become_user: postgres
-  become_method: su
-  when: config_only == false
+- name: Setup and configuration
+  include_tasks: "{{ role_path }}/tasks/setup.yml"
+  when: install_only == false

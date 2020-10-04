@@ -1,19 +1,9 @@
 ---
 
-- name: Create WordPress database
-  mysql_db: name={{ wp_db_name }} state=present
-  when: config_only == false
+- name: Package installation
+  include_tasks: "{{ role_path }}/tasks/provision.yml"
+  when: skip_install == false
 
-- name: Copy WordPress database snapshot
-  copy:
-    src: "{{lab.path.contentdir}}/wordpress/db/mysql/wp.dump"
-    dest: /tmp
-  when: wp_db_import_dump and config_only == false
-
-- name: Import WordPress database snapshot
-  mysql_db: name={{ wp_db_name }} state=import target="/tmp/wp.dump"
-  when: wp_db_import_dump and config_only == false
-
-- name: Create WordPress database user
-  mysql_user: name={{ wp_db_user }} password={{ wp_db_password }} priv={{ wp_db_name }}.*:ALL host='{{ lab.network.subnet }}.%' state=present
-  when: config_only == false
+- name: Setup and configuration
+  include_tasks: "{{ role_path }}/tasks/setup.yml"
+  when: install_only == false
