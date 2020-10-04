@@ -1,5 +1,10 @@
 ---
 
+- name: Master
+  hosts: masterhost
+  roles:
+    - masterhost-setup
+
 - name: Install PostgreSQL
   hosts: database
   gather_facts: false
@@ -19,6 +24,7 @@
     - telegraf-node
     - mariadb
     - wp-db-setup
+    - wp-db-convert-mysql-2-postgresql
 
 - name: Install Wordpress
   hosts: web
