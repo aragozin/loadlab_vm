@@ -12,7 +12,7 @@
 
 - name: Copy WordPress database snapshot
   copy:
-    src: wp.dump
+    src: wordpress_target.sql
     dest: /tmp/wp.dump
   when: wp_db_import_dump and config_only == false
 
