@@ -20,6 +20,6 @@
 # https://wordpress.org/plugins/wppg
 - name: Copy WPPG
   copy:
-    src: wppg
+    src: "{{ lab.path.contentdir }}/wordpress/plugins/wppg"
     dest: /srv/wordpress/wp-content/plugins
   when: config_only == false
