@@ -11,20 +11,20 @@
   lineinfile:
     path: /srv/wordpress/wp-config.php
     regexp: '^define..WP_DEBUG.,'
-    line: define('WP_DEBUG', true );
+    line: define('WP_DEBUG', false );
   when: wp_debug_switch != "on"    
 
 - name: Debug on - define( 'WP_DEBUG_LOG', true );
   lineinfile:
     path: /srv/wordpress/wp-config.php
-    regexp: '^define..WP_DEBUG_LOG.,'
+    regexp: '^define. .WP_DEBUG_LOG.,'
     line: define( 'WP_DEBUG_LOG', true );
   when: wp_debug_switch == "on"
 
 - name: Debug on - define( 'WP_DEBUG_LOG', false );
   lineinfile:
     path: /srv/wordpress/wp-config.php
-    regexp: '^define..WP_DEBUG_LOG.,'
+    regexp: '^define. .WP_DEBUG_LOG.,'
     line: define( 'WP_DEBUG_LOG', false );
   when: wp_debug_switch != "on"
 
