@@ -20,7 +20,6 @@ pg_root_password: secret
 pg_monitoring_login: monitoring
 pg_monitoring_password: secret
 
-
 # These are the WordPress database settings
 wp_db_name: wordpress
 wp_db_user: wordpress
