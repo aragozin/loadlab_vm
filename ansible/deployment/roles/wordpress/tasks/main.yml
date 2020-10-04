@@ -1,6 +1,6 @@
 ---
 - name: Install MySQL-python and deps
-  yum: name={{ item }} state=present skip_broken=true    
+  yum: name={{ item }} state=present skip_broken=true
   with_items:
     - MySQL-python
   when: config_only == false

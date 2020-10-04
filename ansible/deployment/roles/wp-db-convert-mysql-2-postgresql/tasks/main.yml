@@ -1,27 +1,307 @@
 ---
+
+
+
 - name: Install pgloader
   yum: name={{ item }} state=present
   with_items:
     - pgloader
   when: config_only == false
 
-- name: Drop PostgreSQL Database
-  command: dropdb wordpress2
+
+- name: Copy WordPress database snapshot
+  copy:
+    src: wodpress_target.sql
+    dest: /tmp/wodpress_target.sql
+
+- name: Create WordPress database
+  postgresql_db:
+    name: "{{ wp_db_name }}"
+    state: restore
+    target: /tmp/wodpress_target.sql
+  become: true
+  become_user: postgres
+  become_method: su
+
+- name: Create WordPress database user
+  postgresql_user:
+    db: "{{ wp_db_name }}"
+    name: "{{ wp_db_user }}"
+    password: "{{ wp_db_password }}"
+    role_attr_flags: NOSUPERUSER,NOCREATEDB,NOCREATEROLE,NOINHERIT,LOGIN
+  become: true
+  become_user: postgres
+  become_method: su
   when: config_only == false
 
-- name: Create PostgreSQL Database
-  command: createdb wordpress2
+- name: GRANT ALL PRIVILEGES ON SCHEMA public TO {{ wp_db_user }}
+  postgresql_privs:
+    db: "{{ wp_db_name }}"
+    privs: ALL
+    type: schema
+    objs: public
+    role: "{{ wp_db_user }}"
+  become: true
+  become_user: postgres
+  become_method: su
   when: config_only == false
 
-
-- name: Convert MySQL Database -> PostgreSQL Database
-  command: pgloader mysql://root@localhost/wordpress postgresql:///wordpress2
+- name: GRANT ALL PRIVILEGES ON DATABASE {{ wp_db_name }} TO {{ wp_db_user }}
+  postgresql_privs:
+    db: "{{ wp_db_name }}"
+    privs: ALL
+    type: database
+    obj: "{{ wp_db_user }}"
+    role: "{{ wp_db_user }}"
+  become: true
+  become_user: postgres
+  become_method: su
   when: config_only == false
 
-- name: q1
+- name: Set search_path = public
   postgresql_query:
     db: "{{ wp_db_name }}"
-    query: ALTER DATABASE {{ wp_db_name }}  OWNER TO {{ wp_db_user }};
+    query: ALTER DATABASE {{ wp_db_name }} SET search_path = public;
+  become: true
+  become_user: postgres
+  become_method: su
+  when: config_only == false
+
+- name: Set search_path = public to {{ wp_db_user }}
+  postgresql_query:
+    db: "{{ wp_db_name }}"
+    query: ALTER ROLE {{ wp_db_user }} IN DATABASE {{ wp_db_name }} SET search_path = public;
+  become: true
+  become_user: postgres
+  become_method: su
+  when: config_only == false
+
+- name: Convert MySQL Database -> PostgreSQL Database
+  command: "pgloader -v mysql://root@localhost/wordpress postgresql:///{{ wp_db_name }}"
+  when: config_only == false
+
+- name: wp_commentmeta TRUNCATE
+  postgresql_query:
+    db: "{{ wp_db_name }}"
+    query: TRUNCATE TABLE "public"."wp_commentmeta" RESTART IDENTITY
+  become: true
+  become_user: postgres
+  become_method: su
+  when: config_only == false
+
+- name: wp_commentmeta
+  postgresql_query:
+    db: "{{ wp_db_name }}"
+    query: INSERT INTO public.wp_commentmeta SELECT * FROM wordpress.wp_commentmeta;
+  become: true
+  become_user: postgres
+  become_method: su
+  when: config_only == false
+
+- name: wp_links TRUNCATE
+  postgresql_query:
+    db: "{{ wp_db_name }}"
+    query: TRUNCATE TABLE public.wp_links RESTART IDENTITY;
+  become: true
+  become_user: postgres
+  become_method: su
+  when: config_only == false
+
+- name: wp_links
+  postgresql_query:
+    db: "{{ wp_db_name }}"
+    query: INSERT INTO public.wp_links SELECT * FROM wordpress.wp_links;
+  become: true
+  become_user: postgres
+  become_method: su
+  when: config_only == false
+
+- name: wp_options TRUNCATE
+  postgresql_query:
+    db: "{{ wp_db_name }}"
+    query: TRUNCATE TABLE public.wp_options RESTART IDENTITY;
+  become: true
+  become_user: postgres
+  become_method: su
+  when: config_only == false
+
+- name: wp_options
+  postgresql_query:
+    db: "{{ wp_db_name }}"
+    query: INSERT INTO public.wp_options SELECT * FROM wordpress.wp_options;
+  become: true
+  become_user: postgres
+  become_method: su
+  when: config_only == false
+
+- name: wp_postmeta TRUNCATE
+  postgresql_query:
+    db: "{{ wp_db_name }}"
+    query: TRUNCATE TABLE public.wp_postmeta RESTART IDENTITY;
+  become: true
+  become_user: postgres
+  become_method: su
+  when: config_only == false
+
+- name: wp_postmeta
+  postgresql_query:
+    db: "{{ wp_db_name }}"
+    query: INSERT INTO public.wp_postmeta SELECT * FROM wordpress.wp_postmeta;
+  become: true
+  become_user: postgres
+  become_method: su
+  when: config_only == false
+
+- name: wp_term_relationships TRUNCATE
+  postgresql_query:
+    db: "{{ wp_db_name }}"
+    query: TRUNCATE TABLE public.wp_term_relationships RESTART IDENTITY;
+  become: true
+  become_user: postgres
+  become_method: su
+  when: config_only == false
+
+- name: wp_term_relationships
+  postgresql_query:
+    db: "{{ wp_db_name }}"
+    query: INSERT INTO public.wp_term_relationships SELECT * FROM wordpress.wp_term_relationships;
+  become: true
+  become_user: postgres
+  become_method: su
+  when: config_only == false
+
+- name: wp_term_taxonomy TRUNCATE
+  postgresql_query:
+    db: "{{ wp_db_name }}"
+    query: TRUNCATE TABLE public.wp_term_taxonomy RESTART IDENTITY;
+  become: true
+  become_user: postgres
+  become_method: su
+  when: config_only == false
+
+- name: wp_term_taxonomy
+  postgresql_query:
+    db: "{{ wp_db_name }}"
+    query: INSERT INTO public.wp_term_taxonomy SELECT * FROM wordpress.wp_term_taxonomy;
+  become: true
+  become_user: postgres
+  become_method: su
+  when: config_only == false
+
+- name: wp_termmeta TRUNCATE
+  postgresql_query:
+    db: "{{ wp_db_name }}"
+    query: TRUNCATE TABLE public.wp_termmeta RESTART IDENTITY;
+  become: true
+  become_user: postgres
+  become_method: su
+  when: config_only == false
+
+- name: wp_termmeta
+  postgresql_query:
+    db: "{{ wp_db_name }}"
+    query: INSERT INTO public.wp_termmeta SELECT * FROM wordpress.wp_termmeta;
+  become: true
+  become_user: postgres
+  become_method: su
+  when: config_only == false
+
+
+- name: wp_terms TRUNCATE
+  postgresql_query:
+    db: "{{ wp_db_name }}"
+    query: TRUNCATE TABLE public.wp_terms RESTART IDENTITY;
+  become: true
+  become_user: postgres
+  become_method: su
+  when: config_only == false
+
+- name: wp_terms
+  postgresql_query:
+    db: "{{ wp_db_name }}"
+    query: INSERT INTO public.wp_terms SELECT * FROM wordpress.wp_terms;
+  become: true
+  become_user: postgres
+  become_method: su
+  when: config_only == false
+
+- name: wp_usermeta TRUNCATE
+  postgresql_query:
+    db: "{{ wp_db_name }}"
+    query: TRUNCATE TABLE public.wp_usermeta RESTART IDENTITY;
+  become: true
+  become_user: postgres
+  become_method: su
+  when: config_only == false
+
+- name: wp_usermeta
+  postgresql_query:
+    db: "{{ wp_db_name }}"
+    query: INSERT INTO public.wp_usermeta SELECT * FROM wordpress.wp_usermeta;
+  become: true
+  become_user: postgres
+  become_method: su
+  when: config_only == false
+
+- name: wp_comments TRUNCATE
+  postgresql_query:
+    db: "{{ wp_db_name }}"
+    query: TRUNCATE TABLE public.wp_comments RESTART IDENTITY;
+  become: true
+  become_user: postgres
+  become_method: su
+  when: config_only == false
+
+- name: wp_comments
+  postgresql_query:
+    db: "{{ wp_db_name }}"
+    query: INSERT INTO public.wp_comments ("comment_ID", "comment_post_ID", comment_author, comment_author_email, comment_author_url, comment_author_ip, comment_date, comment_date_gmt, comment_content, comment_karma, comment_approved, comment_agent, comment_type, comment_parent, user_id) SELECT comment_id, comment_post_id, comment_author, comment_author_email, comment_author_url, comment_author_ip, comment_date, comment_date_gmt, comment_content, comment_karma, comment_approved, comment_agent, comment_type, comment_parent, user_id FROM wordpress.wp_comments;
+  become: true
+  become_user: postgres
+  become_method: su
+  when: config_only == false
+
+- name: wp_users TRUNCATE
+  postgresql_query:
+    db: "{{ wp_db_name }}"
+    query: TRUNCATE TABLE public.wp_users RESTART IDENTITY;
+  become: true
+  become_user: postgres
+  become_method: su
+  when: config_only == false
+
+- name: wp_users
+  postgresql_query:
+    db: "{{ wp_db_name }}"
+    query: INSERT INTO public.wp_users ("ID", "user_login", user_pass, user_nicename, user_email, user_url, user_registered, user_activation_key, user_status, display_name) SELECT id, "user_login", user_pass, user_nicename, user_email, user_url, user_registered, user_activation_key, user_status, display_name FROM wordpress.wp_users;
+  become: true
+  become_user: postgres
+  become_method: su
+  when: config_only == false
+
+
+- name: wp_posts TRUNCATE
+  postgresql_query:
+    db: "{{ wp_db_name }}"
+    query: TRUNCATE TABLE public.wp_posts RESTART IDENTITY;
+  become: true
+  become_user: postgres
+  become_method: su
+  when: config_only == false
+
+- name: wp_posts
+  postgresql_query:
+    db: "{{ wp_db_name }}"
+    query: INSERT INTO public.wp_posts ("ID", "post_author", post_date, post_date_gmt, post_content, post_title, post_excerpt, post_status, comment_status, ping_status, post_password, post_name, to_ping, pinged, post_modified, post_modified_gmt, post_content_filtered, post_parent, guid, menu_order, post_type, post_mime_type, comment_count) SELECT "id", "post_author", post_date, post_date_gmt, post_content, post_title, post_excerpt, post_status, comment_status, ping_status, post_password, post_name, to_ping, pinged, post_modified, post_modified_gmt, post_content_filtered, post_parent, guid, menu_order, post_type, post_mime_type, comment_count FROM wordpress.wp_posts;
+  become: true
+  become_user: postgres
+  become_method: su
+  when: config_only == false
+
+- name: wodpress chema DROP
+  postgresql_query:
+    db: "{{ wp_db_name }}"
+    query: DROP SCHEMA IF EXISTS wodpress CASCADE;
   become: true
   become_user: postgres
   become_method: su
