@@ -11,7 +11,7 @@ dropdb wordpress2 || true
 
 createdb wordpress2
 
-pg_restore -d wordpress2 /tmp/wp_pg_schema.sql
+psql wordpress2 < /tmp/wp_pg_schema.sql
 
 cat > /tmp/pgload.cmd << EOS
 
