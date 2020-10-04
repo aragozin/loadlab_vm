@@ -27,8 +27,8 @@ wp_db_password: secret
 
 # Which database to use for WP
 
-#wp_debug_switch: off
-wp_debug_switch: on
+wp_debug_switch: off
+#wp_debug_switch: on
 
 #wp_db_type: mysql
 wp_db_type: postgres
