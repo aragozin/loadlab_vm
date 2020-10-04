@@ -7,7 +7,7 @@ dropdb wordpress2 || true
 
 createdb wordpress2
 
-pgloader mysql://root@localhost/wordpress postgresql:///wordpress2
+pgloader --with "quote identifiers" mysql://root@localhost/wordpress postgresql:///wordpress2
 
 psql wordpress2 << EOS
 
@@ -43,6 +43,6 @@ EOF
 
 echo Export complete to wordpress2 db
 
-ssh database pg_dump postgresql:///wordpress2 > wp.dump
+ssh database pg_dump postgresql:///wordpress2 | sed 's/OWNER to root/OWNER to "wordpress"/g' > wp.dump
 
 ssh database dropdb wordpress2
