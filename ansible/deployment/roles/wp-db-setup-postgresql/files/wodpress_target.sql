@@ -92,7 +92,7 @@ ALTER TABLE "public"."wp_commentmeta" OWNER TO "wordpress";
 --
 
 CREATE SEQUENCE "public"."wp_commentmeta_seq"
-    START WITH 1000000
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -138,7 +138,7 @@ ALTER TABLE "public"."wp_comments" OWNER TO "wordpress";
 --
 
 CREATE SEQUENCE "public"."wp_comments_seq"
-    START WITH 1000000
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -182,7 +182,7 @@ ALTER TABLE "public"."wp_links" OWNER TO "wordpress";
 --
 
 CREATE SEQUENCE "public"."wp_links_seq"
-    START WITH 1000000
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -217,7 +217,7 @@ ALTER TABLE "public"."wp_options" OWNER TO "wordpress";
 --
 
 CREATE SEQUENCE "public"."wp_options_seq"
-    START WITH 1000000
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -252,7 +252,7 @@ ALTER TABLE "public"."wp_postmeta" OWNER TO "wordpress";
 --
 
 CREATE SEQUENCE "public"."wp_postmeta_seq"
-    START WITH 1000000
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -306,7 +306,7 @@ ALTER TABLE "public"."wp_posts" OWNER TO "wordpress";
 --
 
 CREATE SEQUENCE "public"."wp_posts_seq"
-    START WITH 1000000
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -356,7 +356,7 @@ ALTER TABLE "public"."wp_term_taxonomy" OWNER TO "wordpress";
 --
 
 CREATE SEQUENCE "public"."wp_term_taxonomy_seq"
-    START WITH 1000000
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -391,7 +391,7 @@ ALTER TABLE "public"."wp_termmeta" OWNER TO "wordpress";
 --
 
 CREATE SEQUENCE "public"."wp_termmeta_seq"
-    START WITH 1000000
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -426,7 +426,7 @@ ALTER TABLE "public"."wp_terms" OWNER TO "wordpress";
 --
 
 CREATE SEQUENCE "public"."wp_terms_seq"
-    START WITH 1000000
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -461,7 +461,7 @@ ALTER TABLE "public"."wp_usermeta" OWNER TO "wordpress";
 --
 
 CREATE SEQUENCE "public"."wp_usermeta_seq"
-    START WITH 1000000
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -502,7 +502,7 @@ ALTER TABLE "public"."wp_users" OWNER TO "wordpress";
 --
 
 CREATE SEQUENCE "public"."wp_users_seq"
-    START WITH 1000000
+    START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -878,19 +878,6 @@ CREATE INDEX "wp_users_user_login_key" ON "public"."wp_users" USING "btree" ("us
 --
 
 CREATE INDEX "wp_users_user_nicename" ON "public"."wp_users" USING "btree" ("user_nicename");
-
-
-SELECT pg_catalog.setval('"public"."wp_commentmeta_seq"', 1000000, true);
-SELECT pg_catalog.setval('"public"."wp_comments_seq"', 1000000, true);
-SELECT pg_catalog.setval('"public"."wp_links_seq"', 1000000, true);
-SELECT pg_catalog.setval('"public"."wp_options_seq"', 1000000, true);
-SELECT pg_catalog.setval('"public"."wp_postmeta_seq"', 1000000, true);
-SELECT pg_catalog.setval('"public"."wp_posts_seq"', 1000000, true);
-SELECT pg_catalog.setval('"public"."wp_term_taxonomy_seq"', 1000000, true);
-SELECT pg_catalog.setval('"public"."wp_termmeta_seq"', 1000000, true);
-SELECT pg_catalog.setval('"public"."wp_terms_seq"', 1000000, true);
-SELECT pg_catalog.setval('"public"."wp_usermeta_seq"', 1000000, true);
-SELECT pg_catalog.setval('"public"."wp_users_seq"', 101, true);
 
 
 --
