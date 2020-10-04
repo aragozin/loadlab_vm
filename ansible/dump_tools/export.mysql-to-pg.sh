@@ -14,6 +14,9 @@ LOAD DATABASE
      INTO postgresql:///wordpress2
 
  WITH quote identifiers
+
+ CAST type timestamp with timezone to timestamp without timezone
+
 ;
 
 EOS
