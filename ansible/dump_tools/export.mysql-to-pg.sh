@@ -7,13 +7,17 @@ dropdb wordpress2 || true
 
 createdb wordpress2
 
-pgloader --with "quote identifiers" mysql://root@localhost/wordpress postgresql:///wordpress2
+cat > /tmp/pgload.cmd << EOS
 
-psql wordpress2 << EOS
+LOAD DATABASE
+     FROM      mysql://root@localhost/wordpress
+     INTO postgresql:///wordpress2
 
-ALTER DATABASE "wordpress2" OWNER TO "wordpress";
+ WITH quote identifiers
 
 EOS
+
+pgloader /tmp/pgload.cmd
 
 EOF
 
