@@ -1,21 +1,5 @@
 ---
 
-- name: Copy WordPress database snapshot
-  copy:
-    src: "{{lab.path.contentdir}}/wordpress/db/pg/wp.dump"
-    dest: /tmp/wp.dump
-  #when: wp_db_import_dump and config_only == false
-
-- name: Create WordPress database
-  postgresql_db:
-    name: "{{ wp_db_name }}"
-    state: restore
-    target: /tmp/wp.dump
-  become: true
-  become_user: postgres
-  become_method: su
-  #when: wp_db_import_dump and config_only == false
-
 - name: Create WordPress database user
   postgresql_user:
     db: "{{ wp_db_name }}"
@@ -26,6 +10,22 @@
   become_user: postgres
   become_method: su
   when: config_only == false
+
+- name: Copy WordPress database snapshot
+  copy:
+    src: "{{lab.path.contentdir}}/wordpress/db/pg/wp.dump"
+    dest: /tmp/wp.dump
+  when: wp_db_import_dump
+
+- name: Create WordPress database
+  postgresql_db:
+    name: "{{ wp_db_name }}"
+    state: restore
+    target: /tmp/wp.dump
+  become: true
+  become_user: postgres
+  become_method: su
+  when: wp_db_import_dump
 
 - name: GRANT ALL PRIVILEGES ON SCHEMA public TO {{ wp_db_user }}
   postgresql_privs:
