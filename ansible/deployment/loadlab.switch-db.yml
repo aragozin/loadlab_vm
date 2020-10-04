@@ -1,11 +1,9 @@
 ---
 
-
 - name: Install Wordpress
   hosts: web
   vars_files:
     - ../labconfig.yml
-  gather_facts: false
 
   roles:
     - wordpress-db-switch
