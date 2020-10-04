@@ -12,18 +12,5 @@
     dest: /srv/wordpress/wp-content/wp-cache-config.php
   when: config_only == false
 
-# https://wordpress.org/plugins/wppg
-- name: Activate Plugin WPPG - copy db.php
-  copy:
-    src: "{{ lab.path.contentdir }}/wordpress/plugins/wppg/pg4wp/db.php"
-    dest: /srv/wordpress/wp-content/db.php
-  when: wp_db_type == "postgres"
-
-- name: Deactivate Plugin WPPG - remove db.php
-  file:
-    path: /srv/wordpress/wp-content/db.php
-    state: absent
-  when: wp_db_type != "postgres"
-
 - name: Change ownership of WordPress installation
   file: path=/srv/wordpress/ owner=wordpress group=wordpress state=directory recurse=yes

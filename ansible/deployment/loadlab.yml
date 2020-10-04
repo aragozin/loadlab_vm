@@ -41,6 +41,7 @@
     - nginx
     - wordpress
     - wordpress-plugins
+    - wordpress-db-switch
 
 - name: Install HAProxy
   hosts: loadbalancer

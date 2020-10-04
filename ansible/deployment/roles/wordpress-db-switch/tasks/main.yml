@@ -1,0 +1,14 @@
+---
+
+# https://wordpress.org/plugins/wppg
+- name: Activate Plugin WPPG - copy db.php
+  copy:
+    src: "{{ lab.path.contentdir }}/wordpress/plugins/wppg/pg4wp/db.php"
+    dest: /srv/wordpress/wp-content/db.php
+  when: wp_db_type == "postgres"
+
+- name: Deactivate Plugin WPPG - remove db.php
+  file:
+    path: /srv/wordpress/wp-content/db.php
+    state: absent
+  when: wp_db_type != "postgres"

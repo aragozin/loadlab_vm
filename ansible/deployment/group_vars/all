@@ -27,11 +27,15 @@ wp_db_password: secret
 
 # Which database to use for WP
 
+#wp_debug_switch: off
+wp_debug_switch: on
+
 #wp_db_type: mysql
 wp_db_type: postgres
 
 # use --extra-vars "wp_db_import_dump=true"
 wp_db_import_dump: false
+
 
 # This is used for the nginx server configuration, but access to the
 # WordPress site is not restricted by a named host.
