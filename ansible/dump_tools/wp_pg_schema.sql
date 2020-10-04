@@ -3,9 +3,7 @@
 --
 
 -- Dumped from database version 10.14
--- Dumped by pg_dump version 10.14 (Ubuntu 10.14-0ubuntu0.18.04.1)
-
--- Started on 2020-10-03 08:43:49 MSK
+-- Dumped by pg_dump version 10.14
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -18,43 +16,15 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
-DROP DATABASE "wordpress";
---
--- TOC entry 3890 (class 1262 OID 16751)
--- Name: wordpress; Type: DATABASE; Schema: -; Owner: wordpress
---
 
-CREATE DATABASE "wordpress" WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'C' LC_CTYPE = 'C';
+CREATE SCHEMA wordpress;
 
 
-ALTER DATABASE "wordpress" OWNER TO "wordpress";
+ALTER SCHEMA wordpress OWNER TO "wordpress";
 
-\connect "wordpress"
-
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
-SET check_function_bodies = false;
-SET xmloption = content;
-SET client_min_messages = warning;
-SET row_security = off;
-
---
--- TOC entry 1 (class 3079 OID 13794)
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner:
---
 
 CREATE EXTENSION IF NOT EXISTS "plpgsql" WITH SCHEMA "pg_catalog";
 
-
---
--- TOC entry 3892 (class 0 OID 0)
--- Dependencies: 1
--- Name: EXTENSION "plpgsql"; Type: COMMENT; Schema: -; Owner:
---
 
 COMMENT ON EXTENSION "plpgsql" IS 'PL/pgSQL procedural language';
 
