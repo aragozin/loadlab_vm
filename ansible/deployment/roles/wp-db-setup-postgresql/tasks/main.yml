@@ -2,7 +2,7 @@
 
 - name: Copy WordPress database snapshot
   copy:
-    src: wp.pg.dump
+    src: "{{lab.path.contentdir}}/wordpress/db/pg/wp.dump"
     dest: /tmp/wp.dump
   #when: wp_db_import_dump and config_only == false
 

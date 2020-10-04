@@ -6,7 +6,7 @@
 
 - name: Copy WordPress database snapshot
   copy:
-    src: "{{lab.path.contentdir}}/wordpress/db/wp.dump"
+    src: "{{lab.path.contentdir}}/wordpress/db/mysql/wp.dump"
     dest: /tmp
   when: wp_db_import_dump and config_only == false
 
