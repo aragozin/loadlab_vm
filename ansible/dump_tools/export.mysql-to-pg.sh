@@ -34,8 +34,8 @@ echo Export complete to wordpress2 db
 
 ssh database pg_dump postgresql:///wordpress2 \
     | sed 's/OWNER TO root/OWNER TO "wordpress"/g' \
-    | sed 's/SET client_encoding = \'SQL_ASCII\'/SET client_encoding = \'UTF8\'/g \
-    | sed 's/timestamp without time zone,/timestamp without time zone DEFAULT "now"() NOT NULL,/g \
+    | sed 's/SET client_encoding = \'SQL_ASCII\'/SET client_encoding = \'UTF8\'/g' \
+    | sed 's/timestamp without time zone,/timestamp without time zone DEFAULT "now"() NOT NULL,/g' \
     > wp.dump
 
 ssh database dropdb wordpress2
