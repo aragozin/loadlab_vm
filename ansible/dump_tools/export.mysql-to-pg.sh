@@ -53,6 +53,19 @@ ALTER TABLE wordpress."wp_comments" RENAME COLUMN "comment_author_IP" TO comment
 UPDATE wp_posts SET "post_date_gmt" = now() WHERE "post_date_gmt" is null;
 UPDATE wp_posts SET "post_modified_gmt" = now() WHERE "post_modified_gmt" is null;
 
+
+SELECT pg_catalog.setval('wordpress.wp_commentmeta_seq', (select max(meta_id) from wp_commentmeta), true);
+SELECT pg_catalog.setval('wordpress.wp_comments_seq', (select max("comment_ID") from wp_comments), true);
+SELECT pg_catalog.setval('wordpress.wp_links_seq', (select max(link_id) from wp_links), true);
+SELECT pg_catalog.setval('wordpress.wp_options_seq', (select max(option_id) from wp_options), true);
+SELECT pg_catalog.setval('wordpress.wp_postmeta_seq', (select max(meta_id) from wp_postmeta), true);
+SELECT pg_catalog.setval('wordpress.wp_posts_seq', (select max("ID") from wp_posts), true);
+SELECT pg_catalog.setval('wordpress.wp_term_taxonomy_seq', (select max(term_taxonomy_id) from wp_term_taxonomy), true);
+SELECT pg_catalog.setval('wordpress.wp_termmeta_seq', (select max(meta_id) from wp_termmeta), true);
+SELECT pg_catalog.setval('wordpress.wp_terms_seq', (select max(term_id) from wp_terms), true);
+SELECT pg_catalog.setval('wordpress.wp_usermeta_seq', (select max(umeta_id) from wp_usermeta), true);
+SELECT pg_catalog.setval('wordpress.wp_users_seq', (select max("ID") from wp_users), true);
+
 EOS
 
 EOF
