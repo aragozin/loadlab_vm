@@ -36,17 +36,17 @@ pgloader /tmp/pgload.cmd
 
 psql wordpress2 << EOS
 
-ALTER SEQUENCE RENAME wp_commentmeta_meta_id_seq TO wp_commentmeta_seq;
-ALTER SEQUENCE RENAME "wp_comments_comment_ID_seq" TO wp_comments_seq;
-ALTER SEQUENCE RENAME wp_links_link_id_seq TO wp_links_seq;
-ALTER SEQUENCE RENAME wp_options_option_id_seq TO wp_postmeta_seq;
-ALTER SEQUENCE RENAME wp_postmeta_meta_id_seq TO wp_options_seq;
-ALTER SEQUENCE RENAME "wp_posts_ID_seq" TO wp_posts_seq;
-ALTER SEQUENCE RENAME wp_term_taxonomy_term_taxonomy_id_seq TO wp_term_taxonomy_seq;
-ALTER SEQUENCE RENAME wp_termmeta_meta_id_seq TO wp_terms_seq;
-ALTER SEQUENCE RENAME wp_terms_term_id_seq TO wp_termmeta_seq;
-ALTER SEQUENCE RENAME wp_usermeta_umeta_id_seq TO wp_usermeta_seq;
-ALTER SEQUENCE RENAME "wp_users_ID_seq" TO wp_users_seq;
+ALTER SEQUENCE wordpress.wp_commentmeta_meta_id_seq RENAME TO wp_commentmeta_seq;
+ALTER SEQUENCE wordpress."wp_comments_comment_ID_seq" RENAME TO wp_comments_seq;
+ALTER SEQUENCE wordpress.wp_links_link_id_seq RENAME TO wp_links_seq;
+ALTER SEQUENCE wordpress.wp_options_option_id_seq RENAME TO wp_postmeta_seq;
+ALTER SEQUENCE wordpress.wp_postmeta_meta_id_seq RENAME TO wp_options_seq;
+ALTER SEQUENCE wordpress."wp_posts_ID_seq" RENAME TO wp_posts_seq;
+ALTER SEQUENCE wordpress.wp_term_taxonomy_term_taxonomy_id_seq RENAME TO wp_term_taxonomy_seq;
+ALTER SEQUENCE wordpress.wp_termmeta_meta_id_seq RENAME TO wp_terms_seq;
+ALTER SEQUENCE wordpress.wp_terms_term_id_seq RENAME TO wp_termmeta_seq;
+ALTER SEQUENCE wordpress.wp_usermeta_umeta_id_seq RENAME TO wp_usermeta_seq;
+ALTER SEQUENCE wordpress."wp_users_ID_seq" RENAME TO wp_users_seq;
 
 EOS
 
