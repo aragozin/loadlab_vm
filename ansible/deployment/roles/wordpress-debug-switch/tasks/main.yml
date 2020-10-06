@@ -62,9 +62,9 @@
 # PG4WP
 
 - name: Test if PG4WP is active
-    stat:
-      path: /srv/wordpress/wp-content/db.php
-    register: db_config
+  stat:
+    path: /srv/wordpress/wp-content/db.php
+  register: db_config
 
 - name: Debug on - define( 'PG4WP_DEBUG', true); - active config
   lineinfile:
