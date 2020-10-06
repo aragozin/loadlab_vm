@@ -38,7 +38,7 @@ EOF
 
 echo Export complete to wordpress2 db
 
-ssh database pg_dump -a postgresql:///wordpress2 > /tmp/wp-data.dump
+ssh database pg_dump -a postgresql:///wordpress2 > wp-data.dump
 #cat /tmp/wp.dump.1 | sed 's/OWNER TO root/OWNER TO "wordpress"/g' > /tmp/wp.dump.2 
 #cat /tmp/wp.dump.2 | sed 's/SET client_encoding = '\''SQL_ASCII'\''/SET client_encoding = '\''UTF8'\''/g' > wp.dump
 #cat /tmp/wp.dump.3 | sed 's/timestamp without time zone,/timestamp without time zone DEFAULT \"now\"\(\) NOT NULL,/g' > wp.dump
