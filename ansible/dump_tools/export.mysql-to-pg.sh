@@ -2,7 +2,7 @@
 
 base_path=$( cd "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )
 
-cat $base_path/wp_pg_schema.sql | ssh database 'cat > /tmp/wp_pg_schema.sql'
+#cat $base_path/wp_pg_schema.sql | ssh database 'cat > /tmp/wp_pg_schema.sql'
 
 ssh database << EOF
 
@@ -11,7 +11,7 @@ dropdb wordpress2 || true
 
 createdb wordpress2
 
-psql wordpress2 < /tmp/wp_pg_schema.sql
+#psql wordpress2 < /tmp/wp_pg_schema.sql
 
 cat > /tmp/pgload.cmd << EOS
 
