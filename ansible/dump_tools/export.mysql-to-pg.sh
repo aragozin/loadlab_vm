@@ -48,6 +48,10 @@ ALTER SEQUENCE wordpress.wp_terms_term_id_seq RENAME TO wp_termmeta_seq;
 ALTER SEQUENCE wordpress.wp_usermeta_umeta_id_seq RENAME TO wp_usermeta_seq;
 ALTER SEQUENCE wordpress."wp_users_ID_seq" RENAME TO wp_users_seq;
 
+ALTER TABLE wordpress."wp_comments" RENAME COLUMN "comment_author_IP" TO comment_author_ip;
+
+UPDATE wp_posts SET "post_date_gmt" = now() WHERE "post_date_gmt" is null;
+
 EOS
 
 EOF
