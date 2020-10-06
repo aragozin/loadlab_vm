@@ -34,11 +34,43 @@ echo /tmp/pgload.cmd
 
 pgloader /tmp/pgload.cmd
 
+psql wordpress2 << EOS
+
+ALTER SEQUENCE RENAME wp_commentmeta_meta_id_seq TO wp_commentmeta_seq;
+ALTER SEQUENCE RENAME "wp_comments_comment_ID_seq" TO wp_comments_seq;
+ALTER SEQUENCE RENAME wp_links_link_id_seq TO wp_links_seq;
+ALTER SEQUENCE RENAME wp_options_option_id_seq TO wp_postmeta_seq;
+ALTER SEQUENCE RENAME wp_postmeta_meta_id_seq TO wp_options_seq;
+ALTER SEQUENCE RENAME "wp_posts_ID_seq" TO wp_posts_seq;
+ALTER SEQUENCE RENAME wp_term_taxonomy_term_taxonomy_id_seq TO wp_term_taxonomy_seq;
+ALTER SEQUENCE RENAME wp_termmeta_meta_id_seq TO wp_terms_seq;
+ALTER SEQUENCE RENAME wp_terms_term_id_seq TO wp_termmeta_seq;
+ALTER SEQUENCE RENAME wp_usermeta_umeta_id_seq TO wp_usermeta_seq;
+ALTER SEQUENCE RENAME "wp_users_ID_seq" TO wp_users_seq;
+
+EOS
+
 EOF
 
 echo Export complete to wordpress2 db
 
-ssh database pg_dump -a postgresql:///wordpress2 > wp-data.dump
+cat > wp-data.dump << EOF
+truncate wp_commentmeta       ;
+truncate wp_comments          ;
+truncate wp_links             ;
+truncate wp_options           ;
+truncate wp_postmeta          ;
+truncate wp_posts             ;
+truncate wp_term_relationships;
+truncate wp_term_taxonomy     ;
+truncate wp_termmeta          ;
+truncate wp_terms             ;
+truncate wp_usermeta          ;
+truncate wp_users             ;
+EOF
+
+
+ssh database pg_dump -a postgresql:///wordpress2 >> wp-data.dump
 #cat /tmp/wp.dump.1 | sed 's/OWNER TO root/OWNER TO "wordpress"/g' > /tmp/wp.dump.2 
 #cat /tmp/wp.dump.2 | sed 's/SET client_encoding = '\''SQL_ASCII'\''/SET client_encoding = '\''UTF8'\''/g' > wp.dump
 #cat /tmp/wp.dump.3 | sed 's/timestamp without time zone,/timestamp without time zone DEFAULT \"now\"\(\) NOT NULL,/g' > wp.dump
