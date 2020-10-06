@@ -51,7 +51,7 @@ ALTER SEQUENCE wordpress."wp_users_ID_seq" RENAME TO wp_users_seq;
 ALTER TABLE wordpress."wp_comments" RENAME COLUMN "comment_author_IP" TO comment_author_ip;
 
 UPDATE wp_posts SET "post_date_gmt" = now() WHERE "post_date_gmt" is null;
-UPDATE wp_posts SET "post_date_gmt" = now() WHERE "post_modified_gmt" is null;
+UPDATE wp_posts SET "post_modified_gmt" = now() WHERE "post_modified_gmt" is null;
 
 EOS
 
