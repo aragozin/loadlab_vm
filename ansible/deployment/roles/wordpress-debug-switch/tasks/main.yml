@@ -71,25 +71,25 @@
     path: /srv/wordpress/wp-content/db.php
     regexp: '^define. .PG4WP_DEBUG.,'
     line: define( 'PG4WP_DEBUG', true );
-  when: wp_debug_switch == "on" && db_config.stat.exists
+  when: wp_debug_switch == "on" and db_config.stat.exists
 
 - name: Debug off - define( 'PG4WP_DEBUG', false); - active config
   lineinfile:
     path: /srv/wordpress/wp-content/db.php
     regexp: '^define. .PG4WP_DEBUG.,'
     line: define( 'PG4WP_DEBUG', false);
-  when: wp_debug_switch != "on" && db_config.stat.exists
+  when: wp_debug_switch != "on" and db_config.stat.exists
 
 - name: Debug on - define( 'PG4WP_LOG_ERRORS', true); - active config
   lineinfile:
     path: /srv/wordpress/wp-content/db.php
     regexp: '^define. .PG4WP_LOG_ERRORS.,'
     line: define( 'PG4WP_LOG_ERRORS', true );
-  when: wp_debug_switch == "on" && db_config.stat.exists
+  when: wp_debug_switch == "on" and db_config.stat.exists
 
 - name: Debug off - define( 'PG4WP_LOG_ERRORS', false); - active config
   lineinfile:
     path: /srv/wordpress/wp-content/db.php
     regexp: '^define. .PG4WP_LOG_ERRORS.,'
     line: define( 'PG4WP_LOG_ERRORS', false);
-  when: wp_debug_switch != "on" && db_config.stat.exists
+  when: wp_debug_switch != "on" and db_config.stat.exists
