@@ -1,3 +1,3 @@
-﻿#!/bin/sh
+#!/bin/sh
 
 ssh database psql wordpress < $1
