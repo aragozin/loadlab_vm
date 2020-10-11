@@ -218,7 +218,7 @@
                 <li>
                     rebuild matserhost
                     <span class="cmd" 
-                          data-script="cd /opt/loadlab/setup/ansible/deployment && git pull && ansible-playbook -K -i loadlab.hosts -l masterhost loadlab.yml"></span>                        
+                          data-script="cd /opt/loadlab/setup/ansible/deployment && git pull && ansible-playbook -i loadlab.hosts -l masterhost loadlab.yml"></span>                        
                 </li>
                 <li>
                     rebuild loadbalancer
@@ -239,6 +239,11 @@
                     rebuild metrics
                     <span class="cmd" 
                           data-script="cd /opt/loadlab/setup/ansible/deployment && git pull && ansible-playbook -i loadlab.hosts -l metrics loadlab.yml"></span>                        
+                </li>
+                <li>
+                    rebuild front
+                    <span class="cmd" 
+                          data-script="cd /opt/loadlab/setup/ansible/deployment && git pull && ansible-playbook -i loadlab.hosts -l front loadlab.yml"></span>                        
                 </li>
                 <p>provision</p>
                 <li>
