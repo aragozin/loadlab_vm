@@ -142,7 +142,7 @@ func getLxdInterfaceCounters(lxd string, channel chan<- HttpTaskResult) {
 		return
 	}
 	for iface, value := range containerStateResponse.Metadata["network"].(map[string]interface{}) {
-		if value.(map[string]interface{})["hwaddr"].(string) == "" {
+		if value.(map[string]interface{})["host_name"].(string) == "" {
 			continue
 		}
 		if stats[iface] == nil {
@@ -158,8 +158,8 @@ func getLxdInterfaceCounters(lxd string, channel chan<- HttpTaskResult) {
 	for _, value := range stats {
 		output["tx"] += value["tx"]
 		output["rx"] += value["rx"]
-		output["ptx"] += value["ptx"]
-		output["prx"] += value["prx"]
+		output["ptx"] += value["tx"]
+		output["prx"] += value["rx"]
 	}
 
 	httpTaskResult.stats = output
@@ -181,75 +181,75 @@ func readCgroupFile(task CgroupTask, channel chan<- CgroupTaskResult) {
 
 func genCgroupTaskList(lxdList []string) []CgroupTask {
 	tasks := make([]CgroupTask, 0)
-	for _, lxc_dir := range [...]string{"lxc", "lxc.monitoring", "lxc.payload"} {
+	for _, lxc_dir := range [...]string{"lxc/", "lxc.monitoring/", "lxc.payload/", "lxc.monitoring.", "lxc.payload."} {
 		for _, lxd := range lxdList {
 			var t CgroupTask
 			t.cgroupItem = "blkio.throttle.io_serviced"
 			t.lxcName = lxd
-			t.cgroupPath = fmt.Sprintf("/sys/fs/cgroup/blkio/%s/%s/blkio.throttle.io_serviced", lxc_dir, lxd)
+			t.cgroupPath = fmt.Sprintf("/sys/fs/cgroup/blkio/%s%s/blkio.throttle.io_serviced", lxc_dir, lxd)
 			tasks = append(tasks, t)
 		}
 		for _, lxd := range lxdList {
 			var t CgroupTask
 			t.cgroupItem = "blkio.throttle.io_service_bytes"
 			t.lxcName = lxd
-			t.cgroupPath = fmt.Sprintf("/sys/fs/cgroup/blkio/%s/%s/blkio.throttle.io_service_bytes", lxc_dir, lxd)
+			t.cgroupPath = fmt.Sprintf("/sys/fs/cgroup/blkio/%s%s/blkio.throttle.io_service_bytes", lxc_dir, lxd)
 			tasks = append(tasks, t)
 		}
 		for _, lxd := range lxdList {
 			var t CgroupTask
 			t.cgroupItem = "memory.usage_in_bytes"
 			t.lxcName = lxd
-			t.cgroupPath = fmt.Sprintf("/sys/fs/cgroup/memory/%s/%s/memory.usage_in_bytes", lxc_dir, lxd)
+			t.cgroupPath = fmt.Sprintf("/sys/fs/cgroup/memory/%s%s/memory.usage_in_bytes", lxc_dir, lxd)
 			tasks = append(tasks, t)
 		}
 		for _, lxd := range lxdList {
 			var t CgroupTask
 			t.cgroupItem = "memory.limit_in_bytes"
 			t.lxcName = lxd
-			t.cgroupPath = fmt.Sprintf("/sys/fs/cgroup/memory/%s/%s/memory.limit_in_bytes", lxc_dir, lxd)
+			t.cgroupPath = fmt.Sprintf("/sys/fs/cgroup/memory/%s%s/memory.limit_in_bytes", lxc_dir, lxd)
 			tasks = append(tasks, t)
 		}
 		for _, lxd := range lxdList {
 			var t CgroupTask
 			t.cgroupItem = "memory.memsw.usage_in_bytes"
 			t.lxcName = lxd
-			t.cgroupPath = fmt.Sprintf("/sys/fs/cgroup/memory/%s/%s/memory.memsw.usage_in_bytes", lxc_dir, lxd)
+			t.cgroupPath = fmt.Sprintf("/sys/fs/cgroup/memory/%s%s/memory.memsw.usage_in_bytes", lxc_dir, lxd)
 			tasks = append(tasks, t)
 		}
 		for _, lxd := range lxdList {
 			var t CgroupTask
 			t.cgroupItem = "memory.memsw.limit_in_bytes"
 			t.lxcName = lxd
-			t.cgroupPath = fmt.Sprintf("/sys/fs/cgroup/memory/%s/%s/memory.memsw.limit_in_bytes", lxc_dir, lxd)
+			t.cgroupPath = fmt.Sprintf("/sys/fs/cgroup/memory/%s%s/memory.memsw.limit_in_bytes", lxc_dir, lxd)
 			tasks = append(tasks, t)
 		}
 		for _, lxd := range lxdList {
 			var t CgroupTask
 			t.cgroupItem = "cpuacct.usage"
 			t.lxcName = lxd
-			t.cgroupPath = fmt.Sprintf("/sys/fs/cgroup/cpu,cpuacct/%s/%s/cpuacct.usage", lxc_dir, lxd)
+			t.cgroupPath = fmt.Sprintf("/sys/fs/cgroup/cpu,cpuacct/%s%s/cpuacct.usage", lxc_dir, lxd)
 			tasks = append(tasks, t)
 		}
 		for _, lxd := range lxdList {
 			var t CgroupTask
 			t.cgroupItem = "cpuacct.usage"
 			t.lxcName = lxd
-			t.cgroupPath = fmt.Sprintf("/sys/fs/cgroup/cpu,cpuacct/%s/%s/cpuacct.usage", lxc_dir, lxd)
+			t.cgroupPath = fmt.Sprintf("/sys/fs/cgroup/cpu,cpuacct/%s%s/cpuacct.usage", lxc_dir, lxd)
 			tasks = append(tasks, t)
 		}
 		for _, lxd := range lxdList {
 			var t CgroupTask
 			t.cgroupItem = "cpuacct.usage"
 			t.lxcName = lxd
-			t.cgroupPath = fmt.Sprintf("/sys/fs/cgroup/cpu,cpuacct/%s/%s/cpuacct.usage", lxc_dir, lxd)
+			t.cgroupPath = fmt.Sprintf("/sys/fs/cgroup/cpu,cpuacct/%s%s/cpuacct.usage", lxc_dir, lxd)
 			tasks = append(tasks, t)
 		}
 		for _, lxd := range lxdList {
 			var t CgroupTask
 			t.cgroupItem = "cpuset.cpus"
 			t.lxcName = lxd
-			t.cgroupPath = fmt.Sprintf("/sys/fs/cgroup/cpuset/%s/%s/cpuset.cpus", lxc_dir, lxd)
+			t.cgroupPath = fmt.Sprintf("/sys/fs/cgroup/cpuset/%s%s/cpuset.cpus", lxc_dir, lxd)
 			tasks = append(tasks, t)
 		}
 	}
