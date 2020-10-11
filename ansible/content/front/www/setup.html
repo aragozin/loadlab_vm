@@ -144,7 +144,7 @@
                 <p style="color:crimson">hot fix</p>
                 <li>
                     <span class="cmd" 
-                          data-script="cd /opt/loadlab/setup/ansible && git pull && hotfix.sh">
+                          data-script="cd /opt/loadlab/setup && git checkout autoupdate && git pull && ansible/hotfix/hotfix.sh">
                     apply hot fixes
                     </span>                        
                 </li>                
@@ -161,12 +161,12 @@
                 <li>
                     apply limits for containers
                     <span class="cmd" 
-                          data-script="cd /opt/loadlab/setup/ansible/cluster && git pull && ansible-playbook constrain-cluster.yml"></span>                        
+                          data-script="cd /opt/loadlab/setup/ansible/cluster && git pull && ./set_limits.sh && echo Limits removed"></span>                        
                 </li>
                 <li>
                     remove limits for containers
                     <span class="cmd" 
-                          data-script="cd /opt/loadlab/setup/ansible/cluster && git pull && ansible-playbook unconstrain-cluster.yml"></span>                        
+                          data-script="cd /opt/loadlab/setup/ansible/cluster && git pull && ./unset_limits.sh && echo Limits removed"></span>                        
                 </li>
                 <li><span class="cmd" data-script="lxc config show loadbalancer | grep limits
 ">show limits loadbalancer</span></li>
@@ -275,7 +275,7 @@
                 <li>
                     <code>hotfix.sh</code>
                     <span class="cmd" 
-                          data-script="cd /opt/loadlab/setup/ansible && git pull && bash hotfix.sh"></span>                        
+                          data-script="cd /opt/loadlab/setup && ansible/hotfix/hotfix.sh"></span>                        
                 </li>
                 <li>
                     time sync

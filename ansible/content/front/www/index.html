@@ -83,7 +83,17 @@
 
             <h3><a>{{ lab.network.nodes.metrics.fqdn }}</a> <b>[{{ lab.network.nodes.metrics.ip }}]</b></h3>
             <p class="ssh">SSH root/toor</p>
-            <p>InfluxDb<br/><a href="http://{{ lab.network.nodes.metrics.ip }}:3000/">Grafana</a></p>
+            <p>InfluxDb + <a href="http://{{ lab.network.nodes.metrics.ip }}:3000/">Grafana</a></p>
+            <p>
+                <a href="http://{{ lab.network.nodes.metrics.ip/d/system/telegraf-system-dashboard">System dashboard</a> | 
+                <a href="http://{{ lab.network.nodes.metrics.ip }}:3000/d/containers/lxc-containers">LXC containers dashboard</a> | 
+                <a href="http://{{ lab.network.nodes.metrics.ip }}:3000/d/pgstat/postgresql-query-statistics">Postgres dashboard</a> | 
+                <a href="http://{{ lab.network.nodes.metrics.ip }}:3000/d/nginx/nginx">NGNIX dashboard</a> | 
+                <a href="http://{{ lab.network.nodes.metrics.ip }}:3000/d/haproxy/haproxy-stats">HAProxy dashboard</a> | 
+                <a href="http://{{ lab.network.nodes.metrics.ip }}:3000/d/JMeter/jmeter">JMeter report</a> | 
+                <a href="http://{{ lab.network.nodes.metrics.ip }}:3000/djmeterCompare/jmeter-compare">JMeter cross report</a> | 
+                <a href="http://{{ lab.network.nodes.metrics.ip }}:3000/d/ydV3WAhmk/gatling-report">Gatling report</a>                
+            </p>
 
             <h3><a href="http://{{ lab.network.nodes.front.fqdn }}">{{ lab.network.nodes.front.fqdn }}</a> <b>[{{ lab.network.nodes.front.ip }}]</b></h3>
             <p class="ssh">SSH root/toor</p>
