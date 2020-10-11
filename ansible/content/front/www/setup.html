@@ -178,6 +178,27 @@
 ">show limits database</span></li>
                 <li><span class="cmd" data-script="lxc config show metrics | grep limits
 ">show limits metrics</span></li>
+                <p>mode</p>
+                <li>
+                    switch to MySQL
+                    <span class="cmd" 
+                          data-script="cd /opt/loadlab/setup/ansible/deployment && git pull && ./switch_to_mysql.sh"></span>                        
+                </li>                
+                <li>
+                    switch to Postgress
+                    <span class="cmd" 
+                          data-script="cd /opt/loadlab/setup/ansible/deployment && git pull && ./switch_to_pg.sh"></span>                        
+                </li>                
+                <li>
+                    Wordress debug ON
+                    <span class="cmd" 
+                          data-script="cd /opt/loadlab/setup/ansible/deployment && git pull && ./switch_debug_on.sh"></span>                        
+                </li>                
+                <li>
+                    Wordress debug OFF
+                    <span class="cmd" 
+                          data-script="cd /opt/loadlab/setup/ansible/deployment && git pull && ./switch_debug_off.sh"></span>                        
+                </li>                
                 <p>reconfigutration</p>
                 <li>
                     reset config for all nodes
