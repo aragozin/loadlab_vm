@@ -1,0 +1,9 @@
+---
+
+  - name: Telegraf configuration
+    copy:
+      dest: /etc/telegraf/telegraf.conf
+      src: telegraf.conf
+
+  - name: Start Telegraf
+    service: name=telegraf state=restarted enabled=yes

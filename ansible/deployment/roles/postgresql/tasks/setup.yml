@@ -1,0 +1,263 @@
+---
+# This playbook will install PostgreSQL and create db user and give permissions and enable pg_stat_statements extension.
+
+# mkdir /root/shared/
+# mount -t vboxsf loadlab_vm /root/shared/
+# cd /root/shared/ansible/deployment/
+# ./deploy-postgres.sh
+
+- name: check if "/var/lib/pgsql/10/data" exists
+  stat:
+    path: /var/lib/pgsql/10/data
+  register: data_postgresql
+  when: config_only == false
+
+- name: Check if "/var/lib/pgsql/10/data" folder is empty before proceeding
+  find:
+    paths: /var/lib/pgsql/10/data
+  register: data_postgresql_filesFound
+  when: config_only == false
+
+- name: Initialize the database
+  command: /usr/pgsql-10/bin/postgresql-10-setup initdb
+  when: data_postgresql.stat.exists == True and data_postgresql_filesFound.matched == 0
+
+- name: add new configuration to "pg_hba.conf"
+  blockinfile:
+    dest: /var/lib/pgsql/10/data/pg_hba.conf
+    block: |
+      host    all             all             0.0.0.0/0                md5
+      host    all             all             127.0.0.1/32             md5
+  register: pg_hba_conf
+
+- name: add new configuration to "postgresql.conf"
+  blockinfile:
+    dest: /var/lib/pgsql/10/data/postgresql.conf
+    block: |
+      listen_addresses = '*'
+      shared_preload_libraries = 'pg_stat_statements'
+      pg_stat_statements.max = 10000
+      pg_stat_statements.track = all
+      pg_stat_statements.track_utility = on
+      pg_stat_statements.save = on
+      track_activities = on
+      track_activity_query_size = 10000
+      track_counts = on
+      track_io_timing = off
+      track_functions = none  # pl , all
+
+      update_process_title = off
+  register: postgresql_conf
+
+
+- name: Start service PostgreSQL, if not started
+  service:
+    name: postgresql-10
+    enabled: true
+    state: started
+  when: config_only == false
+
+- name: Restart service PostgreSQL, if not started
+  service:
+    name: postgresql-10
+    enabled: true
+    state: restarted
+  when: postgresql_conf.changed or pg_hba_conf.changed
+
+- name: create pg_stat_statements extension
+  postgresql_ext:
+    name: pg_stat_statements
+    db: postgres
+  become: true
+  become_user: postgres
+  become_method: su
+  when: config_only == false
+
+- name: create ROLE monitoring
+  postgresql_user:
+    db: postgres
+    name: "{{ pg_monitoring_login }}"
+    password: "{{ pg_monitoring_password }}"
+    role_attr_flags: LOGIN
+  become: true
+  become_user: postgres
+  become_method: su
+  when: config_only == false
+
+- name: create ROLE root
+  postgresql_user:
+    db: postgres
+    name: "{{ pg_root_login }}"
+    password: "{{ pg_root_password }}"
+    role_attr_flags: SUPERUSER,CREATEDB,CREATEROLE,NOINHERIT,LOGIN
+  become: true
+  become_user: postgres
+  become_method: su
+  when: config_only == false
+
+
+- name: GRANT SELECT pg_stat_statements TO monitoring
+  postgresql_privs:
+    database: postgres
+    state: present
+    privs: SELECT
+    type: table
+    objs: pg_stat_statements
+    schema: public
+    roles: monitoring
+  become: true
+  become_user: postgres
+  become_method: su
+  when: config_only == false
+
+- name: GRANT SELECT pg_* TO monitoring
+  postgresql_privs:
+    database: postgres
+    state: present
+    privs: SELECT
+    type: table
+    objs: pg_database,pg_stat_bgwriter,pg_stat_database,pg_stat_user_indexes,pg_stat_user_tables,pg_statio_all_sequences,pg_statio_user_indexes,pg_statio_user_tables,pg_tables,pg_tablespace,pg_user,pg_stat_replication,pg_stat_database_conflicts,pg_trigger,pg_stat_activity
+    schema: pg_catalog
+    roles: monitoring
+  become: true
+  become_user: postgres
+  become_method: su
+  when: config_only == false
+
+- name: CREATE monitoring_stat_statements()
+  postgresql_query:
+    db: postgres
+    query: |
+      CREATE OR REPLACE FUNCTION monitoring_stat_statements()
+      RETURNS TABLE (
+            usename               name,
+            datname               name,
+            query                 varchar(10000),
+            query_md5             varchar(100),
+            queryid               bigint,
+            calls                 bigint,
+            total_time            double precision,
+            rows                  bigint,
+            shared_blks_hit       bigint,
+            shared_blks_read      bigint,
+            shared_blks_dirtied   bigint,
+            shared_blks_written   bigint
+            )
+      AS $$
+        SELECT
+            pg_user.usename,
+            pg_stat_database.datname,
+            left(regexp_replace(query, '\\r|\\n|\\t|\\s+', ' ', 'g'), 10000) query,
+            md5(query)::uuid::varchar(100) as query_md5,
+            queryid,
+            calls,
+            total_time,
+            rows,
+            shared_blks_hit,
+            shared_blks_read,
+            shared_blks_dirtied,
+            shared_blks_written
+        FROM
+            pg_stat_statements
+            JOIN pg_user
+                ON (pg_user.usesysid = pg_stat_statements.userid)
+            JOIN pg_stat_database
+                ON (pg_stat_database.datid = pg_stat_statements.dbid);
+      $$
+      LANGUAGE SQL SECURITY DEFINER;
+  become: true
+  become_user: postgres
+  become_method: su
+  when: config_only == false
+
+- name: CREATE monitoring_stat_activity_count()
+  postgresql_query:
+    db: postgres
+    query: |
+      CREATE OR REPLACE FUNCTION monitoring_stat_activity_count()
+      RETURNS TABLE (usename name, datname name, state text, "count" bigint)
+      AS $$
+      SELECT
+        usename,
+        datname,
+        state,
+        count(*) as "count"
+      FROM pg_stat_activity
+      group by usename , datname, state
+       ;
+      $$
+      LANGUAGE SQL SECURITY DEFINER;
+  become: true
+  become_user: postgres
+  become_method: su
+  when: config_only == false
+
+- name: CREATE monitoring_stat_activity_idle_in_transaction()
+  postgresql_query:
+    db: postgres
+    query: |
+      CREATE OR REPLACE FUNCTION monitoring_stat_activity_idle_in_transaction()
+      RETURNS TABLE (usename name, datname name, state text, query_md5 varchar(100), "count" bigint, max_idle_seconds double precision, avg_idle_seconds double precision)
+      AS $$
+        SELECT
+          usename,
+          datname,
+          state,
+          md5(query)::uuid::varchar(100) as query_md5,
+          count(*) as "count",
+          coalesce(max(extract(epoch FROM clock_timestamp() - xact_start)),0) as max_idle_seconds,
+          coalesce(avg(extract(epoch FROM clock_timestamp() - xact_start)),0) as avg_idle_seconds
+        FROM pg_stat_activity
+        WHERE state IN ('idle in transaction', 'idle in transaction (aborted)')
+        GROUP BY usename , datname, state, md5(query)::uuid::varchar(100);
+      $$
+      LANGUAGE SQL SECURITY DEFINER;
+  become: true
+  become_user: postgres
+  become_method: su
+  when: config_only == false
+
+- name: CREATE monitoring_stat_activity_waiting()
+  postgresql_query:
+    db: postgres
+    query: |
+      CREATE OR REPLACE FUNCTION monitoring_stat_activity_waiting()
+      RETURNS TABLE (usename name, datname name, state text, query_md5 varchar(100), "count" bigint, max_idle_seconds double precision, avg_idle_seconds double precision)
+      AS $$
+      SELECT
+        usename,
+        datname,
+        state,
+        md5(query)::uuid::varchar(100) as query_md5,
+        count(*),
+        coalesce(max(extract(epoch FROM clock_timestamp() - state_change)),0) as max_idle_seconds,
+        coalesce(avg(extract(epoch FROM clock_timestamp() - state_change)),0) as avg_idle_seconds
+      FROM pg_stat_activity
+      where state IN ('Lock')
+      group by usename , datname, state, md5(query)::uuid::varchar(100);
+      $$
+      LANGUAGE SQL SECURITY DEFINER;
+  become: true
+  become_user: postgres
+  become_method: su
+  when: config_only == false
+
+- name: GRANT EXECUTE monitoring_stat_*() TO monitoring
+  postgresql_privs:
+    database: postgres
+    state: present
+    privs: EXECUTE
+    type: function
+    objs: monitoring_stat_statements(),monitoring_stat_activity_count(),monitoring_stat_activity_idle_in_transaction(),monitoring_stat_activity_waiting()
+    schema: public
+    roles: monitoring
+  become: true
+  become_user: postgres
+  become_method: su
+  when: config_only == false
+
+- name: Configure telegraf plugin for PostgreSQL
+  template:
+    src: telegraf.d/postgresql.conf.j2
+    dest: /etc/telegraf/telegraf.d/postgresql.conf
+  notify: restart telegraf

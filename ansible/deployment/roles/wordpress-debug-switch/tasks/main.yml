@@ -1,0 +1,95 @@
+---
+
+- name: Debug on - define('WP_DEBUG', true );
+  lineinfile:
+    path: /srv/wordpress/wp-config.php
+    regexp: '^define..WP_DEBUG.,'
+    line: define('WP_DEBUG', true );
+  when: wp_debug_switch == "on"
+
+- name: Debug off - define('WP_DEBUG', false );
+  lineinfile:
+    path: /srv/wordpress/wp-config.php
+    regexp: '^define..WP_DEBUG.,'
+    line: define('WP_DEBUG', false );
+  when: wp_debug_switch != "on"    
+
+- name: Debug on - define( 'WP_DEBUG_LOG', true );
+  lineinfile:
+    path: /srv/wordpress/wp-config.php
+    regexp: '^define. .WP_DEBUG_LOG.,'
+    line: define( 'WP_DEBUG_LOG', true );
+  when: wp_debug_switch == "on"
+
+- name: Debug off - define( 'WP_DEBUG_LOG', false );
+  lineinfile:
+    path: /srv/wordpress/wp-config.php
+    regexp: '^define. .WP_DEBUG_LOG.,'
+    line: define( 'WP_DEBUG_LOG', false );
+  when: wp_debug_switch != "on"
+
+# PG4WP
+
+- name: Debug on - define( 'PG4WP_DEBUG', true);
+  lineinfile:
+    path: /srv/wordpress/wp-content/plugins/wppg/pg4wp/db.php
+    regexp: '^define. .PG4WP_DEBUG.,'
+    line: define( 'PG4WP_DEBUG', true );
+  when: wp_debug_switch == "on"
+
+- name: Debug off - define( 'PG4WP_DEBUG', false);
+  lineinfile:
+    path: /srv/wordpress/wp-content/plugins/wppg/pg4wp/db.php
+    regexp: '^define. .PG4WP_DEBUG.,'
+    line: define( 'PG4WP_DEBUG', false);
+  when: wp_debug_switch != "on"
+
+- name: Debug on - define( 'PG4WP_LOG_ERRORS', true);
+  lineinfile:
+    path: /srv/wordpress/wp-content/plugins/wppg/pg4wp/db.php
+    regexp: '^define. .PG4WP_LOG_ERRORS.,'
+    line: define( 'PG4WP_LOG_ERRORS', true );
+  when: wp_debug_switch == "on"
+
+- name: Debug off - define( 'PG4WP_LOG_ERRORS', false);
+  lineinfile:
+    path: /srv/wordpress/wp-content/plugins/wppg/pg4wp/db.php
+    regexp: '^define. .PG4WP_LOG_ERRORS.,'
+    line: define( 'PG4WP_LOG_ERRORS', false);
+  when: wp_debug_switch != "on"
+
+
+# PG4WP
+
+- name: Test if PG4WP is active
+  stat:
+    path: /srv/wordpress/wp-content/db.php
+  register: db_config
+
+- name: Debug on - define( 'PG4WP_DEBUG', true); - active config
+  lineinfile:
+    path: /srv/wordpress/wp-content/db.php
+    regexp: '^define. .PG4WP_DEBUG.,'
+    line: define( 'PG4WP_DEBUG', true );
+  when: wp_debug_switch == "on" and db_config.stat.exists
+
+- name: Debug off - define( 'PG4WP_DEBUG', false); - active config
+  lineinfile:
+    path: /srv/wordpress/wp-content/db.php
+    regexp: '^define. .PG4WP_DEBUG.,'
+    line: define( 'PG4WP_DEBUG', false);
+  when: wp_debug_switch != "on" and db_config.stat.exists
+
+- name: Debug on - define( 'PG4WP_LOG_ERRORS', true); - active config
+  lineinfile:
+    path: /srv/wordpress/wp-content/db.php
+    regexp: '^define. .PG4WP_LOG_ERRORS.,'
+    line: define( 'PG4WP_LOG_ERRORS', true );
+  when: wp_debug_switch == "on" and db_config.stat.exists
+
+- name: Debug off - define( 'PG4WP_LOG_ERRORS', false); - active config
+  lineinfile:
+    path: /srv/wordpress/wp-content/db.php
+    regexp: '^define. .PG4WP_LOG_ERRORS.,'
+    line: define( 'PG4WP_LOG_ERRORS', false);
+  when: wp_debug_switch != "on" and db_config.stat.exists

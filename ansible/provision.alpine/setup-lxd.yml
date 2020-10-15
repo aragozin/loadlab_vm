@@ -1,0 +1,143 @@
+---
+    - name: Enable "edge" repo
+      lineinfile: dest=/etc/apk/repositories line="{{item.repo}}" state=present
+      with_items:
+        - repo: "@edge http://dl-cdn.alpinelinux.org/alpine/edge/main"
+        - repo: "@community http://dl-cdn.alpinelinux.org/alpine/edge/community"
+        - repo: "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing"      
+
+    - name: Install LXD related packages
+      package: 
+        name: 
+          - lxd@testing
+          - apparmor@testing
+        state: present
+
+    - name: Enable LXD related services
+      service:
+        name: "{{item.service}}"
+        enabled: yes
+        state: started
+      with_items:
+        - service: lxd
+        - service: cgroups
+
+    - name: Tweak pam
+      lineinfile: 
+        dest: /etc/pam.d/system-login 
+        line: "session optional pam_cgfs.so -c freezer,memory,name=systemd,unified"
+        state: present
+
+    - name: Tweak LXC idmaps
+      lineinfile: 
+        dest: /etc/lxc/default.conf 
+        line: "{{item.line}}"
+        state: present
+      with_items:
+        - line: "lxc.idmap = u 0 100000 65536"
+        - line: "lxc.idmap = g 0 100000 65536"
+
+    - name: Tweak subuid/subguid
+      lineinfile: 
+        dest: "{{item.file}}" 
+        line: "{{item.line}}"
+        state: present
+      with_items:
+        - line: "root:100000:65536"
+          file: /etc/subuid
+        - line: "root:100000:65536"
+          file: /etc/subgid
+               
+    - name: Hack mkfs.ext4 - mkdirs (Alpine workaround)
+      file:
+        path: "{{lab.path.confdir}}/sbin"
+        state: directory
+
+    - name: Hack mkfs.ext4 - link (Alpine workaround)
+      file:
+        src: /sbin/mke2fs
+        dest: "{{lab.path.confdir}}/sbin/mkfs.ext4"
+        state: link
+
+    - name: Hack mkfs.ext4 - remove original (Alpine workaround)
+      file:
+        path: /sbin/mkfs.ext4
+        state: absent        
+
+    - name: Hack mkfs.ext4 (Alpine workaround)
+      copy:
+        dest: /usr/sbin/mkfs.ext4
+        mode: "u=rwx,g=rx,o=rx"
+        content: |
+          #!/bin/sh
+          set -e
+          # dirty hack
+          # need to change order of arguments when called by LXD
+          {{lab.path.confdir}}/sbin/mkfs.ext4 $2 $3 $1
+
+    - name: Make systemd mount point script (Alpine workaround)
+      copy:
+        dest: /etc/init.d/cgroups-systemd-mount
+        mode: "u=rwx,g=rx,o=rx"
+        content: |
+          #!/sbin/openrc-run
+
+          description="Mount systemd controller"
+
+          depend()
+          {
+              need sysfs cgroups    
+          }
+
+          start()
+          {
+              if [ -d /sys/fs/cgroup ]; then
+                  mkdir -p /sys/fs/cgroup/systemd
+                  mount -t cgroup -o none,name=systemd systemd /sys/fs/cgroup/systemd
+              fi
+              return 0
+          }
+
+    - name: Make systemd mount point script - enable (Alpine workaround)
+      service:
+        name: cgroups-systemd-mount
+        state: started
+        enabled: yes
+
+    - name: LXD init
+      command: lxd init --preseed
+      args:
+        stdin: |      
+          config:
+            images.auto_update_interval: "0"
+          networks:
+          - config:
+              ipv4.address: auto
+              ipv6.address: none
+              ipv4.dhcp: true
+            description: ""
+            managed: true
+            name: lxdbr0
+            type: ""
+          storage_pools: []
+          profiles:
+          - config: {}
+            description: ""
+            devices:
+              eth0:
+                name: eth0
+                nictype: bridged
+                parent: lxdbr0
+                type: nic
+            name: default
+          cluster: null
+  
+    - name: LXD profile - 'labnode'
+      lxd_profile:
+        name: labnode
+        state: present
+
+    - name: LXD Host - Check default storage pool
+      shell: lxc storage create default_pool lvm || exit 0
+      register: command_result
+      changed_when: "command_result.stdout == 'Storage pool default_pool created'"

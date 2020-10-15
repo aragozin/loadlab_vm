@@ -1,0 +1,38 @@
+---
+# Playbook for Alpine host
+
+  - name: Configure telegraf
+    become: true
+    copy:
+      dest: /etc/telegraf.conf
+      src: telegraf.conf
+
+  - name: Fix telegraf user
+    become: true
+    lineinfile:
+      path: /etc/init.d/telegraf
+      regex: ^command_user=.*
+      line: command_user=root:root
+
+  - name: LXD Monitoring - Create dir "/usr/local/sbin/"
+    file:
+      path: /usr/local/sbin/
+      state: directory
+
+  - name: LXD Monitoring - Deploy monitoring script
+    become: true
+    copy:
+      dest: /usr/local/sbin/telegraf-lxd-stats
+      src: usr/local/sbin/telegraf-lxd-stats
+      owner: telegraf
+      mode: +x
+
+  - name: LXD Monitoring - Add telegraf config for LXD
+    become: true
+    copy:
+      dest: /etc/telegraf.conf.d/
+      src: telegraf.d/
+
+  - name: Start Telegraf
+    become: true
+    service: name=telegraf state=restarted enabled=yes

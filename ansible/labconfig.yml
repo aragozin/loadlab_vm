@@ -1,0 +1,56 @@
+---
+lab:
+  network:
+    subnet: "192.168.100"
+    nodes:
+      vm:
+        description: VM host for containers
+        ip: 192.168.100.146
+      
+      loadbalancer:
+        description: HAProxy container
+        ip: 192.168.100.140
+        fqdn: wp.loadlab.ragozin.info
+
+      web1:
+        description: Web node Nginx + PHP
+        ip: 192.168.100.141
+        fqdn: web1.loadlab.ragozin.info
+
+      web2:
+        description: Web node Nginx + PHP
+        ip: 192.168.100.142
+        fqdn: web2.loadlab.ragozin.info
+
+      database:
+        ip: 192.168.100.143
+        fqdn: database.loadlab.ragozin.info
+
+      metrics:
+        description: Influx + Graphana
+        ip: 192.168.100.144
+        fqdn: metrics.loadlab.ragozin.info
+
+      front:
+        description: Lab pages and terminal
+        ip: 192.168.100.145
+        fqdn: loadlab.ragozin.info
+
+    hosts_file:
+      - "vm"
+      - "loadbalancer"
+      - "web1"
+      - "web2"
+      - "database"
+      - "metrics"
+      - "front"
+  
+  web:
+    domain: loadlab.ragozin.info
+    certificate: 
+
+  path:
+    basedir: /opt/loadlab
+    confdir: /opt/loadlab/config
+    sourcedir: /opt/loadlab/setup
+    contentdir: /opt/loadlab/setup/ansible/content

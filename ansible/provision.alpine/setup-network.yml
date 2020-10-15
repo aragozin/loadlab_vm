@@ -1,0 +1,40 @@
+---
+
+    - name: Install 'bridge' package
+      package: 
+        name: 
+          - bridge
+        state: present
+
+    - name: Configure network interfaces
+      copy:
+        dest: /etc/network/interfaces
+        content: |
+
+          auto lo
+          iface lo inet loopback
+
+          auto eth0
+          iface eth0 inet dhcp
+          	hostname boxlab
+
+          auto eth1
+          iface eth1 inet manual
+
+          auto hlan
+          iface hlan inet static
+          	bridge-ports eth1
+          	address {{lab.network.nodes.vm.ip}}
+          	netmask 255.255.255.0
+          	bridge_stp 0
+
+    - name: Check 'hlan' IP address
+      shell: "ip addr | grep hlan | grep {{lab.network.nodes.vm.ip}} | wc -l"
+      register: address_assigned
+      changed_when: false        
+
+    - name: Restart networking
+      service:
+        name: networking
+        state: restarted
+      when: address_assigned.stdout == "0"

@@ -1,0 +1,7 @@
+---
+
+- name: Install HAProxy & ncat
+  package: 
+    name: [haproxy, nmap-ncat] 
+    state: present
+  when: config_only == false

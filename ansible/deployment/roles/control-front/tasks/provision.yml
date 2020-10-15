@@ -1,0 +1,19 @@
+---
+- name: Initialize static content root
+  file:
+    path: /srv/control-front/www
+    state: directory
+  become: yes  
+
+- name: Download gotty
+  get_url:
+    url: https://github.com/yudai/gotty/releases/download/v1.0.1/gotty_linux_amd64.tar.gz
+    dest: /tmp/gotty_linux_amd64.tar.gz
+  when: config_only == false
+
+- name: Uncompress gotty
+  unarchive:
+    src: /tmp/gotty_linux_amd64.tar.gz
+    remote_src: yes
+    dest: /srv/control-front
+  when: config_only == false

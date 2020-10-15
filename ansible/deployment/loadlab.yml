@@ -1,71 +1,82 @@
 ---
 
-- name: Master
-  hosts: masterhost
-  roles:
-    - masterhost-setup
-
-- name: Install PostgreSQL
-  hosts: database
+- name: Common setup
+  hosts: containers
+  vars_files:
+    - ../labconfig.yml
   gather_facts: false
 
   roles:
-    - common
+    - common.centos
     - telegraf-node
-    - postgresql
-    - wp-db-setup-postgresql
 
 - name: Install MariaDB
   hosts: database
+  vars_files:
+    - ../labconfig.yml
   gather_facts: false
 
   roles:
-    - common
-    - telegraf-node
     - mariadb
-    - wp-db-setup
-    - wp-db-convert-mysql-2-postgresql
+    - wp-db-setup.mysql
+
+- name: Install PostgreSQL
+  hosts: database
+  vars_files:
+    - ../labconfig.yml
+  gather_facts: false
+
+  roles:
+    - postgresql  
+    - wp-db-setup.postgresql
 
 - name: Install Wordpress
   hosts: web
+  vars_files:
+    - ../labconfig.yml
   gather_facts: false
 
   roles:
-    - common
-    - telegraf-node
     - php-fpm
     - nginx
     - wordpress
     - wordpress-plugins
+    - wordpress-debug-switch
+    - wordpress-db-switch
 
 - name: Install HAProxy
   hosts: loadbalancer
+  vars_files:
+    - ../labconfig.yml
   gather_facts: false
 
   roles:
-    - common
-    - telegraf-node
     - haproxy
 
-- name: Install InfluxDB
+- name: Install monitoring
   hosts: metrics
+  vars_files:
+    - ../labconfig.yml
   gather_facts: false
 
   roles:
-    - common
     - influxdb
     - grafana
 
 - name: Install Web front
   hosts: front
+  vars_files:
+    - ../labconfig.yml
   gather_facts: false
+  
   roles:
-    - common
     - nginx
-    - telegraf-node
     - control-front
 
 - name: Setup master host
   hosts: masterhost
+  vars_files:
+    - ../labconfig.yml
+  
   roles:
-    - telegraf-host
+    - telegraf-host.alpine

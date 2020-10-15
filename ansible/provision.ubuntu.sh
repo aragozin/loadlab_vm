@@ -1,4 +1,4 @@
-﻿sudo apt-get -y install ansible
+sudo apt-get -y install ansible
 
 ansible-playbook /home/boss/setup/ansible/provision.ubuntu/init-lxd.yml
 

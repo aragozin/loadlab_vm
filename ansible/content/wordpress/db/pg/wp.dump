@@ -1,0 +1,1243 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 10.14
+-- Dumped by pg_dump version 10.14
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'SQL_ASCII';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: wordpress; Type: DATABASE; Schema: -; Owner: wordpress
+--
+
+CREATE DATABASE wordpress WITH TEMPLATE = template0 ENCODING = 'SQL_ASCII' LC_COLLATE = 'C' LC_CTYPE = 'C';
+
+
+ALTER DATABASE wordpress OWNER TO wordpress;
+
+\connect wordpress
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'SQL_ASCII';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: wordpress; Type: SCHEMA; Schema: -; Owner: wordpress
+--
+
+CREATE SCHEMA wordpress;
+
+
+ALTER SCHEMA wordpress OWNER TO wordpress;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+--
+-- Name: field(anyelement, anyarray); Type: FUNCTION; Schema: wordpress; Owner: wordpress
+--
+
+CREATE FUNCTION wordpress.field(anyelement, VARIADIC anyarray) RETURNS bigint
+    LANGUAGE sql IMMUTABLE
+    AS $_$
+SELECT rownum
+FROM (SELECT ROW_NUMBER() OVER () AS rownum, elem
+	FROM unnest($2) elem) numbered
+WHERE numbered.elem = $1
+UNION ALL
+SELECT 0
+$_$;
+
+
+ALTER FUNCTION wordpress.field(anyelement, VARIADIC anyarray) OWNER TO wordpress;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: wp_commentmeta; Type: TABLE; Schema: wordpress; Owner: wordpress
+--
+
+CREATE TABLE wordpress.wp_commentmeta (
+    meta_id bigint NOT NULL,
+    comment_id bigint DEFAULT '0'::bigint NOT NULL,
+    meta_key character varying(255),
+    meta_value text
+);
+
+
+ALTER TABLE wordpress.wp_commentmeta OWNER TO wordpress;
+
+--
+-- Name: wp_commentmeta_seq; Type: SEQUENCE; Schema: wordpress; Owner: wordpress
+--
+
+CREATE SEQUENCE wordpress.wp_commentmeta_seq
+    START WITH 1000
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE wordpress.wp_commentmeta_seq OWNER TO wordpress;
+
+--
+-- Name: wp_commentmeta_seq; Type: SEQUENCE OWNED BY; Schema: wordpress; Owner: wordpress
+--
+
+ALTER SEQUENCE wordpress.wp_commentmeta_seq OWNED BY wordpress.wp_commentmeta.meta_id;
+
+
+--
+-- Name: wp_comments; Type: TABLE; Schema: wordpress; Owner: wordpress
+--
+
+CREATE TABLE wordpress.wp_comments (
+    "comment_ID" bigint NOT NULL,
+    "comment_post_ID" bigint DEFAULT '0'::bigint NOT NULL,
+    comment_author text NOT NULL,
+    comment_author_email character varying(100) DEFAULT ''::character varying NOT NULL,
+    comment_author_url character varying(200) DEFAULT ''::character varying NOT NULL,
+    comment_author_ip character varying(100) DEFAULT ''::character varying NOT NULL,
+    comment_date timestamp without time zone DEFAULT now() NOT NULL,
+    comment_date_gmt timestamp without time zone DEFAULT now() NOT NULL,
+    comment_content text NOT NULL,
+    comment_karma integer DEFAULT 0 NOT NULL,
+    comment_approved character varying(20) DEFAULT '1'::character varying NOT NULL,
+    comment_agent character varying(255) DEFAULT ''::character varying NOT NULL,
+    comment_type character varying(20) DEFAULT ''::character varying NOT NULL,
+    comment_parent bigint DEFAULT '0'::bigint NOT NULL,
+    user_id bigint DEFAULT '0'::bigint NOT NULL
+);
+
+
+ALTER TABLE wordpress.wp_comments OWNER TO wordpress;
+
+--
+-- Name: wp_comments_seq; Type: SEQUENCE; Schema: wordpress; Owner: wordpress
+--
+
+CREATE SEQUENCE wordpress.wp_comments_seq
+    START WITH 1000
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE wordpress.wp_comments_seq OWNER TO wordpress;
+
+--
+-- Name: wp_comments_seq; Type: SEQUENCE OWNED BY; Schema: wordpress; Owner: wordpress
+--
+
+ALTER SEQUENCE wordpress.wp_comments_seq OWNED BY wordpress.wp_comments."comment_ID";
+
+
+--
+-- Name: wp_links; Type: TABLE; Schema: wordpress; Owner: wordpress
+--
+
+CREATE TABLE wordpress.wp_links (
+    link_id bigint NOT NULL,
+    link_url character varying(255) DEFAULT ''::character varying NOT NULL,
+    link_name character varying(255) DEFAULT ''::character varying NOT NULL,
+    link_image character varying(255) DEFAULT ''::character varying NOT NULL,
+    link_target character varying(25) DEFAULT ''::character varying NOT NULL,
+    link_description character varying(255) DEFAULT ''::character varying NOT NULL,
+    link_visible character varying(20) DEFAULT 'Y'::character varying NOT NULL,
+    link_owner bigint DEFAULT '1'::bigint NOT NULL,
+    link_rating integer DEFAULT 0 NOT NULL,
+    link_updated timestamp without time zone DEFAULT now() NOT NULL,
+    link_rel character varying(255) DEFAULT ''::character varying NOT NULL,
+    link_notes text NOT NULL,
+    link_rss character varying(255) DEFAULT ''::character varying NOT NULL
+);
+
+
+ALTER TABLE wordpress.wp_links OWNER TO wordpress;
+
+--
+-- Name: wp_links_seq; Type: SEQUENCE; Schema: wordpress; Owner: wordpress
+--
+
+CREATE SEQUENCE wordpress.wp_links_seq
+    START WITH 1000
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE wordpress.wp_links_seq OWNER TO wordpress;
+
+--
+-- Name: wp_links_seq; Type: SEQUENCE OWNED BY; Schema: wordpress; Owner: wordpress
+--
+
+ALTER SEQUENCE wordpress.wp_links_seq OWNED BY wordpress.wp_links.link_id;
+
+
+--
+-- Name: wp_options; Type: TABLE; Schema: wordpress; Owner: wordpress
+--
+
+CREATE TABLE wordpress.wp_options (
+    option_id bigint NOT NULL,
+    option_name character varying(191) DEFAULT ''::character varying NOT NULL,
+    option_value text NOT NULL,
+    autoload character varying(20) DEFAULT 'yes'::character varying NOT NULL
+);
+
+
+ALTER TABLE wordpress.wp_options OWNER TO wordpress;
+
+--
+-- Name: wp_options_seq; Type: SEQUENCE; Schema: wordpress; Owner: wordpress
+--
+
+CREATE SEQUENCE wordpress.wp_options_seq
+    START WITH 10000
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE wordpress.wp_options_seq OWNER TO wordpress;
+
+--
+-- Name: wp_options_seq; Type: SEQUENCE OWNED BY; Schema: wordpress; Owner: wordpress
+--
+
+ALTER SEQUENCE wordpress.wp_options_seq OWNED BY wordpress.wp_options.option_id;
+
+
+--
+-- Name: wp_postmeta; Type: TABLE; Schema: wordpress; Owner: wordpress
+--
+
+CREATE TABLE wordpress.wp_postmeta (
+    meta_id bigint NOT NULL,
+    post_id bigint DEFAULT '0'::bigint NOT NULL,
+    meta_key character varying(255),
+    meta_value text
+);
+
+
+ALTER TABLE wordpress.wp_postmeta OWNER TO wordpress;
+
+--
+-- Name: wp_postmeta_seq; Type: SEQUENCE; Schema: wordpress; Owner: wordpress
+--
+
+CREATE SEQUENCE wordpress.wp_postmeta_seq
+    START WITH 100
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE wordpress.wp_postmeta_seq OWNER TO wordpress;
+
+--
+-- Name: wp_postmeta_seq; Type: SEQUENCE OWNED BY; Schema: wordpress; Owner: wordpress
+--
+
+ALTER SEQUENCE wordpress.wp_postmeta_seq OWNED BY wordpress.wp_postmeta.meta_id;
+
+
+--
+-- Name: wp_posts; Type: TABLE; Schema: wordpress; Owner: wordpress
+--
+
+CREATE TABLE wordpress.wp_posts (
+    "ID" bigint NOT NULL,
+    post_author bigint DEFAULT '0'::bigint NOT NULL,
+    post_date timestamp without time zone DEFAULT now() NOT NULL,
+    post_date_gmt timestamp without time zone DEFAULT now() NOT NULL,
+    post_content text NOT NULL,
+    post_title text NOT NULL,
+    post_excerpt text NOT NULL,
+    post_status character varying(20) DEFAULT 'publish'::character varying NOT NULL,
+    comment_status character varying(20) DEFAULT 'open'::character varying NOT NULL,
+    ping_status character varying(20) DEFAULT 'open'::character varying NOT NULL,
+    post_password character varying(255) DEFAULT ''::character varying NOT NULL,
+    post_name character varying(200) DEFAULT ''::character varying NOT NULL,
+    to_ping text NOT NULL,
+    pinged text NOT NULL,
+    post_modified timestamp without time zone DEFAULT now() NOT NULL,
+    post_modified_gmt timestamp without time zone DEFAULT now() NOT NULL,
+    post_content_filtered text NOT NULL,
+    post_parent bigint DEFAULT '0'::bigint NOT NULL,
+    guid character varying(255) DEFAULT ''::character varying NOT NULL,
+    menu_order integer DEFAULT 0 NOT NULL,
+    post_type character varying(20) DEFAULT 'post'::character varying NOT NULL,
+    post_mime_type character varying(100) DEFAULT ''::character varying NOT NULL,
+    comment_count bigint DEFAULT '0'::bigint NOT NULL
+);
+
+
+ALTER TABLE wordpress.wp_posts OWNER TO wordpress;
+
+--
+-- Name: wp_posts_seq; Type: SEQUENCE; Schema: wordpress; Owner: wordpress
+--
+
+CREATE SEQUENCE wordpress.wp_posts_seq
+    START WITH 100
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE wordpress.wp_posts_seq OWNER TO wordpress;
+
+--
+-- Name: wp_posts_seq; Type: SEQUENCE OWNED BY; Schema: wordpress; Owner: wordpress
+--
+
+ALTER SEQUENCE wordpress.wp_posts_seq OWNED BY wordpress.wp_posts."ID";
+
+
+--
+-- Name: wp_term_relationships; Type: TABLE; Schema: wordpress; Owner: wordpress
+--
+
+CREATE TABLE wordpress.wp_term_relationships (
+    object_id bigint DEFAULT 0 NOT NULL,
+    term_taxonomy_id bigint DEFAULT 0 NOT NULL,
+    term_order integer DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE wordpress.wp_term_relationships OWNER TO wordpress;
+
+--
+-- Name: wp_term_taxonomy; Type: TABLE; Schema: wordpress; Owner: wordpress
+--
+
+CREATE TABLE wordpress.wp_term_taxonomy (
+    term_taxonomy_id bigint NOT NULL,
+    term_id bigint DEFAULT 0 NOT NULL,
+    taxonomy character varying(32) DEFAULT ''::character varying NOT NULL,
+    description text NOT NULL,
+    parent bigint DEFAULT 0 NOT NULL,
+    count bigint DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE wordpress.wp_term_taxonomy OWNER TO wordpress;
+
+--
+-- Name: wp_term_taxonomy_seq; Type: SEQUENCE; Schema: wordpress; Owner: wordpress
+--
+
+CREATE SEQUENCE wordpress.wp_term_taxonomy_seq
+    START WITH 100
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE wordpress.wp_term_taxonomy_seq OWNER TO wordpress;
+
+--
+-- Name: wp_term_taxonomy_seq; Type: SEQUENCE OWNED BY; Schema: wordpress; Owner: wordpress
+--
+
+ALTER SEQUENCE wordpress.wp_term_taxonomy_seq OWNED BY wordpress.wp_term_taxonomy.term_taxonomy_id;
+
+
+--
+-- Name: wp_termmeta; Type: TABLE; Schema: wordpress; Owner: wordpress
+--
+
+CREATE TABLE wordpress.wp_termmeta (
+    meta_id bigint NOT NULL,
+    term_id bigint DEFAULT '0'::bigint NOT NULL,
+    meta_key character varying(255),
+    meta_value text
+);
+
+
+ALTER TABLE wordpress.wp_termmeta OWNER TO wordpress;
+
+--
+-- Name: wp_termmeta_seq; Type: SEQUENCE; Schema: wordpress; Owner: wordpress
+--
+
+CREATE SEQUENCE wordpress.wp_termmeta_seq
+    START WITH 100
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE wordpress.wp_termmeta_seq OWNER TO wordpress;
+
+--
+-- Name: wp_termmeta_seq; Type: SEQUENCE OWNED BY; Schema: wordpress; Owner: wordpress
+--
+
+ALTER SEQUENCE wordpress.wp_termmeta_seq OWNED BY wordpress.wp_termmeta.meta_id;
+
+
+--
+-- Name: wp_terms; Type: TABLE; Schema: wordpress; Owner: wordpress
+--
+
+CREATE TABLE wordpress.wp_terms (
+    term_id bigint NOT NULL,
+    name character varying(200) DEFAULT ''::character varying NOT NULL,
+    slug character varying(200) DEFAULT ''::character varying NOT NULL,
+    term_group integer DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE wordpress.wp_terms OWNER TO wordpress;
+
+--
+-- Name: wp_terms_seq; Type: SEQUENCE; Schema: wordpress; Owner: wordpress
+--
+
+CREATE SEQUENCE wordpress.wp_terms_seq
+    START WITH 100
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE wordpress.wp_terms_seq OWNER TO wordpress;
+
+--
+-- Name: wp_terms_seq; Type: SEQUENCE OWNED BY; Schema: wordpress; Owner: wordpress
+--
+
+ALTER SEQUENCE wordpress.wp_terms_seq OWNED BY wordpress.wp_terms.term_id;
+
+
+--
+-- Name: wp_usermeta; Type: TABLE; Schema: wordpress; Owner: wordpress
+--
+
+CREATE TABLE wordpress.wp_usermeta (
+    umeta_id bigint NOT NULL,
+    user_id bigint DEFAULT '0'::bigint NOT NULL,
+    meta_key character varying(255),
+    meta_value text
+);
+
+
+ALTER TABLE wordpress.wp_usermeta OWNER TO wordpress;
+
+--
+-- Name: wp_usermeta_seq; Type: SEQUENCE; Schema: wordpress; Owner: wordpress
+--
+
+CREATE SEQUENCE wordpress.wp_usermeta_seq
+    START WITH 1000
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE wordpress.wp_usermeta_seq OWNER TO wordpress;
+
+--
+-- Name: wp_usermeta_seq; Type: SEQUENCE OWNED BY; Schema: wordpress; Owner: wordpress
+--
+
+ALTER SEQUENCE wordpress.wp_usermeta_seq OWNED BY wordpress.wp_usermeta.umeta_id;
+
+
+--
+-- Name: wp_users; Type: TABLE; Schema: wordpress; Owner: wordpress
+--
+
+CREATE TABLE wordpress.wp_users (
+    "ID" bigint NOT NULL,
+    user_login character varying(60) DEFAULT ''::character varying NOT NULL,
+    user_pass character varying(255) DEFAULT ''::character varying NOT NULL,
+    user_nicename character varying(50) DEFAULT ''::character varying NOT NULL,
+    user_email character varying(100) DEFAULT ''::character varying NOT NULL,
+    user_url character varying(100) DEFAULT ''::character varying NOT NULL,
+    user_registered timestamp without time zone DEFAULT now() NOT NULL,
+    user_activation_key character varying(255) DEFAULT ''::character varying NOT NULL,
+    user_status integer DEFAULT 0 NOT NULL,
+    display_name character varying(250) DEFAULT ''::character varying NOT NULL
+);
+
+
+ALTER TABLE wordpress.wp_users OWNER TO wordpress;
+
+--
+-- Name: wp_users_seq; Type: SEQUENCE; Schema: wordpress; Owner: wordpress
+--
+
+CREATE SEQUENCE wordpress.wp_users_seq
+    START WITH 1000
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE wordpress.wp_users_seq OWNER TO wordpress;
+
+--
+-- Name: wp_users_seq; Type: SEQUENCE OWNED BY; Schema: wordpress; Owner: wordpress
+--
+
+ALTER SEQUENCE wordpress.wp_users_seq OWNED BY wordpress.wp_users."ID";
+
+
+--
+-- Name: wp_commentmeta meta_id; Type: DEFAULT; Schema: wordpress; Owner: wordpress
+--
+
+ALTER TABLE ONLY wordpress.wp_commentmeta ALTER COLUMN meta_id SET DEFAULT nextval('wordpress.wp_commentmeta_seq'::regclass);
+
+
+--
+-- Name: wp_comments comment_ID; Type: DEFAULT; Schema: wordpress; Owner: wordpress
+--
+
+ALTER TABLE ONLY wordpress.wp_comments ALTER COLUMN "comment_ID" SET DEFAULT nextval('wordpress.wp_comments_seq'::regclass);
+
+
+--
+-- Name: wp_links link_id; Type: DEFAULT; Schema: wordpress; Owner: wordpress
+--
+
+ALTER TABLE ONLY wordpress.wp_links ALTER COLUMN link_id SET DEFAULT nextval('wordpress.wp_links_seq'::regclass);
+
+
+--
+-- Name: wp_options option_id; Type: DEFAULT; Schema: wordpress; Owner: wordpress
+--
+
+ALTER TABLE ONLY wordpress.wp_options ALTER COLUMN option_id SET DEFAULT nextval('wordpress.wp_options_seq'::regclass);
+
+
+--
+-- Name: wp_postmeta meta_id; Type: DEFAULT; Schema: wordpress; Owner: wordpress
+--
+
+ALTER TABLE ONLY wordpress.wp_postmeta ALTER COLUMN meta_id SET DEFAULT nextval('wordpress.wp_postmeta_seq'::regclass);
+
+
+--
+-- Name: wp_posts ID; Type: DEFAULT; Schema: wordpress; Owner: wordpress
+--
+
+ALTER TABLE ONLY wordpress.wp_posts ALTER COLUMN "ID" SET DEFAULT nextval('wordpress.wp_posts_seq'::regclass);
+
+
+--
+-- Name: wp_term_taxonomy term_taxonomy_id; Type: DEFAULT; Schema: wordpress; Owner: wordpress
+--
+
+ALTER TABLE ONLY wordpress.wp_term_taxonomy ALTER COLUMN term_taxonomy_id SET DEFAULT nextval('wordpress.wp_term_taxonomy_seq'::regclass);
+
+
+--
+-- Name: wp_termmeta meta_id; Type: DEFAULT; Schema: wordpress; Owner: wordpress
+--
+
+ALTER TABLE ONLY wordpress.wp_termmeta ALTER COLUMN meta_id SET DEFAULT nextval('wordpress.wp_termmeta_seq'::regclass);
+
+
+--
+-- Name: wp_terms term_id; Type: DEFAULT; Schema: wordpress; Owner: wordpress
+--
+
+ALTER TABLE ONLY wordpress.wp_terms ALTER COLUMN term_id SET DEFAULT nextval('wordpress.wp_terms_seq'::regclass);
+
+
+--
+-- Name: wp_usermeta umeta_id; Type: DEFAULT; Schema: wordpress; Owner: wordpress
+--
+
+ALTER TABLE ONLY wordpress.wp_usermeta ALTER COLUMN umeta_id SET DEFAULT nextval('wordpress.wp_usermeta_seq'::regclass);
+
+
+--
+-- Name: wp_users ID; Type: DEFAULT; Schema: wordpress; Owner: wordpress
+--
+
+ALTER TABLE ONLY wordpress.wp_users ALTER COLUMN "ID" SET DEFAULT nextval('wordpress.wp_users_seq'::regclass);
+
+
+--
+-- Data for Name: wp_commentmeta; Type: TABLE DATA; Schema: wordpress; Owner: wordpress
+--
+
+COPY wordpress.wp_commentmeta (meta_id, comment_id, meta_key, meta_value) FROM stdin;
+\.
+
+
+--
+-- Data for Name: wp_comments; Type: TABLE DATA; Schema: wordpress; Owner: wordpress
+--
+
+COPY wordpress.wp_comments ("comment_ID", "comment_post_ID", comment_author, comment_author_email, comment_author_url, comment_author_ip, comment_date, comment_date_gmt, comment_content, comment_karma, comment_approved, comment_agent, comment_type, comment_parent, user_id) FROM stdin;
+1	1	A WordPress Commenter	wapuu@wordpress.example	https://wordpress.org/		2019-05-04 22:40:21	2019-05-04 22:40:21	Hi, this is a comment.\nTo get started with moderating, editing, and deleting comments, please visit the Comments screen in the dashboard.\nCommenter avatars come from <a href="https://gravatar.com">Gravatar</a>.	0	1			0	0
+\.
+
+
+--
+-- Data for Name: wp_links; Type: TABLE DATA; Schema: wordpress; Owner: wordpress
+--
+
+COPY wordpress.wp_links (link_id, link_url, link_name, link_image, link_target, link_description, link_visible, link_owner, link_rating, link_updated, link_rel, link_notes, link_rss) FROM stdin;
+\.
+
+
+--
+-- Data for Name: wp_options; Type: TABLE DATA; Schema: wordpress; Owner: wordpress
+--
+
+COPY wordpress.wp_options (option_id, option_name, option_value, autoload) FROM stdin;
+1	siteurl	http://wp.loadlab.ragozin.info	yes
+2	home	http://wp.loadlab.ragozin.info	yes
+3	blogname	Performance testing lab	yes
+4	blogdescription	Just another WordPress site	yes
+5	users_can_register	1	yes
+6	admin_email	boss@example.com	yes
+7	start_of_week	1	yes
+8	use_balanceTags	0	yes
+9	use_smilies	1	yes
+10	require_name_email	1	yes
+11	comments_notify	1	yes
+12	posts_per_rss	10	yes
+13	rss_use_excerpt	0	yes
+14	mailserver_url	mail.example.com	yes
+15	mailserver_login	login@example.com	yes
+16	mailserver_pass	password	yes
+17	mailserver_port	110	yes
+18	default_category	1	yes
+19	default_comment_status	open	yes
+20	default_ping_status	open	yes
+21	default_pingback_flag	1	yes
+22	posts_per_page	10	yes
+23	date_format	F j, Y	yes
+24	time_format	g:i a	yes
+25	links_updated_date_format	F j, Y g:i a	yes
+26	comment_moderation	0	yes
+27	moderation_notify	1	yes
+28	permalink_structure	/%year%/%monthnum%/%day%/%postname%/	yes
+30	hack_file	0	yes
+31	blog_charset	UTF-8	yes
+32	moderation_keys		no
+34	category_base		yes
+35	ping_sites	http://rpc.pingomatic.com/	yes
+36	comment_max_links	2	yes
+37	gmt_offset	0	yes
+38	default_email_category	1	yes
+39	recently_edited		no
+40	template	twentysixteen	yes
+41	stylesheet	twentysixteen	yes
+42	comment_whitelist	1	yes
+43	blacklist_keys		no
+44	comment_registration	0	yes
+45	html_type	text/html	yes
+46	use_trackback	0	yes
+47	default_role	subscriber	yes
+49	uploads_use_yearmonth_folders	1	yes
+50	upload_path		yes
+51	blog_public	1	yes
+52	default_link_category	2	yes
+53	show_on_front	posts	yes
+54	tag_base		yes
+55	show_avatars	1	yes
+56	avatar_rating	G	yes
+57	upload_url_path		yes
+58	thumbnail_size_w	150	yes
+59	thumbnail_size_h	150	yes
+60	thumbnail_crop	1	yes
+61	medium_size_w	300	yes
+62	medium_size_h	300	yes
+63	avatar_default	mystery	yes
+64	large_size_w	1024	yes
+65	large_size_h	1024	yes
+66	image_default_link_type	none	yes
+67	image_default_size		yes
+68	image_default_align		yes
+69	close_comments_for_old_posts	0	yes
+70	close_comments_days_old	14	yes
+71	thread_comments	1	yes
+72	thread_comments_depth	5	yes
+73	page_comments	0	yes
+74	comments_per_page	50	yes
+75	default_comments_page	newest	yes
+76	comment_order	asc	yes
+77	sticky_posts	a:0:{}	yes
+78	widget_categories	a:2:{i:2;a:4:{s:5:"title";s:0:"";s:5:"count";i:0;s:12:"hierarchical";i:0;s:8:"dropdown";i:0;}s:12:"_multiwidget";i:1;}	yes
+79	widget_text	a:2:{i:1;a:0:{}s:12:"_multiwidget";i:1;}	yes
+80	widget_rss	a:2:{i:1;a:0:{}s:12:"_multiwidget";i:1;}	yes
+81	uninstall_plugins	a:2:{s:27:"wp-super-cache/wp-cache.php";s:22:"wpsupercache_uninstall";s:33:"classic-editor/classic-editor.php";a:2:{i:0;s:14:"Classic_Editor";i:1;s:9:"uninstall";}}	no
+82	timezone_string		yes
+83	page_for_posts	0	yes
+84	page_on_front	0	yes
+85	default_post_format	0	yes
+86	link_manager_enabled	0	yes
+87	finished_splitting_shared_terms	1	yes
+88	site_icon	0	yes
+89	medium_large_size_w	768	yes
+90	medium_large_size_h	0	yes
+91	wp_page_for_privacy_policy	3	yes
+92	show_comments_cookies_opt_in	1	yes
+93	initial_db_version	44719	yes
+29	rewrite_rules	a:90:{s:11:"^wp-json/?$";s:22:"index.php?rest_route=/";s:14:"^wp-json/(.*)?";s:33:"index.php?rest_route=/$matches[1]";s:21:"^index.php/wp-json/?$";s:22:"index.php?rest_route=/";s:24:"^index.php/wp-json/(.*)?";s:33:"index.php?rest_route=/$matches[1]";s:47:"category/(.+?)/feed/(feed|rdf|rss|rss2|atom)/?$";s:52:"index.php?category_name=$matches[1]&feed=$matches[2]";s:42:"category/(.+?)/(feed|rdf|rss|rss2|atom)/?$";s:52:"index.php?category_name=$matches[1]&feed=$matches[2]";s:23:"category/(.+?)/embed/?$";s:46:"index.php?category_name=$matches[1]&embed=true";s:35:"category/(.+?)/page/?([0-9]{1,})/?$";s:53:"index.php?category_name=$matches[1]&paged=$matches[2]";s:17:"category/(.+?)/?$";s:35:"index.php?category_name=$matches[1]";s:44:"tag/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$";s:42:"index.php?tag=$matches[1]&feed=$matches[2]";s:39:"tag/([^/]+)/(feed|rdf|rss|rss2|atom)/?$";s:42:"index.php?tag=$matches[1]&feed=$matches[2]";s:20:"tag/([^/]+)/embed/?$";s:36:"index.php?tag=$matches[1]&embed=true";s:32:"tag/([^/]+)/page/?([0-9]{1,})/?$";s:43:"index.php?tag=$matches[1]&paged=$matches[2]";s:14:"tag/([^/]+)/?$";s:25:"index.php?tag=$matches[1]";s:45:"type/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$";s:50:"index.php?post_format=$matches[1]&feed=$matches[2]";s:40:"type/([^/]+)/(feed|rdf|rss|rss2|atom)/?$";s:50:"index.php?post_format=$matches[1]&feed=$matches[2]";s:21:"type/([^/]+)/embed/?$";s:44:"index.php?post_format=$matches[1]&embed=true";s:33:"type/([^/]+)/page/?([0-9]{1,})/?$";s:51:"index.php?post_format=$matches[1]&paged=$matches[2]";s:15:"type/([^/]+)/?$";s:33:"index.php?post_format=$matches[1]";s:12:"robots\\.txt$";s:18:"index.php?robots=1";s:48:".*wp-(atom|rdf|rss|rss2|feed|commentsrss2)\\.php$";s:18:"index.php?feed=old";s:20:".*wp-app\\.php(/.*)?$";s:19:"index.php?error=403";s:18:".*wp-register.php$";s:23:"index.php?register=true";s:32:"feed/(feed|rdf|rss|rss2|atom)/?$";s:27:"index.php?&feed=$matches[1]";s:27:"(feed|rdf|rss|rss2|atom)/?$";s:27:"index.php?&feed=$matches[1]";s:8:"embed/?$";s:21:"index.php?&embed=true";s:20:"page/?([0-9]{1,})/?$";s:28:"index.php?&paged=$matches[1]";s:41:"comments/feed/(feed|rdf|rss|rss2|atom)/?$";s:42:"index.php?&feed=$matches[1]&withcomments=1";s:36:"comments/(feed|rdf|rss|rss2|atom)/?$";s:42:"index.php?&feed=$matches[1]&withcomments=1";s:17:"comments/embed/?$";s:21:"index.php?&embed=true";s:44:"search/(.+)/feed/(feed|rdf|rss|rss2|atom)/?$";s:40:"index.php?s=$matches[1]&feed=$matches[2]";s:39:"search/(.+)/(feed|rdf|rss|rss2|atom)/?$";s:40:"index.php?s=$matches[1]&feed=$matches[2]";s:20:"search/(.+)/embed/?$";s:34:"index.php?s=$matches[1]&embed=true";s:32:"search/(.+)/page/?([0-9]{1,})/?$";s:41:"index.php?s=$matches[1]&paged=$matches[2]";s:14:"search/(.+)/?$";s:23:"index.php?s=$matches[1]";s:47:"author/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$";s:50:"index.php?author_name=$matches[1]&feed=$matches[2]";s:42:"author/([^/]+)/(feed|rdf|rss|rss2|atom)/?$";s:50:"index.php?author_name=$matches[1]&feed=$matches[2]";s:23:"author/([^/]+)/embed/?$";s:44:"index.php?author_name=$matches[1]&embed=true";s:35:"author/([^/]+)/page/?([0-9]{1,})/?$";s:51:"index.php?author_name=$matches[1]&paged=$matches[2]";s:17:"author/([^/]+)/?$";s:33:"index.php?author_name=$matches[1]";s:69:"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/feed/(feed|rdf|rss|rss2|atom)/?$";s:80:"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&feed=$matches[4]";s:64:"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/(feed|rdf|rss|rss2|atom)/?$";s:80:"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&feed=$matches[4]";s:45:"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/embed/?$";s:74:"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&embed=true";s:57:"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/page/?([0-9]{1,})/?$";s:81:"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&paged=$matches[4]";s:39:"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/?$";s:63:"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]";s:56:"([0-9]{4})/([0-9]{1,2})/feed/(feed|rdf|rss|rss2|atom)/?$";s:64:"index.php?year=$matches[1]&monthnum=$matches[2]&feed=$matches[3]";s:51:"([0-9]{4})/([0-9]{1,2})/(feed|rdf|rss|rss2|atom)/?$";s:64:"index.php?year=$matches[1]&monthnum=$matches[2]&feed=$matches[3]";s:32:"([0-9]{4})/([0-9]{1,2})/embed/?$";s:58:"index.php?year=$matches[1]&monthnum=$matches[2]&embed=true";s:44:"([0-9]{4})/([0-9]{1,2})/page/?([0-9]{1,})/?$";s:65:"index.php?year=$matches[1]&monthnum=$matches[2]&paged=$matches[3]";s:26:"([0-9]{4})/([0-9]{1,2})/?$";s:47:"index.php?year=$matches[1]&monthnum=$matches[2]";s:43:"([0-9]{4})/feed/(feed|rdf|rss|rss2|atom)/?$";s:43:"index.php?year=$matches[1]&feed=$matches[2]";s:38:"([0-9]{4})/(feed|rdf|rss|rss2|atom)/?$";s:43:"index.php?year=$matches[1]&feed=$matches[2]";s:19:"([0-9]{4})/embed/?$";s:37:"index.php?year=$matches[1]&embed=true";s:31:"([0-9]{4})/page/?([0-9]{1,})/?$";s:44:"index.php?year=$matches[1]&paged=$matches[2]";s:13:"([0-9]{4})/?$";s:26:"index.php?year=$matches[1]";s:58:"[0-9]{4}/[0-9]{1,2}/[0-9]{1,2}/[^/]+/attachment/([^/]+)/?$";s:32:"index.php?attachment=$matches[1]";s:68:"[0-9]{4}/[0-9]{1,2}/[0-9]{1,2}/[^/]+/attachment/([^/]+)/trackback/?$";s:37:"index.php?attachment=$matches[1]&tb=1";s:88:"[0-9]{4}/[0-9]{1,2}/[0-9]{1,2}/[^/]+/attachment/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$";s:49:"index.php?attachment=$matches[1]&feed=$matches[2]";s:83:"[0-9]{4}/[0-9]{1,2}/[0-9]{1,2}/[^/]+/attachment/([^/]+)/(feed|rdf|rss|rss2|atom)/?$";s:49:"index.php?attachment=$matches[1]&feed=$matches[2]";s:83:"[0-9]{4}/[0-9]{1,2}/[0-9]{1,2}/[^/]+/attachment/([^/]+)/comment-page-([0-9]{1,})/?$";s:50:"index.php?attachment=$matches[1]&cpage=$matches[2]";s:64:"[0-9]{4}/[0-9]{1,2}/[0-9]{1,2}/[^/]+/attachment/([^/]+)/embed/?$";s:43:"index.php?attachment=$matches[1]&embed=true";s:53:"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/([^/]+)/embed/?$";s:91:"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&name=$matches[4]&embed=true";s:57:"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/([^/]+)/trackback/?$";s:85:"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&name=$matches[4]&tb=1";s:77:"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$";s:97:"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&name=$matches[4]&feed=$matches[5]";s:72:"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/([^/]+)/(feed|rdf|rss|rss2|atom)/?$";s:97:"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&name=$matches[4]&feed=$matches[5]";s:65:"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/([^/]+)/page/?([0-9]{1,})/?$";s:98:"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&name=$matches[4]&paged=$matches[5]";s:72:"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/([^/]+)/comment-page-([0-9]{1,})/?$";s:98:"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&name=$matches[4]&cpage=$matches[5]";s:61:"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/([^/]+)(?:/([0-9]+))?/?$";s:97:"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&name=$matches[4]&page=$matches[5]";s:47:"[0-9]{4}/[0-9]{1,2}/[0-9]{1,2}/[^/]+/([^/]+)/?$";s:32:"index.php?attachment=$matches[1]";s:57:"[0-9]{4}/[0-9]{1,2}/[0-9]{1,2}/[^/]+/([^/]+)/trackback/?$";s:37:"index.php?attachment=$matches[1]&tb=1";s:77:"[0-9]{4}/[0-9]{1,2}/[0-9]{1,2}/[^/]+/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$";s:49:"index.php?attachment=$matches[1]&feed=$matches[2]";s:72:"[0-9]{4}/[0-9]{1,2}/[0-9]{1,2}/[^/]+/([^/]+)/(feed|rdf|rss|rss2|atom)/?$";s:49:"index.php?attachment=$matches[1]&feed=$matches[2]";s:72:"[0-9]{4}/[0-9]{1,2}/[0-9]{1,2}/[^/]+/([^/]+)/comment-page-([0-9]{1,})/?$";s:50:"index.php?attachment=$matches[1]&cpage=$matches[2]";s:53:"[0-9]{4}/[0-9]{1,2}/[0-9]{1,2}/[^/]+/([^/]+)/embed/?$";s:43:"index.php?attachment=$matches[1]&embed=true";s:64:"([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})/comment-page-([0-9]{1,})/?$";s:81:"index.php?year=$matches[1]&monthnum=$matches[2]&day=$matches[3]&cpage=$matches[4]";s:51:"([0-9]{4})/([0-9]{1,2})/comment-page-([0-9]{1,})/?$";s:65:"index.php?year=$matches[1]&monthnum=$matches[2]&cpage=$matches[3]";s:38:"([0-9]{4})/comment-page-([0-9]{1,})/?$";s:44:"index.php?year=$matches[1]&cpage=$matches[2]";s:27:".?.+?/attachment/([^/]+)/?$";s:32:"index.php?attachment=$matches[1]";s:37:".?.+?/attachment/([^/]+)/trackback/?$";s:37:"index.php?attachment=$matches[1]&tb=1";s:57:".?.+?/attachment/([^/]+)/feed/(feed|rdf|rss|rss2|atom)/?$";s:49:"index.php?attachment=$matches[1]&feed=$matches[2]";s:52:".?.+?/attachment/([^/]+)/(feed|rdf|rss|rss2|atom)/?$";s:49:"index.php?attachment=$matches[1]&feed=$matches[2]";s:52:".?.+?/attachment/([^/]+)/comment-page-([0-9]{1,})/?$";s:50:"index.php?attachment=$matches[1]&cpage=$matches[2]";s:33:".?.+?/attachment/([^/]+)/embed/?$";s:43:"index.php?attachment=$matches[1]&embed=true";s:16:"(.?.+?)/embed/?$";s:41:"index.php?pagename=$matches[1]&embed=true";s:20:"(.?.+?)/trackback/?$";s:35:"index.php?pagename=$matches[1]&tb=1";s:40:"(.?.+?)/feed/(feed|rdf|rss|rss2|atom)/?$";s:47:"index.php?pagename=$matches[1]&feed=$matches[2]";s:35:"(.?.+?)/(feed|rdf|rss|rss2|atom)/?$";s:47:"index.php?pagename=$matches[1]&feed=$matches[2]";s:28:"(.?.+?)/page/?([0-9]{1,})/?$";s:48:"index.php?pagename=$matches[1]&paged=$matches[2]";s:35:"(.?.+?)/comment-page-([0-9]{1,})/?$";s:48:"index.php?pagename=$matches[1]&cpage=$matches[2]";s:24:"(.?.+?)(?:/([0-9]+))?/?$";s:47:"index.php?pagename=$matches[1]&page=$matches[2]";}	yes
+48	db_version	44719	yes
+94	wp_user_roles	a:5:{s:13:"administrator";a:2:{s:4:"name";s:13:"Administrator";s:12:"capabilities";a:61:{s:13:"switch_themes";b:1;s:11:"edit_themes";b:1;s:16:"activate_plugins";b:1;s:12:"edit_plugins";b:1;s:10:"edit_users";b:1;s:10:"edit_files";b:1;s:14:"manage_options";b:1;s:17:"moderate_comments";b:1;s:17:"manage_categories";b:1;s:12:"manage_links";b:1;s:12:"upload_files";b:1;s:6:"import";b:1;s:15:"unfiltered_html";b:1;s:10:"edit_posts";b:1;s:17:"edit_others_posts";b:1;s:20:"edit_published_posts";b:1;s:13:"publish_posts";b:1;s:10:"edit_pages";b:1;s:4:"read";b:1;s:8:"level_10";b:1;s:7:"level_9";b:1;s:7:"level_8";b:1;s:7:"level_7";b:1;s:7:"level_6";b:1;s:7:"level_5";b:1;s:7:"level_4";b:1;s:7:"level_3";b:1;s:7:"level_2";b:1;s:7:"level_1";b:1;s:7:"level_0";b:1;s:17:"edit_others_pages";b:1;s:20:"edit_published_pages";b:1;s:13:"publish_pages";b:1;s:12:"delete_pages";b:1;s:19:"delete_others_pages";b:1;s:22:"delete_published_pages";b:1;s:12:"delete_posts";b:1;s:19:"delete_others_posts";b:1;s:22:"delete_published_posts";b:1;s:20:"delete_private_posts";b:1;s:18:"edit_private_posts";b:1;s:18:"read_private_posts";b:1;s:20:"delete_private_pages";b:1;s:18:"edit_private_pages";b:1;s:18:"read_private_pages";b:1;s:12:"delete_users";b:1;s:12:"create_users";b:1;s:17:"unfiltered_upload";b:1;s:14:"edit_dashboard";b:1;s:14:"update_plugins";b:1;s:14:"delete_plugins";b:1;s:15:"install_plugins";b:1;s:13:"update_themes";b:1;s:14:"install_themes";b:1;s:11:"update_core";b:1;s:10:"list_users";b:1;s:12:"remove_users";b:1;s:13:"promote_users";b:1;s:18:"edit_theme_options";b:1;s:13:"delete_themes";b:1;s:6:"export";b:1;}}s:6:"editor";a:2:{s:4:"name";s:6:"Editor";s:12:"capabilities";a:34:{s:17:"moderate_comments";b:1;s:17:"manage_categories";b:1;s:12:"manage_links";b:1;s:12:"upload_files";b:1;s:15:"unfiltered_html";b:1;s:10:"edit_posts";b:1;s:17:"edit_others_posts";b:1;s:20:"edit_published_posts";b:1;s:13:"publish_posts";b:1;s:10:"edit_pages";b:1;s:4:"read";b:1;s:7:"level_7";b:1;s:7:"level_6";b:1;s:7:"level_5";b:1;s:7:"level_4";b:1;s:7:"level_3";b:1;s:7:"level_2";b:1;s:7:"level_1";b:1;s:7:"level_0";b:1;s:17:"edit_others_pages";b:1;s:20:"edit_published_pages";b:1;s:13:"publish_pages";b:1;s:12:"delete_pages";b:1;s:19:"delete_others_pages";b:1;s:22:"delete_published_pages";b:1;s:12:"delete_posts";b:1;s:19:"delete_others_posts";b:1;s:22:"delete_published_posts";b:1;s:20:"delete_private_posts";b:1;s:18:"edit_private_posts";b:1;s:18:"read_private_posts";b:1;s:20:"delete_private_pages";b:1;s:18:"edit_private_pages";b:1;s:18:"read_private_pages";b:1;}}s:6:"author";a:2:{s:4:"name";s:6:"Author";s:12:"capabilities";a:10:{s:12:"upload_files";b:1;s:10:"edit_posts";b:1;s:20:"edit_published_posts";b:1;s:13:"publish_posts";b:1;s:4:"read";b:1;s:7:"level_2";b:1;s:7:"level_1";b:1;s:7:"level_0";b:1;s:12:"delete_posts";b:1;s:22:"delete_published_posts";b:1;}}s:11:"contributor";a:2:{s:4:"name";s:11:"Contributor";s:12:"capabilities";a:5:{s:10:"edit_posts";b:1;s:4:"read";b:1;s:7:"level_1";b:1;s:7:"level_0";b:1;s:12:"delete_posts";b:1;}}s:10:"subscriber";a:2:{s:4:"name";s:10:"Subscriber";s:12:"capabilities";a:2:{s:4:"read";b:1;s:7:"level_0";b:1;}}}	yes
+95	fresh_site	0	yes
+96	widget_search	a:2:{i:2;a:1:{s:5:"title";s:0:"";}s:12:"_multiwidget";i:1;}	yes
+97	widget_recent-posts	a:2:{i:2;a:2:{s:5:"title";s:0:"";s:6:"number";i:5;}s:12:"_multiwidget";i:1;}	yes
+98	widget_recent-comments	a:2:{i:2;a:2:{s:5:"title";s:0:"";s:6:"number";i:5;}s:12:"_multiwidget";i:1;}	yes
+99	widget_archives	a:2:{i:2;a:3:{s:5:"title";s:0:"";s:5:"count";i:0;s:8:"dropdown";i:0;}s:12:"_multiwidget";i:1;}	yes
+100	widget_meta	a:2:{i:2;a:1:{s:5:"title";s:0:"";}s:12:"_multiwidget";i:1;}	yes
+101	sidebars_widgets	a:5:{s:19:"wp_inactive_widgets";a:0:{}s:9:"sidebar-1";a:7:{i:0;s:8:"search-2";i:1;s:11:"tag_cloud-2";i:2;s:14:"recent-posts-2";i:3;s:17:"recent-comments-2";i:4;s:10:"archives-2";i:5;s:12:"categories-2";i:6;s:6:"meta-2";}s:9:"sidebar-2";a:0:{}s:9:"sidebar-3";a:0:{}s:13:"array_version";i:3;}	yes
+102	widget_pages	a:1:{s:12:"_multiwidget";i:1;}	yes
+103	widget_calendar	a:1:{s:12:"_multiwidget";i:1;}	yes
+104	widget_media_audio	a:1:{s:12:"_multiwidget";i:1;}	yes
+105	widget_media_image	a:1:{s:12:"_multiwidget";i:1;}	yes
+106	widget_media_gallery	a:1:{s:12:"_multiwidget";i:1;}	yes
+107	widget_media_video	a:1:{s:12:"_multiwidget";i:1;}	yes
+108	widget_tag_cloud	a:2:{i:2;a:3:{s:5:"title";s:0:"";s:5:"count";i:1;s:8:"taxonomy";s:8:"post_tag";}s:12:"_multiwidget";i:1;}	yes
+109	widget_nav_menu	a:1:{s:12:"_multiwidget";i:1;}	yes
+110	widget_custom_html	a:1:{s:12:"_multiwidget";i:1;}	yes
+112	theme_mods_twentynineteen	a:2:{s:18:"custom_css_post_id";i:-1;s:16:"sidebars_widgets";a:2:{s:4:"time";i:1557009708;s:4:"data";a:2:{s:19:"wp_inactive_widgets";a:0:{}s:9:"sidebar-1";a:6:{i:0;s:8:"search-2";i:1;s:14:"recent-posts-2";i:2;s:17:"recent-comments-2";i:3;s:10:"archives-2";i:4;s:12:"categories-2";i:5;s:6:"meta-2";}}}}	yes
+142	theme_mods_twentysixteen	a:3:{s:18:"custom_css_post_id";i:-1;s:16:"sidebars_widgets";a:2:{s:4:"time";i:1557009714;s:4:"data";a:2:{s:19:"wp_inactive_widgets";a:0:{}s:9:"sidebar-1";a:6:{i:0;s:8:"search-2";i:1;s:14:"recent-posts-2";i:2;s:17:"recent-comments-2";i:3;s:10:"archives-2";i:4;s:12:"categories-2";i:5;s:6:"meta-2";}}}s:18:"nav_menu_locations";a:0:{}}	yes
+145	current_theme	Twenty Sixteen	yes
+146	theme_switched		yes
+147	theme_switched_via_customizer		yes
+148	customize_stashed_theme_mods	a:0:{}	no
+158	ossdl_off_cdn_url	http://wp.loadlab.ragozin.info	yes
+159	ossdl_off_blog_url	http://wp.loadlab.ragozin.info	yes
+160	ossdl_off_include_dirs	wp-content,wp-includes	yes
+161	ossdl_off_exclude	.php	yes
+162	ossdl_cname		yes
+164	wpsupercache_start	1557010190	yes
+165	wpsupercache_count	0	yes
+168	WPLANG		yes
+169	new_admin_email	boss@example.com	yes
+139	recently_activated	a:1:{s:13:"wppg/wppg.php";i:1601701819;}	yes
+773	category_children	a:0:{}	yes
+738	db_upgraded		yes
+756	can_compress_scripts	1	no
+791	supercache_stats	a:3:{s:9:"generated";i:1601703705;s:10:"supercache";a:5:{s:7:"expired";i:0;s:6:"cached";i:3;s:5:"fsize";i:16370;s:11:"cached_list";a:3:{s:23:"wp.loadlab.ragozin.info";a:2:{s:9:"lower_age";i:388;s:5:"files";i:1;}s:31:"wp.loadlab.ragozin.info/2019/05";a:2:{s:9:"lower_age";i:157;s:5:"files";i:1;}s:46:"wp.loadlab.ragozin.info/2019/05/04/hello-world";a:2:{s:9:"lower_age";i:164;s:5:"files";i:1;}}s:12:"expired_list";a:0:{}}s:7:"wpcache";a:5:{s:7:"expired";i:0;s:6:"cached";i:1;s:5:"fsize";i:19921;s:11:"cached_list";a:1:{s:23:"wp.loadlab.ragozin.info";a:2:{s:9:"lower_age";i:363;s:5:"files";i:1;}}s:12:"expired_list";a:0:{}}}	yes
+33	active_plugins	a:3:{i:0;s:25:"Basic-Auth/basic-auth.php";i:1;s:33:"classic-editor/classic-editor.php";i:2;s:27:"wp-super-cache/wp-cache.php";}	yes
+785	wpsupercache_gc_time	1601701605	yes
+111	cron	a:5:{i:1601847621;a:1:{s:34:"wp_privacy_delete_old_export_files";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:6:"hourly";s:4:"args";a:0:{}s:8:"interval";i:3600;}}}i:1601851221;a:3:{s:16:"wp_version_check";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:10:"twicedaily";s:4:"args";a:0:{}s:8:"interval";i:43200;}}s:17:"wp_update_plugins";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:10:"twicedaily";s:4:"args";a:0:{}s:8:"interval";i:43200;}}s:16:"wp_update_themes";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:10:"twicedaily";s:4:"args";a:0:{}s:8:"interval";i:43200;}}}i:1601851229;a:2:{s:19:"wp_scheduled_delete";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:5:"daily";s:4:"args";a:0:{}s:8:"interval";i:86400;}}s:25:"delete_expired_transients";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:5:"daily";s:4:"args";a:0:{}s:8:"interval";i:86400;}}}i:1601851230;a:1:{s:30:"wp_scheduled_auto_draft_delete";a:1:{s:32:"40cd750bba9870f18aada2478b24840a";a:3:{s:8:"schedule";s:5:"daily";s:4:"args";a:0:{}s:8:"interval";i:86400;}}}s:7:"version";i:2;}	yes
+\.
+
+
+--
+-- Data for Name: wp_postmeta; Type: TABLE DATA; Schema: wordpress; Owner: wordpress
+--
+
+COPY wordpress.wp_postmeta (meta_id, post_id, meta_key, meta_value) FROM stdin;
+1	2	_wp_page_template	default
+2	3	_wp_page_template	default
+\.
+
+
+--
+-- Data for Name: wp_posts; Type: TABLE DATA; Schema: wordpress; Owner: wordpress
+--
+
+COPY wordpress.wp_posts ("ID", post_author, post_date, post_date_gmt, post_content, post_title, post_excerpt, post_status, comment_status, ping_status, post_password, post_name, to_ping, pinged, post_modified, post_modified_gmt, post_content_filtered, post_parent, guid, menu_order, post_type, post_mime_type, comment_count) FROM stdin;
+2	1	2019-05-04 22:40:21	2019-05-04 22:40:21	<!-- wp:paragraph -->\n<p>This is an example page. It's different from a blog post because it will stay in one place and will show up in your site navigation (in most themes). Most people start with an About page that introduces them to potential site visitors. It might say something like this:</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:quote -->\n<blockquote class="wp-block-quote"><p>Hi there! I'm a bike messenger by day, aspiring actor by night, and this is my website. I live in Los Angeles, have a great dog named Jack, and I like pi&#241;a coladas. (And gettin' caught in the rain.)</p></blockquote>\n<!-- /wp:quote -->\n\n<!-- wp:paragraph -->\n<p>...or something like this:</p>\n<!-- /wp:paragraph -->\n\n<!-- wp:quote -->\n<blockquote class="wp-block-quote"><p>The XYZ Doohickey Company was founded in 1971, and has been providing quality doohickeys to the public ever since. Located in Gotham City, XYZ employs over 2,000 people and does all kinds of awesome things for the Gotham community.</p></blockquote>\n<!-- /wp:quote -->\n\n<!-- wp:paragraph -->\n<p>As a new WordPress user, you should go to <a href="http://wp.loadlab.ragozin.info/wp-admin/">your dashboard</a> to delete this page and create new pages for your content. Have fun!</p>\n<!-- /wp:paragraph -->	Sample Page		publish	closed	open		sample-page			2019-05-04 22:40:21	2019-05-04 22:40:21		0	http://wp.loadlab.ragozin.info/?page_id=2	0	page		0
+3	1	2019-05-04 22:40:21	2019-05-04 22:40:21	<!-- wp:heading --><h2>Who we are</h2><!-- /wp:heading --><!-- wp:paragraph --><p>Our website address is: http://wp.loadlab.ragozin.info.</p><!-- /wp:paragraph --><!-- wp:heading --><h2>What personal data we collect and why we collect it</h2><!-- /wp:heading --><!-- wp:heading {"level":3} --><h3>Comments</h3><!-- /wp:heading --><!-- wp:paragraph --><p>When visitors leave comments on the site we collect the data shown in the comments form, and also the visitor&#8217;s IP address and browser user agent string to help spam detection.</p><!-- /wp:paragraph --><!-- wp:paragraph --><p>An anonymized string created from your email address (also called a hash) may be provided to the Gravatar service to see if you are using it. The Gravatar service privacy policy is available here: https://automattic.com/privacy/. After approval of your comment, your profile picture is visible to the public in the context of your comment.</p><!-- /wp:paragraph --><!-- wp:heading {"level":3} --><h3>Media</h3><!-- /wp:heading --><!-- wp:paragraph --><p>If you upload images to the website, you should avoid uploading images with embedded location data (EXIF GPS) included. Visitors to the website can download and extract any location data from images on the website.</p><!-- /wp:paragraph --><!-- wp:heading {"level":3} --><h3>Contact forms</h3><!-- /wp:heading --><!-- wp:heading {"level":3} --><h3>Cookies</h3><!-- /wp:heading --><!-- wp:paragraph --><p>If you leave a comment on our site you may opt-in to saving your name, email address and website in cookies. These are for your convenience so that you do not have to fill in your details again when you leave another comment. These cookies will last for one year.</p><!-- /wp:paragraph --><!-- wp:paragraph --><p>If you have an account and you log in to this site, we will set a temporary cookie to determine if your browser accepts cookies. This cookie contains no personal data and is discarded when you close your browser.</p><!-- /wp:paragraph --><!-- wp:paragraph --><p>When you log in, we will also set up several cookies to save your login information and your screen display choices. Login cookies last for two days, and screen options cookies last for a year. If you select &quot;Remember Me&quot;, your login will persist for two weeks. If you log out of your account, the login cookies will be removed.</p><!-- /wp:paragraph --><!-- wp:paragraph --><p>If you edit or publish an article, an additional cookie will be saved in your browser. This cookie includes no personal data and simply indicates the post ID of the article you just edited. It expires after 1 day.</p><!-- /wp:paragraph --><!-- wp:heading {"level":3} --><h3>Embedded content from other websites</h3><!-- /wp:heading --><!-- wp:paragraph --><p>Articles on this site may include embedded content (e.g. videos, images, articles, etc.). Embedded content from other websites behaves in the exact same way as if the visitor has visited the other website.</p><!-- /wp:paragraph --><!-- wp:paragraph --><p>These websites may collect data about you, use cookies, embed additional third-party tracking, and monitor your interaction with that embedded content, including tracking your interaction with the embedded content if you have an account and are logged in to that website.</p><!-- /wp:paragraph --><!-- wp:heading {"level":3} --><h3>Analytics</h3><!-- /wp:heading --><!-- wp:heading --><h2>Who we share your data with</h2><!-- /wp:heading --><!-- wp:heading --><h2>How long we retain your data</h2><!-- /wp:heading --><!-- wp:paragraph --><p>If you leave a comment, the comment and its metadata are retained indefinitely. This is so we can recognize and approve any follow-up comments automatically instead of holding them in a moderation queue.</p><!-- /wp:paragraph --><!-- wp:paragraph --><p>For users that register on our website (if any), we also store the personal information they provide in their user profile. All users can see, edit, or delete their personal information at any time (except they cannot change their username). Website administrators can also see and edit that information.</p><!-- /wp:paragraph --><!-- wp:heading --><h2>What rights you have over your data</h2><!-- /wp:heading --><!-- wp:paragraph --><p>If you have an account on this site, or have left comments, you can request to receive an exported file of the personal data we hold about you, including any data you have provided to us. You can also request that we erase any personal data we hold about you. This does not include any data we are obliged to keep for administrative, legal, or security purposes.</p><!-- /wp:paragraph --><!-- wp:heading --><h2>Where we send your data</h2><!-- /wp:heading --><!-- wp:paragraph --><p>Visitor comments may be checked through an automated spam detection service.</p><!-- /wp:paragraph --><!-- wp:heading --><h2>Your contact information</h2><!-- /wp:heading --><!-- wp:heading --><h2>Additional information</h2><!-- /wp:heading --><!-- wp:heading {"level":3} --><h3>How we protect your data</h3><!-- /wp:heading --><!-- wp:heading {"level":3} --><h3>What data breach procedures we have in place</h3><!-- /wp:heading --><!-- wp:heading {"level":3} --><h3>What third parties we receive data from</h3><!-- /wp:heading --><!-- wp:heading {"level":3} --><h3>What automated decision making and/or profiling we do with user data</h3><!-- /wp:heading --><!-- wp:heading {"level":3} --><h3>Industry regulatory disclosure requirements</h3><!-- /wp:heading -->	Privacy Policy		draft	closed	open		privacy-policy			2019-05-04 22:40:21	2019-05-04 22:40:21		0	http://wp.loadlab.ragozin.info/?page_id=3	0	page		0
+12315	1	2020-10-03 05:05:42	2020-10-03 05:05:42.749279		Auto Draft		auto-draft	open	open					2020-10-03 05:05:42	2020-10-03 05:05:42.749279		0	http://wp.loadlab.ragozin.info/?p=12315	0	post		0
+1	1	2019-05-04 22:40:21	2019-05-04 22:40:21	<!-- wp:paragraph -->\n<p>Welcome to WordPress. This is your first post. Edit or delete it, then start writing!</p>\n<!-- /wp:paragraph -->	Hello world!		publish	open	open		hello-world			2019-05-04 22:40:21	2019-05-04 22:40:21		0	http://wp.loadlab.ragozin.info/?p=1	0	post		1
+\.
+
+
+--
+-- Data for Name: wp_term_relationships; Type: TABLE DATA; Schema: wordpress; Owner: wordpress
+--
+
+COPY wordpress.wp_term_relationships (object_id, term_taxonomy_id, term_order) FROM stdin;
+1	1	0
+\.
+
+
+--
+-- Data for Name: wp_term_taxonomy; Type: TABLE DATA; Schema: wordpress; Owner: wordpress
+--
+
+COPY wordpress.wp_term_taxonomy (term_taxonomy_id, term_id, taxonomy, description, parent, count) FROM stdin;
+1	1	category		0	1
+\.
+
+
+--
+-- Data for Name: wp_termmeta; Type: TABLE DATA; Schema: wordpress; Owner: wordpress
+--
+
+COPY wordpress.wp_termmeta (meta_id, term_id, meta_key, meta_value) FROM stdin;
+\.
+
+
+--
+-- Data for Name: wp_terms; Type: TABLE DATA; Schema: wordpress; Owner: wordpress
+--
+
+COPY wordpress.wp_terms (term_id, name, slug, term_group) FROM stdin;
+1	Uncategorized	uncategorized	0
+\.
+
+
+--
+-- Data for Name: wp_usermeta; Type: TABLE DATA; Schema: wordpress; Owner: wordpress
+--
+
+COPY wordpress.wp_usermeta (umeta_id, user_id, meta_key, meta_value) FROM stdin;
+1	1	nickname	boss
+2	1	first_name	
+3	1	last_name	
+4	1	description	
+5	1	rich_editing	true
+6	1	syntax_highlighting	true
+7	1	comment_shortcuts	false
+8	1	admin_color	fresh
+9	1	use_ssl	0
+10	1	show_admin_bar_front	true
+11	1	locale	
+12	1	wp_capabilities	a:1:{s:13:"administrator";b:1;}
+13	1	wp_user_level	10
+14	1	dismissed_wp_pointers	wp496_privacy
+15	1	show_welcome_panel	1
+18	1	community-events-location	a:1:{s:2:"ip";s:13:"192.168.100.0";}
+17	1	wp_dashboard_quick_press_last_post_id	12315
+\.
+
+
+--
+-- Data for Name: wp_users; Type: TABLE DATA; Schema: wordpress; Owner: wordpress
+--
+
+COPY wordpress.wp_users ("ID", user_login, user_pass, user_nicename, user_email, user_url, user_registered, user_activation_key, user_status, display_name) FROM stdin;
+1	boss	$P$B3H1/l7fhkOVhJIklO.JN0SOTU2xiz0	boss	boss@example.com		2019-05-04 22:40:21		0	boss
+\.
+
+
+--
+-- Name: wp_commentmeta_seq; Type: SEQUENCE SET; Schema: wordpress; Owner: wordpress
+--
+
+SELECT pg_catalog.setval('wordpress.wp_commentmeta_seq', 5, true);
+
+
+--
+-- Name: wp_comments_seq; Type: SEQUENCE SET; Schema: wordpress; Owner: wordpress
+--
+
+SELECT pg_catalog.setval('wordpress.wp_comments_seq', 11, true);
+
+
+--
+-- Name: wp_links_seq; Type: SEQUENCE SET; Schema: wordpress; Owner: wordpress
+--
+
+SELECT pg_catalog.setval('wordpress.wp_links_seq', 1, true);
+
+
+--
+-- Name: wp_options_seq; Type: SEQUENCE SET; Schema: wordpress; Owner: wordpress
+--
+
+SELECT pg_catalog.setval('wordpress.wp_options_seq', 812, true);
+
+
+--
+-- Name: wp_postmeta_seq; Type: SEQUENCE SET; Schema: wordpress; Owner: wordpress
+--
+
+SELECT pg_catalog.setval('wordpress.wp_postmeta_seq', 30526, true);
+
+
+--
+-- Name: wp_posts_seq; Type: SEQUENCE SET; Schema: wordpress; Owner: wordpress
+--
+
+SELECT pg_catalog.setval('wordpress.wp_posts_seq', 12315, true);
+
+
+--
+-- Name: wp_term_taxonomy_seq; Type: SEQUENCE SET; Schema: wordpress; Owner: wordpress
+--
+
+SELECT pg_catalog.setval('wordpress.wp_term_taxonomy_seq', 1845, true);
+
+
+--
+-- Name: wp_termmeta_seq; Type: SEQUENCE SET; Schema: wordpress; Owner: wordpress
+--
+
+SELECT pg_catalog.setval('wordpress.wp_termmeta_seq', 1, true);
+
+
+--
+-- Name: wp_terms_seq; Type: SEQUENCE SET; Schema: wordpress; Owner: wordpress
+--
+
+SELECT pg_catalog.setval('wordpress.wp_terms_seq', 1845, true);
+
+
+--
+-- Name: wp_usermeta_seq; Type: SEQUENCE SET; Schema: wordpress; Owner: wordpress
+--
+
+SELECT pg_catalog.setval('wordpress.wp_usermeta_seq', 2319, true);
+
+
+--
+-- Name: wp_users_seq; Type: SEQUENCE SET; Schema: wordpress; Owner: wordpress
+--
+
+SELECT pg_catalog.setval('wordpress.wp_users_seq', 151, true);
+
+
+--
+-- Name: wp_commentmeta idx_16755_primary; Type: CONSTRAINT; Schema: wordpress; Owner: wordpress
+--
+
+ALTER TABLE ONLY wordpress.wp_commentmeta
+    ADD CONSTRAINT idx_16755_primary PRIMARY KEY (meta_id);
+
+
+--
+-- Name: wp_comments idx_16765_primary; Type: CONSTRAINT; Schema: wordpress; Owner: wordpress
+--
+
+ALTER TABLE ONLY wordpress.wp_comments
+    ADD CONSTRAINT idx_16765_primary PRIMARY KEY ("comment_ID");
+
+
+--
+-- Name: wp_links idx_16784_primary; Type: CONSTRAINT; Schema: wordpress; Owner: wordpress
+--
+
+ALTER TABLE ONLY wordpress.wp_links
+    ADD CONSTRAINT idx_16784_primary PRIMARY KEY (link_id);
+
+
+--
+-- Name: wp_options idx_16803_primary; Type: CONSTRAINT; Schema: wordpress; Owner: wordpress
+--
+
+ALTER TABLE ONLY wordpress.wp_options
+    ADD CONSTRAINT idx_16803_primary PRIMARY KEY (option_id);
+
+
+--
+-- Name: wp_postmeta idx_16814_primary; Type: CONSTRAINT; Schema: wordpress; Owner: wordpress
+--
+
+ALTER TABLE ONLY wordpress.wp_postmeta
+    ADD CONSTRAINT idx_16814_primary PRIMARY KEY (meta_id);
+
+
+--
+-- Name: wp_posts idx_16824_primary; Type: CONSTRAINT; Schema: wordpress; Owner: wordpress
+--
+
+ALTER TABLE ONLY wordpress.wp_posts
+    ADD CONSTRAINT idx_16824_primary PRIMARY KEY ("ID");
+
+
+--
+-- Name: wp_termmeta idx_16845_primary; Type: CONSTRAINT; Schema: wordpress; Owner: wordpress
+--
+
+ALTER TABLE ONLY wordpress.wp_termmeta
+    ADD CONSTRAINT idx_16845_primary PRIMARY KEY (meta_id);
+
+
+--
+-- Name: wp_terms idx_16855_primary; Type: CONSTRAINT; Schema: wordpress; Owner: wordpress
+--
+
+ALTER TABLE ONLY wordpress.wp_terms
+    ADD CONSTRAINT idx_16855_primary PRIMARY KEY (term_id);
+
+
+--
+-- Name: wp_term_relationships idx_16862_primary; Type: CONSTRAINT; Schema: wordpress; Owner: wordpress
+--
+
+ALTER TABLE ONLY wordpress.wp_term_relationships
+    ADD CONSTRAINT idx_16862_primary PRIMARY KEY (object_id, term_taxonomy_id);
+
+
+--
+-- Name: wp_term_taxonomy idx_16873_primary; Type: CONSTRAINT; Schema: wordpress; Owner: wordpress
+--
+
+ALTER TABLE ONLY wordpress.wp_term_taxonomy
+    ADD CONSTRAINT idx_16873_primary PRIMARY KEY (term_taxonomy_id);
+
+
+--
+-- Name: wp_usermeta idx_16886_primary; Type: CONSTRAINT; Schema: wordpress; Owner: wordpress
+--
+
+ALTER TABLE ONLY wordpress.wp_usermeta
+    ADD CONSTRAINT idx_16886_primary PRIMARY KEY (umeta_id);
+
+
+--
+-- Name: wp_users idx_16896_primary; Type: CONSTRAINT; Schema: wordpress; Owner: wordpress
+--
+
+ALTER TABLE ONLY wordpress.wp_users
+    ADD CONSTRAINT idx_16896_primary PRIMARY KEY ("ID");
+
+
+--
+-- Name: wp_commentmeta_comment_id; Type: INDEX; Schema: wordpress; Owner: wordpress
+--
+
+CREATE INDEX wp_commentmeta_comment_id ON wordpress.wp_commentmeta USING btree (comment_id);
+
+
+--
+-- Name: wp_commentmeta_meta_key; Type: INDEX; Schema: wordpress; Owner: wordpress
+--
+
+CREATE INDEX wp_commentmeta_meta_key ON wordpress.wp_commentmeta USING btree (meta_key);
+
+
+--
+-- Name: wp_comments_comment_approved_date_gmt; Type: INDEX; Schema: wordpress; Owner: wordpress
+--
+
+CREATE INDEX wp_comments_comment_approved_date_gmt ON wordpress.wp_comments USING btree (comment_approved, comment_date_gmt);
+
+
+--
+-- Name: wp_comments_comment_author_email; Type: INDEX; Schema: wordpress; Owner: wordpress
+--
+
+CREATE INDEX wp_comments_comment_author_email ON wordpress.wp_comments USING btree (comment_author_email);
+
+
+--
+-- Name: wp_comments_comment_date_gmt; Type: INDEX; Schema: wordpress; Owner: wordpress
+--
+
+CREATE INDEX wp_comments_comment_date_gmt ON wordpress.wp_comments USING btree (comment_date_gmt);
+
+
+--
+-- Name: wp_comments_comment_parent; Type: INDEX; Schema: wordpress; Owner: wordpress
+--
+
+CREATE INDEX wp_comments_comment_parent ON wordpress.wp_comments USING btree (comment_parent);
+
+
+--
+-- Name: wp_comments_comment_post_id; Type: INDEX; Schema: wordpress; Owner: wordpress
+--
+
+CREATE INDEX wp_comments_comment_post_id ON wordpress.wp_comments USING btree ("comment_post_ID");
+
+
+--
+-- Name: wp_links_link_visible; Type: INDEX; Schema: wordpress; Owner: wordpress
+--
+
+CREATE INDEX wp_links_link_visible ON wordpress.wp_links USING btree (link_visible);
+
+
+--
+-- Name: wp_options_option_name; Type: INDEX; Schema: wordpress; Owner: wordpress
+--
+
+CREATE UNIQUE INDEX wp_options_option_name ON wordpress.wp_options USING btree (option_name);
+
+
+--
+-- Name: wp_postmeta_meta_key; Type: INDEX; Schema: wordpress; Owner: wordpress
+--
+
+CREATE INDEX wp_postmeta_meta_key ON wordpress.wp_postmeta USING btree (meta_key);
+
+
+--
+-- Name: wp_postmeta_post_id; Type: INDEX; Schema: wordpress; Owner: wordpress
+--
+
+CREATE INDEX wp_postmeta_post_id ON wordpress.wp_postmeta USING btree (post_id);
+
+
+--
+-- Name: wp_posts_post_author; Type: INDEX; Schema: wordpress; Owner: wordpress
+--
+
+CREATE INDEX wp_posts_post_author ON wordpress.wp_posts USING btree (post_author);
+
+
+--
+-- Name: wp_posts_post_name; Type: INDEX; Schema: wordpress; Owner: wordpress
+--
+
+CREATE INDEX wp_posts_post_name ON wordpress.wp_posts USING btree (post_name);
+
+
+--
+-- Name: wp_posts_post_parent; Type: INDEX; Schema: wordpress; Owner: wordpress
+--
+
+CREATE INDEX wp_posts_post_parent ON wordpress.wp_posts USING btree (post_parent);
+
+
+--
+-- Name: wp_posts_type_status_date; Type: INDEX; Schema: wordpress; Owner: wordpress
+--
+
+CREATE INDEX wp_posts_type_status_date ON wordpress.wp_posts USING btree (post_type, post_status, post_date, "ID");
+
+
+--
+-- Name: wp_term_relationships_term_taxonomy_id; Type: INDEX; Schema: wordpress; Owner: wordpress
+--
+
+CREATE INDEX wp_term_relationships_term_taxonomy_id ON wordpress.wp_term_relationships USING btree (term_taxonomy_id);
+
+
+--
+-- Name: wp_term_taxonomy_taxonomy; Type: INDEX; Schema: wordpress; Owner: wordpress
+--
+
+CREATE INDEX wp_term_taxonomy_taxonomy ON wordpress.wp_term_taxonomy USING btree (taxonomy);
+
+
+--
+-- Name: wp_term_taxonomy_term_id_taxonomy; Type: INDEX; Schema: wordpress; Owner: wordpress
+--
+
+CREATE UNIQUE INDEX wp_term_taxonomy_term_id_taxonomy ON wordpress.wp_term_taxonomy USING btree (term_id, taxonomy);
+
+
+--
+-- Name: wp_termmeta_meta_key; Type: INDEX; Schema: wordpress; Owner: wordpress
+--
+
+CREATE INDEX wp_termmeta_meta_key ON wordpress.wp_termmeta USING btree (meta_key);
+
+
+--
+-- Name: wp_termmeta_term_id; Type: INDEX; Schema: wordpress; Owner: wordpress
+--
+
+CREATE INDEX wp_termmeta_term_id ON wordpress.wp_termmeta USING btree (term_id);
+
+
+--
+-- Name: wp_terms_name; Type: INDEX; Schema: wordpress; Owner: wordpress
+--
+
+CREATE INDEX wp_terms_name ON wordpress.wp_terms USING btree (name);
+
+
+--
+-- Name: wp_terms_slug; Type: INDEX; Schema: wordpress; Owner: wordpress
+--
+
+CREATE INDEX wp_terms_slug ON wordpress.wp_terms USING btree (slug);
+
+
+--
+-- Name: wp_usermeta_meta_key; Type: INDEX; Schema: wordpress; Owner: wordpress
+--
+
+CREATE INDEX wp_usermeta_meta_key ON wordpress.wp_usermeta USING btree (meta_key);
+
+
+--
+-- Name: wp_usermeta_user_id; Type: INDEX; Schema: wordpress; Owner: wordpress
+--
+
+CREATE INDEX wp_usermeta_user_id ON wordpress.wp_usermeta USING btree (user_id);
+
+
+--
+-- Name: wp_users_user_email; Type: INDEX; Schema: wordpress; Owner: wordpress
+--
+
+CREATE INDEX wp_users_user_email ON wordpress.wp_users USING btree (user_email);
+
+
+--
+-- Name: wp_users_user_login_key; Type: INDEX; Schema: wordpress; Owner: wordpress
+--
+
+CREATE INDEX wp_users_user_login_key ON wordpress.wp_users USING btree (user_login);
+
+
+--
+-- Name: wp_users_user_nicename; Type: INDEX; Schema: wordpress; Owner: wordpress
+--
+
+CREATE INDEX wp_users_user_nicename ON wordpress.wp_users USING btree (user_nicename);
+
+
+--
+-- Name: SCHEMA pg_catalog; Type: ACL; Schema: -; Owner: postgres
+--
+
+GRANT ALL ON SCHEMA pg_catalog TO wordpress;
+
+
+--
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
+--
+
+GRANT ALL ON SCHEMA public TO wordpress;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

@@ -1,17 +1,18 @@
 ﻿---
 
   - name: Node "{{container_name}}" - generate hosts file
-    lineinfile: dest=/etc/hosts regexp='.*{{ item.name }}$' line="{{item.lab_ip}} {{item.name}}" state=present
-    with_items:
-      - name: loadbalancer
-        lab_ip: 192.168.100.140
-      - name: web1
-        lab_ip: 192.168.100.141
-      - name: web2
-        lab_ip: 192.168.100.142
-      - name: database
-        lab_ip: 192.168.100.143
-      - name: metrics
-        lab_ip: 192.168.100.144
-      - name: front
-        lab_ip: 192.168.100.145
+    lineinfile: dest=/etc/hosts regexp='.*{{ item }}$' line="{{ lab.network.nodes[item].ip }} {{item}}" state=present
+    with_items: "{{lab.network.hosts_file}}"
+#    with_items:
+#      - name: loadbalancer
+#        lab_ip: 192.168.100.140
+#      - name: web1
+#        lab_ip: 192.168.100.141
+#      - name: web2
+#        lab_ip: 192.168.100.142
+#      - name: database
+#        lab_ip: 192.168.100.143
+#      - name: metrics
+#        lab_ip: 192.168.100.144
+#      - name: front
+#        lab_ip: 192.168.100.145

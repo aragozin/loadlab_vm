@@ -1,0 +1,25 @@
+---
+- name: Copy JSON Basic Auth plugin
+  copy:
+    src: "{{ lab.path.contentdir }}/wordpress/plugins/Basic-Auth"
+    dest: /srv/wordpress/wp-content/plugins
+  when: config_only == false
+
+- name: Copy WP Super Cache
+  copy:
+    src: "{{ lab.path.contentdir }}/wordpress/plugins/wp-super-cache"
+    dest: /srv/wordpress/wp-content/plugins
+  when: config_only == false
+    
+- name: Copy Classic editor
+  copy:
+    src: "{{ lab.path.contentdir }}/wordpress/plugins/classic-editor"
+    dest: /srv/wordpress/wp-content/plugins
+  when: config_only == false
+
+# https://wordpress.org/plugins/wppg
+- name: Copy WPPG
+  copy:
+    src: "{{ lab.path.contentdir }}/wordpress/plugins/wppg"
+    dest: /srv/wordpress/wp-content/plugins
+  when: config_only == false

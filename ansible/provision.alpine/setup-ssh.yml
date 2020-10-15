@@ -1,0 +1,11 @@
+---
+
+    - name: Create SSH key (mkdir)
+      file: 
+        path: "{{lab.path.confdir}}/ssh"  
+        state: directory
+
+    - name: Create SSH key      
+      command: "ssh-keygen -q -t rsa -f {{lab.path.confdir}}/ssh/id_rsa -C \"\" -N \"\""
+      args:
+        creates: "{{lab.path.confdir}}/ssh/id_rsa"

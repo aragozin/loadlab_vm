@@ -1,81 +1,9 @@
 ---
 
-  - name: Add influx repository
-    copy:
-      dest: /etc/yum.repos.d/influxdb.repo
-      content: |
-        [influxdb]
-        name = InfluxDB Repository - RHEL \$releasever
-        baseurl = https://repos.influxdata.com/rhel/\$releasever/\$basearch/stable
-        enabled = 1
-        gpgcheck = 1
-        gpgkey = https://repos.influxdata.com/influxdb.key
-    when: config_only == false
+- name: Package installation
+  include: "{{ role_path }}/tasks/provision.yml"
+  when: skip_install == false
 
-  - name: Install Influxdb
-    yum: name=influxdb state=present
-    when: config_only == false
-
-  - name: Influxdb configuration
-    copy:
-      dest: /etc/influxdb/influxdb.conf
-      src: influxdb.conf
-    register: influxdb_config
-
-  - name: Start Influxdb
-    service: name=influxdb state=started enabled=yes
-    register: influxdb_start
-
-  - name: Restart Influxdb
-    service: name=influxdb state=restarted enabled=yes
-    register: influxdb_restart
-    when: influxdb_config.changed and not(influxdb_start.changed)
-
-  - name: Wait for port 8086 to become open on the host, don't start checking for 10 seconds
-    wait_for:
-      port: 8086
-      host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
-      delay: 10
-    connection: local
-    when: influxdb_restart.changed or influxdb_start.changed
-
-  - name: Sleep for 10 seconds
-    wait_for:
-      timeout: 10
-    when: influxdb_restart.changed or influxdb_start.changed
-
-
-  - name: Create database "{{ item }}"
-    command: influx -execute 'CREATE DATABASE {{ item }}'
-    loop:
-      - test_runs
-      - jmeter
-      - gatlingdb
-      - telegraf
-      - telegraf_pg_database
-
-
-
-  - name: Create retention policy "7d" for "telegraf_pg_database"
-    command: influx -execute 'CREATE RETENTION POLICY "7d" ON "telegraf_pg_database" DURATION 7d REPLICATION 1 DEFAULT'
-
-
-
-  - name: Create continuous query "pg_stat_statements_query_text"
-    command: influx -execute 'CREATE CONTINUOUS QUERY pg_stat_statements_query_text ON telegraf_pg_database BEGIN SELECT first("query") AS "query" INTO telegraf_pg_database.autogen.pg_stat_statements_query_text FROM (SELECT difference(first(calls)) AS t FROM telegraf_pg_database."7d".pg_stat_statements WHERE time >= now() - 1d GROUP BY host, queryid, "query", time(2h)) WHERE t != 0 GROUP BY host, queryid, time(1d) END'
-
-
-  - name: Create continuous query "analyse_pg_stat_statements"
-    command: influx -execute 'CREATE CONTINUOUS QUERY analyse_pg_stat_statements ON telegraf_pg_database BEGIN SELECT non_negative_difference(first(total_time)) AS "duration", non_negative_difference(first(calls)) AS calls, max(max_time) AS max_time, non_negative_difference(first(rows)) AS rows, non_negative_difference(first(shared_blks_hit)) AS shared_blks_hit, non_negative_difference(first(shared_blks_read)) AS shared_blks_read, non_negative_difference(first(local_blks_hit)) AS local_blks_hit, non_negative_difference(first(local_blks_read)) AS local_blks_read INTO telegraf_pg_database."7d".pg_stat_statements_analyse FROM telegraf_pg_database."7d".pg_stat_statements WHERE time >= now() - 2m GROUP BY host, usename, datname, queryid, time(1m) END'
-
-
-  - name: Create continuous query "pg_stat_statements_diff_1m"
-    command: influx -execute 'CREATE CONTINUOUS QUERY pg_stat_statements_diff_1m ON telegraf_pg_database BEGIN SELECT non_negative_difference(first(total_time)) AS "duration", non_negative_difference(first(calls)) AS calls, max(max_time) AS max_time, non_negative_difference(first(rows)) AS rows, non_negative_difference(first(shared_blks_hit)) AS shared_blks_hit, non_negative_difference(first(shared_blks_read)) AS shared_blks_read, non_negative_difference(first(local_blks_hit)) AS local_blks_hit, non_negative_difference(first(local_blks_read)) AS local_blks_read INTO telegraf_pg_database."7d".pg_stat_statements_diff FROM telegraf_pg_database."7d".pg_stat_statements WHERE time >= now() - 1m GROUP BY host, usename, datname, queryid, "query", query_md5, time(1m) END'
-
-
-  - name: Create continuous query "pg_stat_statements_diff_1d"
-    command: influx -execute 'CREATE CONTINUOUS QUERY pg_stat_statements_diff_1d ON telegraf_pg_database BEGIN SELECT sum("duration") AS "duration", sum(calls) AS calls, max(max_time) AS max_time, sum(rows) AS rows, sum(shared_blks_hit) AS shared_blks_hit, sum(shared_blks_read) AS shared_blks_read, sum(local_blks_hit) AS local_blks_hit, sum(local_blks_read) AS local_blks_read INTO telegraf_pg_database.autogen.pg_stat_statements_diff FROM telegraf_pg_database."7d".pg_stat_statements_diff WHERE time >= now() - 1d AND calls > 0 GROUP BY host, usename, datname, queryid, "query", query_md5, time(1d) END'
-
-
-  - name: Create continuous query "pg_stat_statements_query_md5_10min"
-    command: influx -execute 'CREATE CONTINUOUS QUERY pg_stat_statements_query_md5_10min ON telegraf_pg_database BEGIN SELECT sum("duration") AS duration_10m, sum(calls) AS calls_10m, max(max_time) AS max_time_10m, sum(rows) AS rows_10m, sum(shared_blks_hit) AS shared_blks_hit_10m, sum(shared_blks_read) AS shared_blks_read_10m, sum(local_blks_hit) AS local_blks_hit_10m, sum(local_blks_read) AS local_blks_read_10m INTO telegraf_pg_database.autogen.pg_stat_statements_query_md5 FROM telegraf_pg_database."7d".pg_stat_statements_diff WHERE time >= now() - 20m AND calls > 0 GROUP BY host, usename, datname, queryid, query_md5, time(10m) END'
+- name: Setup and configuration
+  include: "{{ role_path }}/tasks/setup.yml"
+  when: install_only == false

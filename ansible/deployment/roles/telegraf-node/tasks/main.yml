@@ -1,25 +1,9 @@
 ---
 
-  - name: Add influx repository
-    copy:
-      dest: /etc/yum.repos.d/influxdb.repo
-      content: |
-        [influxdb]
-        name = InfluxDB Repository - RHEL \$releasever
-        baseurl = https://repos.influxdata.com/rhel/\$releasever/\$basearch/stable
-        enabled = 1
-        gpgcheck = 1
-        gpgkey = https://repos.influxdata.com/influxdb.key 
-    when: config_only == false
+- name: Package installation
+  include: "{{ role_path }}/tasks/provision.yml"
+  when: skip_install == false
 
-  - name: Install Telegraf
-    yum: name=telegraf state=present
-    when: config_only == false
-
-  - name: Telegraf configuration
-    copy:
-      dest: /etc/telegraf/telegraf.conf
-      src: telegraf.conf
-
-  - name: Start Telegraf
-    service: name=telegraf state=restarted enabled=yes
+- name: Setup and configuration
+  include: "{{ role_path }}/tasks/setup.yml"
+  when: install_only == false

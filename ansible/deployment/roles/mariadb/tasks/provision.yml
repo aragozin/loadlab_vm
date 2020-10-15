@@ -1,0 +1,35 @@
+---
+# This playbook will install MariaDB and create db user and give permissions.
+
+- name: Install MariaDB package
+  yum: 
+    name:
+     - mariadb-server
+     - MySQL-python
+     - libselinux-python
+     - libsemanage-python
+    state: installed
+  when: config_only == false
+
+- name: Configure telegraf plugin for MySQL
+  copy:
+    src: telegraf.d
+    dest: /etc/telegraf/
+  notify: restart telegraf
+
+- name: Create MariaDB log file
+  file: path=/var/log/mysqld.log state=touch owner=mysql group=mysql mode=0775
+
+- name: Start MariaDB Service
+  service: name=mariadb state=started enabled=yes
+
+- name: Create DB super user
+  mysql_user: name=root password=root priv=*.*:ALL host={{ item }} state=present
+  with_items:
+   - '192.168.100.%'
+   - '127.0.0.1'
+
+- name: insert firewalld rule
+  firewalld: port={{ mysql_port }}/tcp permanent=true state=enabled immediate=yes
+  ignore_errors: yes
+  when: enabled_firewalld and config_only

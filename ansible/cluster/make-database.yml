@@ -2,6 +2,8 @@
 
 - hosts: 127.0.0.1
   connection: local
+  vars_files:
+    - ../labconfig.yml
   tasks:
     - name: Initialize node - database @ 192.168.100.143
       include: init-container.yml container_name=database          lab_ip=192.168.100.143

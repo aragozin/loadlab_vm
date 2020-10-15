@@ -1,0 +1,10 @@
+---
+
+- name: Install Wordpress
+  hosts: web
+  gather_facts: false
+  vars_files:
+    - ../labconfig.yml
+
+  roles:
+    - wordpress-debug-switch

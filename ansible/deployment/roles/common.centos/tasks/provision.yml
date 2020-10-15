@@ -1,0 +1,28 @@
+---
+
+- name: Set timezone to Europe/Moscow
+  command: timedatectl set-timezone Europe/Moscow
+
+- name: And the NGINX repository definition
+  copy: src=nginx.repo dest=/etc/yum.repos.d/
+  when: config_only == false
+
+- name: Create the GPG key for NGINX
+  copy: src=RPM-GPG-KEY-NGINX dest=/etc/pki/rpm-gpg
+  when: config_only == false
+
+- name: And the EPEL repository definition
+  copy: src=epel.repo dest=/etc/yum.repos.d/
+  when: config_only == false
+
+- name: Create the GPG key for EPEL
+  copy: src=RPM-GPG-KEY-EPEL-7 dest=/etc/pki/rpm-gpg
+  when: config_only == false
+
+- name: And the REMI repository definition
+  copy: src=remi.repo dest=/etc/yum.repos.d/
+  when: config_only == false
+
+- name: Create the GPG key for REMI
+  copy: src=RPM-GPG-KEY-remi dest=/etc/pki/rpm-gpg
+  when: config_only == false

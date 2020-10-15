@@ -1,72 +1,9 @@
 ---
-- name: Install MySQL-python and deps
-  yum: name={{ item }} state=present skip_broken=true
-  with_items:
-    - MySQL-python
-  when: config_only == false
 
-- name: Download WordPress
-  get_url: url=http://wordpress.org/wordpress-{{ wp_version }}.tar.gz dest=/srv/wordpress-{{ wp_version }}.tar.gz
-           sha256sum="{{ wp_sha256sum }}"
-  when: config_only == false
+- name: Package installation
+  include: "{{ role_path }}/tasks/provision.yml"
+  when: skip_install == false
 
-- name: Delete Folder wordpress
-  command: rm -rf /srv/wordpress
-  when: config_only == false
-
-- name: Extract archive
-  command: chdir=/srv/ /bin/tar xvf wordpress-{{ wp_version }}.tar.gz creates=/srv/wordpress
-  when: config_only == false
-
-- name: Add group "wordpress"
-  group: name=wordpress
-  when: config_only == false
-
-- name: Add user "wordpress"
-  user: name=wordpress group=wordpress home=/srv/wordpress/
-  when: config_only == false
-
-- name: Copy WordPress config file
-  template: src=wp-config.php dest=/srv/wordpress/
-
-- name: Change ownership of WordPress installation
-  file: path=/srv/wordpress/ owner=wordpress group=wordpress state=directory recurse=yes
-
-- name: install SEManage
-  yum: pkg=policycoreutils-python state=present
-  when: enabled_selinux and config_only == false
-
-- name: set the SELinux policy for the Wordpress directory
-  command: semanage fcontext -a -t httpd_sys_content_t "/srv/wordpress(/.*)?"
-  when: enabled_selinux and config_only == false
-
-- name: set the SELinux policy for wp-config.php
-  command: semanage fcontext -a -t httpd_sys_script_exec_t "/srv/wordpress/wp-config\.php"
-  when: enabled_selinux and config_only == false
-
-- name: set the SELinux policy for wp-content directory
-  command: semanage fcontext -a -t httpd_sys_rw_content_t "/srv/wordpress/wp-content(/.*)?"
-  when: enabled_selinux and config_only == false
-
-- name: set the SELinux policy for the *.php files
-  command: semanage fcontext -a -t httpd_sys_script_exec_t "/srv/wordpress/.*\.php"
-  when: enabled_selinux and config_only == false
-
-- name: set the SELinux policy for the Upgrade directory
-  command: semanage fcontext -a -t httpd_sys_rw_content_t "/srv/wordpress/wp-content/upgrade(/.*)?"
-  when: enabled_selinux and config_only == false
-
-- name: set the SELinux policy for the Uploads directory
-  command: semanage fcontext -a -t httpd_sys_rw_content_t "/srv/wordpress/wp-content/uploads(/.*)?"
-  when: enabled_selinux and config_only == false
-
-- name: set the SELinux policy for the wp-includes php files
-  command: semanage fcontext -a -t httpd_sys_script_exec_t "/srv/wordpress/wp-includes/.*\.php"
-  when: enabled_selinux and config_only == false
-
-- name: set the SELinux on all the Files
-  command: restorecon -Rv /srv/wordpress
-  when: enabled_selinux and config_only == false
-
-- name: Start php-fpm Service
-  service: name=php-fpm state=started enabled=yes
+- name: Setup and configuration
+  include: "{{ role_path }}/tasks/setup.yml"
+  when: install_only == false
