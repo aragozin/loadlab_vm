@@ -31,6 +31,7 @@
       dest: /var/lib/grafana/grafana.db
       src: grafana.db
       owner: grafana
+    when: config_only == false
 
   - name: Provision Grafana (data sources & dashboards)
     copy:
