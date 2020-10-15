@@ -7,4 +7,4 @@ echo $base_path
 
 cd $base_path
 
-ansible-playbook -i ${base_path}/loadlab.hosts ${base_path}/loadlab-grafana.yml
+ansible-playbook -i ${base_path}/loadlab.hosts --extra-vars "config_only=true" ${base_path}/loadlab-grafana.yml
