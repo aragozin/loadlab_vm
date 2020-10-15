@@ -1,0 +1,8 @@
+---
+
+- name: Update Grafana
+  hosts: metrics
+  gather_facts: false
+
+  roles:
+    - grafana

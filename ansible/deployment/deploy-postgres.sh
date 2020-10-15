@@ -1,4 +1,4 @@
-#!/bin/sh -x
+#!/bin/sh
 
 set -e
 
@@ -7,4 +7,4 @@ echo $base_path
 
 cd $base_path
 
-ansible-playbook -i ${base_path}/loadlab.hosts ${base_path}/loadlab-postgresql.yml
+ansible-playbook -i ${base_path}/loadlab.hosts ${base_path}/loadlab-grafana.yml
