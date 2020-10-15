@@ -32,8 +32,8 @@
   "editable": true,
   "gnetId": 5496,
   "graphTooltip": 1,
-  "id": 10,
-  "iteration": 1601429997891,
+  "id": 6,
+  "iteration": 1602729084400,
   "links": [
     {
       "$$hashKey": "object:158",
@@ -53,7 +53,7 @@
   ],
   "panels": [
     {
-      "collapsed": true,
+      "collapsed": false,
       "datasource": null,
       "gridPos": {
         "h": 1,
@@ -62,301 +62,301 @@
         "y": 0
       },
       "id": 29435,
-      "panels": [
-        {
-          "datasource": "$data_source",
-          "fieldConfig": {
-            "defaults": {
-              "custom": {
-                "align": null
-              },
-              "mappings": [],
-              "thresholds": {
-                "mode": "absolute",
-                "steps": [
-                  {
-                    "color": "green",
-                    "value": null
-                  },
-                  {
-                    "color": "red",
-                    "value": 80
-                  }
-                ]
-              }
-            },
-            "overrides": [
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "testId"
-                },
-                "properties": [
-                  {
-                    "id": "links",
-                    "value": [
-                      {
-                        "targetBlank": true,
-                        "title": "",
-                        "url": "/d/JMeter?orgId=1&from=${__data.fields[start]}&to=${__data.fields[stop]}&var-data_source=${data_source}&var-application=${__data.fields[application]}&var-scope=${scope}&var-step=${step}&var-transaction=All&var-request=All&var-generator=All"
-                      }
-                    ]
-                  },
-                  {
-                    "id": "custom.width",
-                    "value": 100
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Старт"
-                },
-                "properties": [
-                  {
-                    "id": "unit",
-                    "value": "dateTimeFromNow"
-                  },
-                  {
-                    "id": "custom.width",
-                    "value": 150
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Старт*"
-                },
-                "properties": [
-                  {
-                    "id": "unit",
-                    "value": "dateTimeAsIso"
-                  },
-                  {
-                    "id": "custom.width",
-                    "value": 149
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "Длительность"
-                },
-                "properties": [
-                  {
-                    "id": "unit",
-                    "value": "ms"
-                  },
-                  {
-                    "id": "custom.width",
-                    "value": 150
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "start"
-                },
-                "properties": [
-                  {
-                    "id": "custom.width",
-                    "value": 70
-                  }
-                ]
-              },
-              {
-                "matcher": {
-                  "id": "byName",
-                  "options": "stop"
-                },
-                "properties": [
-                  {
-                    "id": "custom.width",
-                    "value": 70
-                  }
-                ]
-              }
-            ]
-          },
-          "gridPos": {
-            "h": 7,
-            "w": 24,
-            "x": 0,
-            "y": 1
-          },
-          "id": 29396,
-          "options": {
-            "showHeader": true,
-            "sortBy": [
-              {
-                "desc": true,
-                "displayName": "Старт*"
-              }
-            ]
-          },
-          "pluginVersion": "7.1.3",
-          "targets": [
-            {
-              "groupBy": [
-                {
-                  "params": [
-                    "$__interval"
-                  ],
-                  "type": "time"
-                },
-                {
-                  "params": [
-                    "null"
-                  ],
-                  "type": "fill"
-                }
-              ],
-              "hide": false,
-              "orderByTime": "ASC",
-              "policy": "default",
-              "query": "select \"application\", \"testId\", \"title\", time as \"start\" from (select first(text), time from \"events\" where time > now()-20d group by \"application\", \"testId\", \"title\")",
-              "rawQuery": true,
-              "refId": "B",
-              "resultFormat": "table",
-              "select": [
-                [
-                  {
-                    "params": [
-                      "value"
-                    ],
-                    "type": "field"
-                  },
-                  {
-                    "params": [],
-                    "type": "mean"
-                  }
-                ]
-              ],
-              "tags": []
-            },
-            {
-              "groupBy": [
-                {
-                  "params": [
-                    "$__interval"
-                  ],
-                  "type": "time"
-                },
-                {
-                  "params": [
-                    "null"
-                  ],
-                  "type": "fill"
-                }
-              ],
-              "orderByTime": "ASC",
-              "policy": "default",
-              "query": "select \"testId\", time as \"stop\" from (select last(text), time from \"events\" where time > now()-20d group by \"application\", \"testId\", \"title\")",
-              "rawQuery": true,
-              "refId": "A",
-              "resultFormat": "table",
-              "select": [
-                [
-                  {
-                    "params": [
-                      "value"
-                    ],
-                    "type": "field"
-                  },
-                  {
-                    "params": [],
-                    "type": "mean"
-                  }
-                ]
-              ],
-              "tags": []
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Меню запусков тестов (последние 30 дней)",
-          "transformations": [
-            {
-              "id": "seriesToColumns",
-              "options": {
-                "byField": "testId"
-              }
-            },
-            {
-              "id": "organize",
-              "options": {
-                "excludeByName": {
-                  "start": false,
-                  "stop": false
-                },
-                "indexByName": {
-                  "application": 2,
-                  "start": 3,
-                  "stop": 4,
-                  "testId": 0,
-                  "title": 1
-                },
-                "renameByName": {}
-              }
-            },
-            {
-              "id": "calculateField",
-              "options": {
-                "alias": "Старт",
-                "binary": {
-                  "left": "start",
-                  "operator": "*",
-                  "reducer": "sum",
-                  "right": "1.0"
-                },
-                "mode": "binary",
-                "reduce": {
-                  "reducer": "sum"
-                }
-              }
-            },
-            {
-              "id": "calculateField",
-              "options": {
-                "alias": "Старт*",
-                "binary": {
-                  "left": "start",
-                  "operator": "*",
-                  "reducer": "sum",
-                  "right": "1.0"
-                },
-                "mode": "binary",
-                "reduce": {
-                  "reducer": "sum"
-                }
-              }
-            },
-            {
-              "id": "calculateField",
-              "options": {
-                "alias": "Длительность",
-                "binary": {
-                  "left": "stop",
-                  "operator": "-",
-                  "reducer": "sum",
-                  "right": "start"
-                },
-                "mode": "binary",
-                "reduce": {
-                  "reducer": "sum"
-                }
-              }
-            }
-          ],
-          "type": "table"
-        }
-      ],
+      "panels": [],
       "title": "Menu",
       "type": "row"
+    },
+    {
+      "datasource": "$data_source",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": null,
+            "filterable": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "testId"
+            },
+            "properties": [
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "targetBlank": true,
+                    "title": "",
+                    "url": "/d/JMeter?orgId=1&from=${__data.fields[start]}&to=${__data.fields[stop]}&var-data_source=${data_source}&var-application=${__data.fields[application]}&var-scope=${scope}&var-step=${step}&var-transaction=All&var-request=All&var-generator=All"
+                  }
+                ]
+              },
+              {
+                "id": "custom.width",
+                "value": 100
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Старт"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "dateTimeFromNow"
+              },
+              {
+                "id": "custom.width",
+                "value": 150
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Старт*"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "dateTimeAsIso"
+              },
+              {
+                "id": "custom.width",
+                "value": 149
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Длительность"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "ms"
+              },
+              {
+                "id": "custom.width",
+                "value": 150
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "start"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 70
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "stop"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 70
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 29396,
+      "options": {
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "Старт*"
+          }
+        ]
+      },
+      "pluginVersion": "7.2.0",
+      "targets": [
+        {
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "select \"application\", \"testId\", \"title\", time as \"start\" from (select first(text) as \"title\", time from \"events\" where time > now()-20d group by \"application\", \"testId\")",
+          "rawQuery": true,
+          "refId": "B",
+          "resultFormat": "table",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "select \"testId\", time as \"stop\" from (select last(text), time from \"events\" where time > now()-20d group by \"application\", \"testId\", \"title\")",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "table",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Меню запусков тестов (последние 30 дней)",
+      "transformations": [
+        {
+          "id": "seriesToColumns",
+          "options": {
+            "byField": "testId"
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "start": false,
+              "stop": false
+            },
+            "indexByName": {
+              "application": 2,
+              "start": 3,
+              "stop": 4,
+              "testId": 0,
+              "title": 1
+            },
+            "renameByName": {}
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Старт",
+            "binary": {
+              "left": "start",
+              "operator": "*",
+              "reducer": "sum",
+              "right": "1.0"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Старт*",
+            "binary": {
+              "left": "start",
+              "operator": "*",
+              "reducer": "sum",
+              "right": "1.0"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            }
+          }
+        },
+        {
+          "id": "calculateField",
+          "options": {
+            "alias": "Длительность",
+            "binary": {
+              "left": "stop",
+              "operator": "-",
+              "reducer": "sum",
+              "right": "start"
+            },
+            "mode": "binary",
+            "reduce": {
+              "reducer": "sum"
+            }
+          }
+        }
+      ],
+      "type": "table"
     },
     {
       "collapsed": true,
@@ -365,7 +365,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 1
+        "y": 8
       },
       "id": 7692,
       "panels": [
@@ -375,6 +375,7 @@
             "defaults": {
               "custom": {
                 "align": "right",
+                "filterable": false,
                 "width": 85
               },
               "mappings": [],
@@ -494,7 +495,7 @@
             "h": 7,
             "w": 23,
             "x": 0,
-            "y": 2
+            "y": 9
           },
           "id": 29287,
           "interval": "[[send_interval]]s",
@@ -508,7 +509,7 @@
               }
             ]
           },
-          "pluginVersion": "7.1.3",
+          "pluginVersion": "7.2.0",
           "repeatDirection": "h",
           "targets": [
             {
@@ -986,7 +987,7 @@
             "h": 6,
             "w": 14,
             "x": 0,
-            "y": 9
+            "y": 16
           },
           "hiddenSeries": false,
           "id": 21939,
@@ -1006,8 +1007,11 @@
           "linewidth": 1,
           "links": [],
           "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
           "percentage": false,
-          "pluginVersion": "7.1.3",
+          "pluginVersion": "7.2.0",
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
@@ -1156,7 +1160,7 @@
               "measurement": "/^$measurement_name$/",
               "orderByTime": "ASC",
               "policy": "default",
-              "query": "SELECT sum(\"AT\") as \"sum\" FROM\n(SELECT mean(\"meanAT\") as \"AT\" FROM /^$measurement_name$/ WHERE (\"transaction\" = 'internal' AND \"application\" =~ /^$application$/) AND $timeFilter GROUP BY time($__interval), \"generatorHost\" fill(null))\nGROUP BY time($__interval)\n",
+              "query": "SELECT sum(\"AT\") as \"sum\" FROM\n(SELECT mean(\"meanAT\") as \"AT\" FROM /^$measurement_name$/ WHERE (\"transaction\" = 'internal' AND \"application\" =~ /^$application$/) AND $timeFilter GROUP BY time($__interval), \"generatorHost\" fill(null))\nWHERE $timeFilter GROUP BY time($__interval)\n",
               "rawQuery": true,
               "refId": "C",
               "resultFormat": "time_series",
@@ -1261,7 +1265,7 @@
             "h": 6,
             "w": 9,
             "x": 14,
-            "y": 9
+            "y": 16
           },
           "id": 21941,
           "interval": null,
@@ -1316,7 +1320,7 @@
               ],
               "orderByTime": "ASC",
               "policy": "default",
-              "query": "SELECT sum(\"AT\") as \"sum\" FROM\n(SELECT mean(\"meanAT\") as \"AT\" FROM /^$measurement_name$/ WHERE (\"transaction\" = 'internal' AND \"application\" =~ /^$application$/) AND $timeFilter GROUP BY time($__interval), \"generatorHost\" fill(null))\nGROUP BY time($__interval)\n",
+              "query": "SELECT sum(\"AT\") as \"sum\" FROM\n(SELECT mean(\"meanAT\") as \"AT\" FROM /^$measurement_name$/ WHERE (\"transaction\" = 'internal' AND \"application\" =~ /^$application$/) AND $timeFilter GROUP BY time($__interval), \"generatorHost\" fill(null))\nWHERE $timeFilter GROUP BY time($__interval)\n",
               "rawQuery": true,
               "refId": "A",
               "resultFormat": "time_series",
@@ -1375,7 +1379,7 @@
             "h": 8,
             "w": 14,
             "x": 0,
-            "y": 15
+            "y": 22
           },
           "height": "",
           "hiddenSeries": false,
@@ -1400,8 +1404,11 @@
           "linewidth": 5,
           "links": [],
           "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
           "percentage": false,
-          "pluginVersion": "7.1.3",
+          "pluginVersion": "7.2.0",
           "pointradius": 1,
           "points": false,
           "renderer": "flot",
@@ -1633,7 +1640,7 @@
             "h": 8,
             "w": 9,
             "x": 14,
-            "y": 15
+            "y": 22
           },
           "id": 25007,
           "links": [],
@@ -1795,7 +1802,7 @@
             "h": 8,
             "w": 14,
             "x": 0,
-            "y": 23
+            "y": 30
           },
           "height": "",
           "hiddenSeries": false,
@@ -1818,8 +1825,11 @@
           "linewidth": 5,
           "links": [],
           "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
           "percentage": false,
-          "pluginVersion": "7.1.3",
+          "pluginVersion": "7.2.0",
           "pointradius": 1,
           "points": false,
           "renderer": "flot",
@@ -2045,7 +2055,7 @@
             "h": 8,
             "w": 9,
             "x": 14,
-            "y": 23
+            "y": 30
           },
           "id": 25008,
           "links": [],
@@ -2203,7 +2213,7 @@
             "h": 8,
             "w": 14,
             "x": 0,
-            "y": 31
+            "y": 38
           },
           "height": "",
           "hiddenSeries": false,
@@ -2226,8 +2236,11 @@
           "linewidth": 5,
           "links": [],
           "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
           "percentage": false,
-          "pluginVersion": "7.1.3",
+          "pluginVersion": "7.2.0",
           "pointradius": 1,
           "points": false,
           "renderer": "flot",
@@ -2483,7 +2496,7 @@
             "h": 8,
             "w": 9,
             "x": 14,
-            "y": 31
+            "y": 38
           },
           "id": 29424,
           "links": [],
@@ -2609,7 +2622,7 @@
             "h": 6,
             "w": 14,
             "x": 0,
-            "y": 39
+            "y": 46
           },
           "hiddenSeries": false,
           "id": 29405,
@@ -2629,8 +2642,11 @@
           "linewidth": 1,
           "links": [],
           "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
           "percentage": false,
-          "pluginVersion": "7.1.3",
+          "pluginVersion": "7.2.0",
           "pointradius": 5,
           "points": false,
           "renderer": "flot",
@@ -2779,7 +2795,7 @@
               "measurement": "/^$measurement_name$/",
               "orderByTime": "ASC",
               "policy": "default",
-              "query": "SELECT sum(\"AT\") as \"sum\" FROM\n(SELECT mean(\"meanAT\") as \"AT\" FROM /^$measurement_name$/ WHERE (\"transaction\" = 'internal' AND \"application\" =~ /^$application$/) AND $timeFilter GROUP BY time($__interval), \"generatorHost\" fill(null))\nGROUP BY time($__interval)\n",
+              "query": "SELECT sum(\"AT\") as \"sum\" FROM\n(SELECT mean(\"meanAT\") as \"AT\" FROM /^$measurement_name$/ WHERE (\"transaction\" = 'internal' AND \"application\" =~ /^$application$/) AND $timeFilter GROUP BY time($__interval), \"generatorHost\" fill(null))\nWHERE $timeFilter GROUP BY time($__interval)\n",
               "rawQuery": true,
               "refId": "C",
               "resultFormat": "time_series",
@@ -2884,7 +2900,7 @@
             "h": 6,
             "w": 9,
             "x": 14,
-            "y": 39
+            "y": 46
           },
           "id": 29414,
           "interval": null,
@@ -2939,7 +2955,7 @@
               ],
               "orderByTime": "ASC",
               "policy": "default",
-              "query": "SELECT sum(\"AT\") as \"sum\" FROM\n(SELECT mean(\"meanAT\") as \"AT\" FROM /^$measurement_name$/ WHERE (\"transaction\" = 'internal' AND \"application\" =~ /^$application$/) AND $timeFilter GROUP BY time($__interval), \"generatorHost\" fill(null))\nGROUP BY time($__interval)\n",
+              "query": "SELECT sum(\"AT\") as \"sum\" FROM\n(SELECT mean(\"meanAT\") as \"AT\" FROM /^$measurement_name$/ WHERE (\"transaction\" = 'internal' AND \"application\" =~ /^$application$/) AND $timeFilter GROUP BY time($__interval), \"generatorHost\" fill(null))\nWHERE $timeFilter GROUP BY time($__interval)\n",
               "rawQuery": true,
               "refId": "A",
               "resultFormat": "time_series",
@@ -2998,7 +3014,7 @@
             "h": 9,
             "w": 14,
             "x": 0,
-            "y": 45
+            "y": 52
           },
           "height": "",
           "hiddenSeries": false,
@@ -3023,8 +3039,11 @@
           "linewidth": 4,
           "links": [],
           "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
           "percentage": false,
-          "pluginVersion": "7.1.3",
+          "pluginVersion": "7.2.0",
           "pointradius": 1,
           "points": false,
           "renderer": "flot",
@@ -3254,7 +3273,7 @@
             "h": 9,
             "w": 9,
             "x": 14,
-            "y": 45
+            "y": 52
           },
           "id": 26430,
           "interval": "[[send_interval]]s",
@@ -3425,7 +3444,7 @@
             "h": 9,
             "w": 14,
             "x": 0,
-            "y": 54
+            "y": 61
           },
           "height": "",
           "hiddenSeries": false,
@@ -3451,8 +3470,11 @@
           "linewidth": 4,
           "links": [],
           "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
           "percentage": false,
-          "pluginVersion": "7.1.3",
+          "pluginVersion": "7.2.0",
           "pointradius": 1,
           "points": false,
           "renderer": "flot",
@@ -3682,7 +3704,7 @@
             "h": 9,
             "w": 9,
             "x": 14,
-            "y": 54
+            "y": 61
           },
           "id": 29291,
           "interval": "[[send_interval]]s",
@@ -3853,7 +3875,7 @@
             "h": 8,
             "w": 23,
             "x": 0,
-            "y": 63
+            "y": 70
           },
           "height": "",
           "hiddenSeries": false,
@@ -3880,8 +3902,11 @@
           "links": [],
           "maxDataPoints": 50,
           "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
           "percentage": false,
-          "pluginVersion": "7.1.3",
+          "pluginVersion": "7.2.0",
           "pointradius": 1,
           "points": false,
           "renderer": "flot",
@@ -4079,7 +4104,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 2
+        "y": 9
       },
       "id": 34,
       "panels": [
@@ -4112,7 +4137,7 @@
             "h": 6,
             "w": 5,
             "x": 0,
-            "y": 3
+            "y": 10
           },
           "height": "",
           "id": 29296,
@@ -4227,7 +4252,7 @@
             "h": 6,
             "w": 13,
             "x": 5,
-            "y": 3
+            "y": 10
           },
           "hiddenSeries": false,
           "id": 9185,
@@ -4247,8 +4272,11 @@
           "linewidth": 1,
           "links": [],
           "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
           "percentage": false,
-          "pluginVersion": "7.1.3",
+          "pluginVersion": "7.2.0",
           "pointradius": 1,
           "points": false,
           "renderer": "flot",
@@ -4468,7 +4496,7 @@
             "h": 6,
             "w": 5,
             "x": 18,
-            "y": 3
+            "y": 10
           },
           "id": 29,
           "interval": "[[send_interval]]s",
@@ -4583,7 +4611,7 @@
             "h": 8,
             "w": 23,
             "x": 0,
-            "y": 9
+            "y": 16
           },
           "height": "",
           "hiddenSeries": false,
@@ -4609,8 +4637,11 @@
           "linewidth": 5,
           "links": [],
           "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
           "percentage": false,
-          "pluginVersion": "7.1.3",
+          "pluginVersion": "7.2.0",
           "pointradius": 1,
           "points": false,
           "renderer": "flot",
@@ -4773,7 +4804,7 @@
             "h": 8,
             "w": 23,
             "x": 0,
-            "y": 17
+            "y": 24
           },
           "height": "",
           "hiddenSeries": false,
@@ -4799,8 +4830,11 @@
           "linewidth": 2,
           "links": [],
           "nullPointMode": "null as zero",
+          "options": {
+            "alertThreshold": true
+          },
           "percentage": false,
-          "pluginVersion": "7.1.3",
+          "pluginVersion": "7.2.0",
           "pointradius": 1,
           "points": false,
           "renderer": "flot",
@@ -4955,7 +4989,7 @@
             "h": 8,
             "w": 23,
             "x": 0,
-            "y": 25
+            "y": 32
           },
           "height": "",
           "hiddenSeries": false,
@@ -4981,8 +5015,11 @@
           "linewidth": 2,
           "links": [],
           "nullPointMode": "null as zero",
+          "options": {
+            "alertThreshold": true
+          },
           "percentage": false,
-          "pluginVersion": "7.1.3",
+          "pluginVersion": "7.2.0",
           "pointradius": 1,
           "points": false,
           "renderer": "flot",
@@ -5112,6 +5149,7 @@
             "defaults": {
               "custom": {
                 "align": null,
+                "filterable": false,
                 "width": 80
               },
               "mappings": [],
@@ -5204,7 +5242,7 @@
             "h": 15,
             "w": 10,
             "x": 0,
-            "y": 33
+            "y": 40
           },
           "id": 27856,
           "interval": "[[send_interval]]s",
@@ -5218,7 +5256,7 @@
               }
             ]
           },
-          "pluginVersion": "7.1.3",
+          "pluginVersion": "7.2.0",
           "targets": [
             {
               "groupBy": [
@@ -5381,7 +5419,8 @@
           "fieldConfig": {
             "defaults": {
               "custom": {
-                "align": null
+                "align": null,
+                "filterable": false
               },
               "mappings": [],
               "thresholds": {
@@ -5461,7 +5500,7 @@
             "h": 15,
             "w": 13,
             "x": 10,
-            "y": 33
+            "y": 40
           },
           "id": 27855,
           "interval": "[[send_interval]]s",
@@ -5475,7 +5514,7 @@
               }
             ]
           },
-          "pluginVersion": "7.1.3",
+          "pluginVersion": "7.2.0",
           "targets": [
             {
               "groupBy": [
@@ -5564,7 +5603,7 @@
             "h": 5,
             "w": 23,
             "x": 0,
-            "y": 48
+            "y": 55
           },
           "height": "",
           "id": 29279,
@@ -5696,7 +5735,7 @@
             "h": 11,
             "w": 23,
             "x": 0,
-            "y": 53
+            "y": 60
           },
           "height": "",
           "id": 29280,
@@ -5883,7 +5922,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 3
+        "y": 10
       },
       "id": 29284,
       "panels": [
@@ -5916,7 +5955,7 @@
             "h": 7,
             "w": 5,
             "x": 0,
-            "y": 93
+            "y": 11
           },
           "height": "",
           "id": 26,
@@ -6036,7 +6075,7 @@
             "h": 7,
             "w": 4,
             "x": 5,
-            "y": 93
+            "y": 11
           },
           "height": "",
           "id": 38,
@@ -6156,7 +6195,7 @@
             "h": 7,
             "w": 4,
             "x": 9,
-            "y": 93
+            "y": 11
           },
           "height": "",
           "id": 37,
@@ -6270,7 +6309,7 @@
             "h": 3,
             "w": 10,
             "x": 13,
-            "y": 93
+            "y": 11
           },
           "id": 36,
           "interval": "[[send_interval]]s",
@@ -6289,7 +6328,7 @@
             },
             "textMode": "value_and_name"
           },
-          "pluginVersion": "7.1.0-beta1",
+          "pluginVersion": "7.2.0",
           "targets": [
             {
               "alias": "Read + Send",
@@ -6387,7 +6426,7 @@
             "h": 4,
             "w": 5,
             "x": 13,
-            "y": 96
+            "y": 14
           },
           "id": 29294,
           "interval": "[[send_interval]]s",
@@ -6406,7 +6445,7 @@
             },
             "textMode": "value_and_name"
           },
-          "pluginVersion": "7.1.0-beta1",
+          "pluginVersion": "7.2.0",
           "targets": [
             {
               "alias": "Read",
@@ -6504,7 +6543,7 @@
             "h": 4,
             "w": 5,
             "x": 18,
-            "y": 96
+            "y": 14
           },
           "id": 29295,
           "interval": "[[send_interval]]s",
@@ -6523,7 +6562,7 @@
             },
             "textMode": "value_and_name"
           },
-          "pluginVersion": "7.1.0-beta1",
+          "pluginVersion": "7.2.0",
           "targets": [
             {
               "alias": "Send",
@@ -6615,7 +6654,7 @@
             "h": 7,
             "w": 23,
             "x": 0,
-            "y": 100
+            "y": 18
           },
           "height": "",
           "hiddenSeries": false,
@@ -6641,8 +6680,11 @@
           "linewidth": 3,
           "links": [],
           "nullPointMode": "null as zero",
+          "options": {
+            "alertThreshold": true
+          },
           "percentage": false,
-          "pluginVersion": "7.1.0-beta1",
+          "pluginVersion": "7.2.0",
           "pointradius": 1,
           "points": false,
           "renderer": "flot",
@@ -6786,7 +6828,7 @@
             "h": 7,
             "w": 23,
             "x": 0,
-            "y": 107
+            "y": 25
           },
           "height": "",
           "hiddenSeries": false,
@@ -6812,8 +6854,11 @@
           "linewidth": 1,
           "links": [],
           "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
           "percentage": false,
-          "pluginVersion": "7.1.0-beta1",
+          "pluginVersion": "7.2.0",
           "pointradius": 1,
           "points": false,
           "renderer": "flot",
@@ -6957,7 +7002,7 @@
             "h": 7,
             "w": 23,
             "x": 0,
-            "y": 114
+            "y": 32
           },
           "height": "",
           "hiddenSeries": false,
@@ -6983,8 +7028,11 @@
           "linewidth": 3,
           "links": [],
           "nullPointMode": "null as zero",
+          "options": {
+            "alertThreshold": true
+          },
           "percentage": false,
-          "pluginVersion": "7.1.0-beta1",
+          "pluginVersion": "7.2.0",
           "pointradius": 1,
           "points": false,
           "renderer": "flot",
@@ -7128,7 +7176,7 @@
             "h": 7,
             "w": 23,
             "x": 0,
-            "y": 121
+            "y": 39
           },
           "height": "",
           "hiddenSeries": false,
@@ -7154,8 +7202,11 @@
           "linewidth": 1,
           "links": [],
           "nullPointMode": "null as zero",
+          "options": {
+            "alertThreshold": true
+          },
           "percentage": false,
-          "pluginVersion": "7.1.0-beta1",
+          "pluginVersion": "7.2.0",
           "pointradius": 1,
           "points": false,
           "renderer": "flot",
@@ -7283,6 +7334,7 @@
               "custom": {
                 "align": null,
                 "displayMode": "auto",
+                "filterable": false,
                 "width": 110
               },
               "mappings": [],
@@ -7375,7 +7427,7 @@
             "h": 7,
             "w": 23,
             "x": 0,
-            "y": 128
+            "y": 46
           },
           "id": 29289,
           "interval": "[[send_interval]]s",
@@ -7389,7 +7441,7 @@
               }
             ]
           },
-          "pluginVersion": "7.1.0-beta1",
+          "pluginVersion": "7.2.0",
           "targets": [
             {
               "alias": "$tag_transaction",
@@ -7487,7 +7539,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 4
+        "y": 11
       },
       "id": 33,
       "panels": [
@@ -9332,7 +9384,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 5
+        "y": 12
       },
       "id": 29338,
       "panels": [
@@ -9350,7 +9402,7 @@
             "h": 12,
             "w": 23,
             "x": 0,
-            "y": 12
+            "y": 13
           },
           "height": "",
           "id": 29386,
@@ -9759,6 +9811,7 @@
             "defaults": {
               "custom": {
                 "align": "right",
+                "filterable": false,
                 "width": 85
               },
               "mappings": [],
@@ -9888,7 +9941,7 @@
             "h": 14,
             "w": 23,
             "x": 0,
-            "y": 24
+            "y": 25
           },
           "id": 29353,
           "interval": "[[send_interval]]s",
@@ -9902,7 +9955,7 @@
               }
             ]
           },
-          "pluginVersion": "7.1.0-beta1",
+          "pluginVersion": "7.2.0",
           "repeatDirection": "h",
           "targets": [
             {
@@ -10307,7 +10360,7 @@
             "h": 2,
             "w": 23,
             "x": 0,
-            "y": 38
+            "y": 39
           },
           "id": 29352,
           "options": {
@@ -10345,7 +10398,7 @@
             "h": 8,
             "w": 23,
             "x": 0,
-            "y": 40
+            "y": 41
           },
           "height": "",
           "hiddenSeries": false,
@@ -10371,8 +10424,11 @@
           "linewidth": 2,
           "links": [],
           "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
           "percentage": false,
-          "pluginVersion": "7.1.0-beta1",
+          "pluginVersion": "7.2.0",
           "pointradius": 1,
           "points": false,
           "renderer": "flot",
@@ -10520,7 +10576,7 @@
             "h": 8,
             "w": 23,
             "x": 0,
-            "y": 48
+            "y": 49
           },
           "height": "",
           "hiddenSeries": false,
@@ -10546,8 +10602,11 @@
           "linewidth": 1,
           "links": [],
           "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
           "percentage": false,
-          "pluginVersion": "7.1.0-beta1",
+          "pluginVersion": "7.2.0",
           "pointradius": 1,
           "points": false,
           "renderer": "flot",
@@ -10708,7 +10767,7 @@
             "h": 8,
             "w": 23,
             "x": 0,
-            "y": 56
+            "y": 57
           },
           "height": "",
           "hiddenSeries": false,
@@ -10734,8 +10793,11 @@
           "linewidth": 2,
           "links": [],
           "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
           "percentage": false,
-          "pluginVersion": "7.1.0-beta1",
+          "pluginVersion": "7.2.0",
           "pointradius": 1,
           "points": false,
           "renderer": "flot",
@@ -10887,7 +10949,7 @@
             "h": 8,
             "w": 23,
             "x": 0,
-            "y": 64
+            "y": 65
           },
           "height": "",
           "hiddenSeries": false,
@@ -10913,8 +10975,11 @@
           "linewidth": 1,
           "links": [],
           "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
           "percentage": false,
-          "pluginVersion": "7.1.0-beta1",
+          "pluginVersion": "7.2.0",
           "pointradius": 1,
           "points": false,
           "renderer": "flot",
@@ -11078,7 +11143,7 @@
             "h": 8,
             "w": 23,
             "x": 0,
-            "y": 72
+            "y": 73
           },
           "height": "",
           "hiddenSeries": false,
@@ -11104,8 +11169,11 @@
           "linewidth": 2,
           "links": [],
           "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
           "percentage": false,
-          "pluginVersion": "7.1.0-beta1",
+          "pluginVersion": "7.2.0",
           "pointradius": 1,
           "points": false,
           "renderer": "flot",
@@ -11257,7 +11325,7 @@
             "h": 8,
             "w": 23,
             "x": 0,
-            "y": 80
+            "y": 81
           },
           "height": "",
           "hiddenSeries": false,
@@ -11284,8 +11352,11 @@
           "links": [],
           "maxDataPoints": 50,
           "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
           "percentage": false,
-          "pluginVersion": "7.1.0-beta1",
+          "pluginVersion": "7.2.0",
           "pointradius": 1,
           "points": false,
           "renderer": "flot",
@@ -11445,7 +11516,7 @@
             "h": 8,
             "w": 23,
             "x": 0,
-            "y": 88
+            "y": 89
           },
           "height": "",
           "hiddenSeries": false,
@@ -11472,8 +11543,11 @@
           "links": [],
           "maxDataPoints": 50,
           "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
           "percentage": false,
-          "pluginVersion": "7.1.0-beta1",
+          "pluginVersion": "7.2.0",
           "pointradius": 1,
           "points": false,
           "renderer": "flot",
@@ -11762,9 +11836,9 @@
       {
         "allValue": null,
         "current": {
-          "selected": false,
-          "text": "120",
-          "value": "120"
+          "selected": true,
+          "text": "30",
+          "value": "30"
         },
         "hide": 0,
         "includeAll": false,
@@ -11772,6 +11846,21 @@
         "multi": false,
         "name": "step",
         "options": [
+          {
+            "selected": false,
+            "text": "20",
+            "value": "20"
+          },
+          {
+            "selected": true,
+            "text": "30",
+            "value": "30"
+          },
+          {
+            "selected": false,
+            "text": "40",
+            "value": "40"
+          },
           {
             "selected": false,
             "text": "60",
@@ -11783,7 +11872,7 @@
             "value": "90"
           },
           {
-            "selected": true,
+            "selected": false,
             "text": "120",
             "value": "120"
           },
@@ -11803,7 +11892,7 @@
             "value": "300"
           }
         ],
-        "query": "60,90,120,150,170,300",
+        "query": "20,30,40,60,90,120,150,170,300",
         "queryValue": "",
         "skipUrlSync": false,
         "type": "custom"
@@ -11839,7 +11928,9 @@
         "allValue": null,
         "current": {
           "selected": true,
-          "text": "All",
+          "text": [
+            "All"
+          ],
           "value": [
             "$__all"
           ]
@@ -11867,7 +11958,9 @@
         "allValue": null,
         "current": {
           "selected": true,
-          "text": "All",
+          "text": [
+            "All"
+          ],
           "value": [
             "$__all"
           ]
@@ -11895,7 +11988,9 @@
         "allValue": null,
         "current": {
           "selected": true,
-          "text": "All",
+          "text": [
+            "All"
+          ],
           "value": [
             "$__all"
           ]
@@ -11923,7 +12018,10 @@
         "allValue": null,
         "current": {
           "selected": true,
-          "text": "All",
+          "tags": [],
+          "text": [
+            "All"
+          ],
           "value": [
             "$__all"
           ]
@@ -11951,7 +12049,9 @@
         "allValue": null,
         "current": {
           "selected": true,
-          "text": "All",
+          "text": [
+            "All"
+          ],
           "value": [
             "$__all"
           ]
@@ -11978,7 +12078,7 @@
     ]
   },
   "time": {
-    "from": "now-3h",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {
@@ -12008,5 +12108,5 @@
   "timezone": "browser",
   "title": "JMeter",
   "uid": "JMeter",
-  "version": 1
+  "version": 3
 }
