@@ -7,7 +7,8 @@
 
   tasks:
     - name: Setup network
-      include_taks: setup-network.yml
+      include_taks: 
+        file: setup-network.yml
 
   handlers:
     - name: restart networking
