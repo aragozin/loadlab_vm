@@ -7,16 +7,20 @@
 
   tasks:
     - name: Setup network
-      include: setup-network.yml
+      include_tasks:
+        file: setup-network.yml
 
     - name: Setup chrony
-      include: setup-chrony.yml
+      include_tasks:
+        file: setup-chrony.yml
 
     - name: Setup LXD
-      include: setup-lxd.yml    
+      include: 
+        file: setup-lxd.yml    
 
     - name: Setup SSH
-      include: setup-ssh.yml    
+      include: 
+        file: setup-ssh.yml    
 
     - name: Make systemd mount point script (Alpine workaround)
       copy:
