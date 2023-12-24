@@ -7,7 +7,10 @@
     - ../labconfig.yml
   tasks:
     - name: Initialize node - loadbalancer @ 192.168.100.140
-      import_tasks: init-container.yml container_name=loadbalancer      lab_ip=192.168.100.140      
+      import_tasks: init-container.yml
+      vars:
+        container_name: loadbalancer
+        lab_ip: 192.168.100.140      
 
     - name: Initialize node - web1 @ 192.168.100.141
       include_tasks: init-container.yml container_name=web1              lab_ip=192.168.100.141
