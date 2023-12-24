@@ -7,26 +7,34 @@
     - ../labconfig.yml
   tasks:
     - name: Initialize node - loadbalancer @ 192.168.100.140
-      include: init-container.yml container_name=loadbalancer      lab_ip=192.168.100.140      
+      include_tasks:
+        file: init-container.yml container_name=loadbalancer      lab_ip=192.168.100.140      
 
     - name: Initialize node - web1 @ 192.168.100.141
-      include: init-container.yml container_name=web1              lab_ip=192.168.100.141
+      include_tasks:
+        file: init-container.yml container_name=web1              lab_ip=192.168.100.141
 
     - name: Initialize node - web2 @ 192.168.100.142
-      include: init-container.yml container_name=web2              lab_ip=192.168.100.142
+      include_tasks:
+        file: init-container.yml container_name=web2              lab_ip=192.168.100.142
 
     - name: Initialize node - database @ 192.168.100.143
-      include: init-container.yml container_name=database          lab_ip=192.168.100.143
+      include_tasks:
+        file: init-container.yml container_name=database          lab_ip=192.168.100.143
 
     - name: Initialize node - metrics @ 192.168.100.144
-      include: init-container.yml container_name=metrics           lab_ip=192.168.100.144
+      include_tasks:
+        file: init-container.yml container_name=metrics           lab_ip=192.168.100.144
 
     - name: Initialize node - front @ 192.168.100.145
-      include: init-container.yml container_name=front             lab_ip=192.168.100.145
+      include_tasks:
+        file: init-container.yml container_name=front             lab_ip=192.168.100.145
 
     - name: Patch hosts files
       become: yes
-      include: patch-hosts.yml container_name=masterhost
+      include_tasks:
+        file: patch-hosts.yml container_name=masterhost
 
     - name: Configure SSH on host
-      include: setup-ssh-keys.yml container_name=masterhost
+      include_tasks:
+        file: setup-ssh-keys.yml container_name=masterhost

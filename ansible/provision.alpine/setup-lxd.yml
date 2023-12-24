@@ -1,11 +1,4 @@
 ---
-  #  - name: Enable "edge" repo
-  #    lineinfile: dest=/etc/apk/repositories line="{{item.repo}}" state=present
-  #    with_items:
-  #      - repo: "@edge http://dl-cdn.alpinelinux.org/alpine/edge/main"
-  #      - repo: "@community http://dl-cdn.alpinelinux.org/alpine/edge/community"
-  #      - repo: "@testing http://dl-cdn.alpinelinux.org/alpine/edge/testing"      
-
     - name: Install LXD related packages
       package: 
         name: 

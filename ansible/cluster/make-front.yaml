@@ -6,4 +6,5 @@
     - ../labconfig.yml
   tasks:
     - name: Initialize node - front @ 192.168.100.145
-      include: init-container.yml container_name=front             lab_ip=192.168.100.145
+      include_tasks:
+        file: init-container.yml container_name=front             lab_ip=192.168.100.145

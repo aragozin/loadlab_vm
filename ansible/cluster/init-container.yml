@@ -62,11 +62,13 @@
 
     - name: Node "{{container_name}}" - generate hosts file
       delegate_to: "{{container_name}}"
-      include: patch-hosts.yml
+      include_tasks:
+        file: patch-hosts.yml
 
     - name: Node "{{container_name}}" - setup SSH access
       delegate_to: "{{container_name}}"
-      include: setup-ssh-keys.yml
+      include_tasks:
+        file: setup-ssh-keys.yml
 
     - name: Node "{{container_name}}" - install sshd
       delegate_to: "{{container_name}}"

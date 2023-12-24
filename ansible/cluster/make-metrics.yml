@@ -6,4 +6,5 @@
     - ../labconfig.yml
   tasks:
     - name: Initialize node - metrics @ 192.168.100.144
-      include: init-container.yml container_name=metrics           lab_ip=192.168.100.144
+      include_tasks:
+        file: init-container.yml container_name=metrics           lab_ip=192.168.100.144

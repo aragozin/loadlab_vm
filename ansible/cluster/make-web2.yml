@@ -6,4 +6,5 @@
     - ../labconfig.yml
   tasks:
     - name: Initialize node - web2 @ 192.168.100.142
-      include: init-container.yml container_name=web2              lab_ip=192.168.100.142
+      include_tasks:
+        file: init-container.yml container_name=web2              lab_ip=192.168.100.142
