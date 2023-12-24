@@ -116,7 +116,6 @@
               ipv6.address: none
               ipv4.dhcp: true
             description: ""
-            managed: true
             name: lxdbr0
             type: ""
           storage_pools: []
