@@ -24,7 +24,7 @@
 
     - name: Tweak pam
       lineinfile: 
-        dest: /etc/pam.d/system-login 
+        dest: /etc/pam.d/base-session-noninteractive 
         line: "session optional pam_cgfs.so -c freezer,memory,name=systemd,unified"
         state: present
 
