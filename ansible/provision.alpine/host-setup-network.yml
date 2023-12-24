@@ -7,7 +7,7 @@
 
   tasks:
     - name: Setup network
-      include_taks: 
+      include_tasks: 
         file: setup-network.yml
 
   handlers:
