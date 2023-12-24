@@ -32,7 +32,7 @@
 
     - name: Patch hosts files
       become: yes
-      include_tasks:
+      import_tasks:
         file: patch-hosts.yml container_name=masterhost
 
     - name: Configure SSH on host
