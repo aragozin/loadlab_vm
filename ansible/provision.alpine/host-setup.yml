@@ -15,11 +15,11 @@
         file: setup-chrony.yml
 
     - name: Setup LXD
-      include: 
+      include_tasks: 
         file: setup-lxd.yml    
 
     - name: Setup SSH
-      include: 
+      include_tasks: 
         file: setup-ssh.yml    
 
     - name: Make systemd mount point script (Alpine workaround)
