@@ -79,6 +79,7 @@
         path: /var/lib/lxd
         src: /var/lib/incus
         fstype: bind
+        boot: true
         state: mounted
 
     - name: Tweak pam
