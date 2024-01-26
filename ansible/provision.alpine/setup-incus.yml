@@ -214,3 +214,10 @@
       register: command_result
       failed_when: "not (command_result.stdout == 'Storage pool default_pool created' or command_result.stdout == 'Error: The storage pool already exists: The record already exists')"
       changed_when: "command_result.stdout == 'Storage pool default_pool created'"
+
+    - name: Force CGroups V1 (for compatibility)
+      lineinfile: 
+        dest: /etc/rc.conf 
+        line: "rc_cgroup_mode=\"hybrid\""
+        state: present
+   
