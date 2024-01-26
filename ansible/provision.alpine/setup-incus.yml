@@ -86,7 +86,7 @@
     - name: Patch lxd_container module
       copy:
         src: "/opt/loadlab/setup/ansible/.hack/lxd_container/"
-        dest: "/root/.ansible/plugins/modules"
+        dest: "/root/.ansible/plugins"
         owner: root
         group: root
         mode: "0644"  
