@@ -18,6 +18,10 @@
       include_tasks: 
         file: setup-lxd.yml    
 
+    - name: Setup Incus
+      include_tasks: 
+        file: setup-incus.yml    
+
     - name: Setup SSH
       include_tasks: 
         file: setup-ssh.yml    

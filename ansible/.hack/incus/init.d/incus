@@ -1,0 +1,23 @@
+#!/sbin/openrc-run
+
+command="/usr/sbin/incusd"
+command_args="${LXD_OPTIONS}"
+command_background="true"
+pidfile="/run/${RC_SVCNAME}.pid"
+retry="${LXD_TIMEOUT:-60}"
+
+depend() {
+	need net cgroups dbus
+	use lxcfs
+	after firewall
+}
+
+start_pre() {
+	# Required for running systemd containers
+	if [ -d /sys/fs/cgroup/unified ] && ! [ -d /sys/fs/cgroup/systemd ]; then
+		checkpath --directory --owner root:lxd /sys/fs/cgroup/systemd
+		mount -t cgroup \
+			-o rw,nosuid,nodev,noexec,relatime,none,name=systemd \
+			cgroup /sys/fs/cgroup/systemd
+	fi
+}
