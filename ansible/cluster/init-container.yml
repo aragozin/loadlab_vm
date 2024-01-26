@@ -8,7 +8,8 @@
         source:
           type: image
           mode: pull
-          protocol: lxd
+          #protocol: lxd
+          protocol: simplestreams
           server: https://images.linuxcontainers.org
           alias: centos/7/amd64
         devices:
