@@ -46,7 +46,7 @@
     - name: Copy incus libs
       copy:
         src: "/opt/loadlab/setup/ansible/.hack/incus/lib/{{item.name}}"
-        dest: "/usr/sbin/{{item.dest_name}}"
+        dest: "/usr/lib/{{item.dest_name}}"
         owner: root
         group: root
         mode: "0755"
