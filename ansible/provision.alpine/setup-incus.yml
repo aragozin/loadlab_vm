@@ -208,5 +208,5 @@
     - name: LXD Host - Check default storage pool
       shell: incus storage create default_pool lvm || exit 0
       register: command_result
-      #failed_when: result.rc == 0 or "No such" not in result.stdout
+      failed_when: "not (command_result.stdout == 'Storage pool default_pool created' or command_result.stdout == 'Error: The storage pool already exists: The record already exists')"
       changed_when: "command_result.stdout == 'Storage pool default_pool created'"
