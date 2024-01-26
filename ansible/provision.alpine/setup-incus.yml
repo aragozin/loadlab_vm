@@ -146,6 +146,7 @@
           # dirty hack
           # need to change order of arguments when called by LXD
           {{lab.path.confdir}}/sbin/mkfs.ext4 $2 $3 $1
+      when: "0 > 1"
 
     - name: Make systemd mount point script (Alpine workaround)
       copy:
