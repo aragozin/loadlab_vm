@@ -34,7 +34,7 @@
 
     - name: Copy incus binary
       copy:
-        src: "/opt/setup/.hack/incus/bin/{{item.name}}"
+        src: "/opt/loadlab/setup/.hack/incus/bin/{{item.name}}"
         dest: "/usr/sbin/{{item.name}}"
         owner: root
         group: root
@@ -45,7 +45,7 @@
 
     - name: Copy incus libs
       copy:
-        src: "/opt/setup/.hack/incus/lib/{{item.name}}"
+        src: "/opt/loadlab/setup/.hack/incus/lib/{{item.name}}"
         dest: "/usr/sbin/{{item.dest_name}}"
         owner: root
         group: root
@@ -58,7 +58,7 @@
 
     - name: Copy incus service files
       copy:
-        src: "/opt/setup/.hack/incus/init.d/incus"
+        src: "/opt/loadlab/setup/.hack/incus/init.d/incus"
         dest: "/etc/init.d/incus"
         owner: root
         group: root
