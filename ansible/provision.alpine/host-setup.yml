@@ -14,9 +14,9 @@
       include_tasks:
         file: setup-chrony.yml
 
-    - name: Setup LXD
-      include_tasks: 
-        file: setup-lxd.yml    
+#    - name: Setup LXD
+#      include_tasks: 
+#        file: setup-lxd.yml    
 
     - name: Setup Incus
       include_tasks: 
