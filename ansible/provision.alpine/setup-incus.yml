@@ -78,6 +78,7 @@
       ansible.posix.mount:
         path: /var/lib/lxd
         src: /var/lib/incus
+        fstype: none
         opts: bind
         boot: true
         state: mounted
