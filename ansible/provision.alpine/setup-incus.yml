@@ -83,6 +83,14 @@
         boot: true
         state: mounted
 
+    - name: Patch lxd_container module
+      copy:
+        src: "/opt/loadlab/setup/ansible/.hack/lxd_container/"
+        dest: "/root/.ansible/plugins/modules/"
+        owner: root
+        group: root
+        mode: "0644"  
+
     - name: Tweak pam
       lineinfile: 
         dest: /etc/pam.d/base-session-noninteractive 
@@ -198,6 +206,7 @@
         state: present
 
     - name: LXD Host - Check default storage pool
-      shell: lxc storage create default_pool lvm || exit 0
+      shell: incus storage create default_pool lvm || exit 0
       register: command_result
+      #failed_when: result.rc == 0 or "No such" not in result.stdout
       changed_when: "command_result.stdout == 'Storage pool default_pool created'"
