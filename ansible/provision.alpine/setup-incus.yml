@@ -74,6 +74,13 @@
         - service: cgroups
         - service: incus
 
+    - name: Bind incus sockets under LXD path
+      ansible.posix.mount:
+        path: /var/lib/lxd
+        src: /var/lib/incus
+        fstype: bind
+        state: mounted
+
     - name: Tweak pam
       lineinfile: 
         dest: /etc/pam.d/base-session-noninteractive 
