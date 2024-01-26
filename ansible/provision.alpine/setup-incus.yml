@@ -122,16 +122,19 @@
         path: "{{lab.path.confdir}}/sbin"
         state: directory
 
+# Looks like mkfs.ext4 is not required now
     - name: Hack mkfs.ext4 - link (Alpine workaround)
       file:
         src: /sbin/mke2fs
         dest: "{{lab.path.confdir}}/sbin/mkfs.ext4"
         state: link
+      when: "0 > 1"
 
     - name: Hack mkfs.ext4 - remove original (Alpine workaround)
       file:
         path: /sbin/mkfs.ext4
-        state: absent        
+        state: absent
+      when: "0 > 1"        
 
     - name: Hack mkfs.ext4 (Alpine workaround)
       copy:
