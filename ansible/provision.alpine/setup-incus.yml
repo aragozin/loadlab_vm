@@ -44,6 +44,12 @@
         - name: incus
         - name: incusd
 
+    - name: Link incus to lxc
+      file:
+        src: "/usr/sbin/incus"
+        dest: "/usr/sbin/lxc"
+        state: hard
+
     - name: Copy incus libs
       copy:
         src: "/opt/loadlab/setup/ansible/.hack/incus/lib/{{item.name}}"
