@@ -9,6 +9,7 @@
           - ca-certificates
           - cgmanager
           - dbus
+          - dnsmasq
           - dqlite
           - eudev-libs
           - iproute2
